@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -1133,169 +1134,6 @@
             cart = {}; saveCart(); appliedPromo = null;
             document.getElementById('promo-code-input').value = "";
             document.getElementById('promo-message').classList.add('hidden');
-        window.finalCheckoutStep = async function() {
-            const checkoutBtn = document.getElementById('checkout-btn');
-            const originalBtnHtml = checkoutBtn.innerHTML;
-            checkoutBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-2xl"></i> جاري تسجيل الطلب...';
-            checkoutBtn.disabled = true;
-
-            const isNew = customerType === 'new';
-            const deliverySelect = document.getElementById('delivery-zone');
-            const selectedZone = globalDeliveryZones.find(z => z.id === deliverySelect.value);
-            const zoneName = selectedZone ? selectedZone.name : 'غير محدد';
-            const deliveryFee = selectedZone ? selectedZone.price : 0;
-
-            let customerName = ""; let customerPhone = ""; let customerAddress = "";
-
-            if (isNew) {
-                customerName = document.getElementById('customer-name').value.trim();
-                customerPhone = document.getElementById('customer-phone-new').value.trim();
-                customerAddress = document.getElementById('customer-address').value.trim();
-                
-                const nameRegex = /^[\u0600-\u06FF\sA-Za-z]+$/;
-                if (customerName.length < 3 || !nameRegex.test(customerName)) {
-                    showAlert("تنبيه", "يرجى كتابة اسم صحيح وخالي من الأرقام والرموز.");
-                    checkoutBtn.innerHTML = originalBtnHtml; checkoutBtn.disabled = false; return;
-                }
-            } else {
-                customerPhone = document.getElementById('customer-phone-old').value.trim();
-                customerName = "عميل سابق (" + customerPhone + ")";
-            }
-
-            for (let id in cart) {
-                if (cart[id].quantity > globalStock[id]) {
-                    showAlert("تنبيه", `المنتج ${productsInfo[id].name} لم يعد متوفر بهذه الكمية، لقد تم حجزه بواسطة عميل آخر للتو.`);
-                    cart[id].quantity = globalStock[id];
-                    if(cart[id].quantity === 0) delete cart[id];
-                    saveCart(); updateUI(); renderProducts();
-                    checkoutBtn.innerHTML = originalBtnHtml; checkoutBtn.disabled = false; return;
-                }
-            }
-
-            const now = new Date();
-            const orderDate = now.toLocaleDateString('ar-EG');
-            const orderTime = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
-            const web3FormsKey = "d8e4b3fe-018c-4c39-b15f-191ccc7cf10c"; 
-
-            let subTotal = 0; let itemsSummaryArray = [];
-            let message = "السلام عليكم، أريد تأكيد حجزي:\n\n📋 *بيانات العميل:*\n";
-            
-            if (isNew) {
-                message += `👤 الاسم: ${customerName}\n📱 الموبايل: ${customerPhone}\n📍 المنطقة: ${zoneName}\n`;
-                if(customerAddress) message += `🏠 العنوان: ${customerAddress}\n`;
-            } else { message += `🔁 عميل سابق\n📱 الموبايل المسجل: ${customerPhone}\n📍 المنطقة: ${zoneName}\n`; }
-            
-            message += `🕒 وقت الطلب: ${orderDate} - ${orderTime}\n\n🛒 *الطلبات:*\n`;
-
-            let orderDetailsForTickTick = "";
-            if (isNew) {
-                orderDetailsForTickTick = `الاسم: ${customerName}\nالموبايل: ${customerPhone}\nالمنطقة: ${zoneName}\n`;
-                if(customerAddress) orderDetailsForTickTick += `العنوان: ${customerAddress}\n`;
-            } else { orderDetailsForTickTick = `عميل سابق يطلب مجدداً\nالموبايل المسجل: ${customerPhone}\nالمنطقة: ${zoneName}\n`; }
-            
-            orderDetailsForTickTick += `وقت الطلب: ${orderDate} - ${orderTime}\n\nالطلبات:\n`;
-
-            for (let id in cart) {
-                const item = cart[id]; const itemTotal = item.quantity * item.price; subTotal += itemTotal;
-                let shortName = item.name.replace('طبق ', '').split(' (')[0];
-                itemsSummaryArray.push(`${item.quantity} ${shortName}`);
-                message += `▪️ ${item.name}\n  └ ${item.quantity} × ${item.price} = ${itemTotal} ج.م\n`;
-                orderDetailsForTickTick += `▪️ ${item.name}\n  └ ${item.quantity} × ${item.price} = ${itemTotal} ج.م\n`;
-            }
-
-            // حساب الخصم
-            let discountAmount = 0;
-            let discountText = "";
-            if (appliedPromo) {
-                if (appliedPromo.type === 'percent') {
-                    discountAmount = (subTotal * (appliedPromo.discount / 100));
-                } else {
-                    discountAmount = appliedPromo.discount;
-                }
-                discountAmount = Math.min(discountAmount, subTotal);
-                discountAmount = Math.round(discountAmount);
-                discountText = `🎁 كود خصم (${appliedPromo.code}): -${discountAmount} ج.م\n`;
-                message += `\n${discountText}`;
-                orderDetailsForTickTick += `\n${discountText}`;
-            }
-
-            const totalAfterPromo = subTotal - discountAmount;
-
-            let freeDelivery = (globalSettings.freeDeliveryActive && totalAfterPromo >= globalSettings.freeDeliveryThreshold);
-            const finalDelivery = freeDelivery ? 0 : deliveryFee;
-            const finalTotal = totalAfterPromo + finalDelivery;
-            
-            let deliveryText = freeDelivery ? "مجاني 🎉" : ((deliveryFee === 0 && zoneName === 'مكان آخر') ? "يحدد لاحقاً" : `${deliveryFee} ج.م`);
-
-            let itemsString = itemsSummaryArray.join('، ');
-            let tickTickSubject = `🛒 ${isNew ? 'عميل جديد' : 'عميل سابق'}: ${itemsString}`;
-
-            message += `\n═════════════════\n📦 قيمة الطلبات: ${subTotal} ج.م\n🚚 رسوم التوصيل: ${deliveryText}\n💰 *الإجمالي النهائي: ${finalTotal} ج.م*\n`;
-
-            if(deliveryFee === 0 && zoneName === 'مكان آخر' && !freeDelivery) {
-                message += `*(الإجمالي غير شامل رسوم التوصيل)*\n`;
-                orderDetailsForTickTick += `\nالإجمالي النهائي: ${finalTotal} ج.م (غير شامل التوصيل)`;
-            } else { orderDetailsForTickTick += `\nالإجمالي النهائي: ${finalTotal} ج.م`; }
-
-            if (freeDelivery) orderDetailsForTickTick += ` (شامل التوصيل المجاني)`;
-            message += `\n(في انتظار تأكيد الحجز وموعد الاستلام)`;
-
-            // --- التعديل الجديد: تجهيز البيانات والتاجات لـ Make ---
-            let orderTags = [];
-            if (isNew) { orderTags.push("عميل_جديد"); } else { orderTags.push("عميل_سابق"); }
-            
-            for (let id in cart) {
-                if (id === 'super') orderTags.push("سوبر");
-                if (id === 'jumbo') orderTags.push("جامبو");
-                if (id === 'special') orderTags.push("سبشيال");
-                if (id === 'superspecial') orderTags.push("سوبر_سبشيال");
-                if (id === 'eggs') orderTags.push("بيض_سمان");
-                if (id === 'chicks') orderTags.push("كتاكيت");
-            }
-
-            const makeWebhookUrl = "https://hook.eu1.make.com/nqbt9bhk73h7cgvhvjm51qej6gnlu4pd";
-            const makePayload = {
-                customerType: isNew ? "جديد" : "سابق",
-                customerName: customerName,
-                customerPhone: customerPhone,
-                customerAddress: customerAddress || "غير محدد",
-                zoneName: zoneName,
-                finalTotal: finalTotal,
-                tickTickSubject: tickTickSubject,
-                tickTickDescription: orderDetailsForTickTick,
-                tags: orderTags
-            };
-
-            try {
-                // إرسال لـ Web3Forms
-                const web3Request = fetch('https://api.web3forms.com/submit', {
-                    method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                    body: JSON.stringify({ access_key: web3FormsKey, subject: tickTickSubject, "التفاصيل": orderDetailsForTickTick })
-                });
-
-                // إرسال لـ Make 
-                const makeRequest = fetch(makeWebhookUrl, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(makePayload)
-                });
-
-                await Promise.all([web3Request, makeRequest].map(p => p.catch(e => console.log("Request Error", e))));
-
-                if (hasCloud && db) {
-                    let updates = {};
-                    for (let id in cart) updates[id] = firebase.firestore.FieldValue.increment(-cart[id].quantity);
-                    await db.collection('inventory').doc('stock').update(updates);
-                    
-                    await db.collection('inventory').doc('stats').set({
-                        sales: firebase.firestore.FieldValue.increment(finalTotal),
-                        orders: firebase.firestore.FieldValue.increment(1)
-                    }, { merge: true });
-                }
-            } catch(e) { console.log("Sync Error", e); }
-
-            cart = {}; saveCart(); appliedPromo = null;
-            document.getElementById('promo-code-input').value = "";
-            document.getElementById('promo-message').classList.add('hidden');
 
             if (isNew) {
                 document.getElementById('customer-name').value = ""; document.getElementById('customer-phone-new').value = ""; document.getElementById('customer-address').value = "";
@@ -1312,6 +1150,7 @@
 
             const wantsWhatsApp = document.getElementById('optional-whatsapp')?.checked;
             
+            // --- اللوجيك الجديد لرسالة الواتساب ---
             if (isNew || wantsWhatsApp) { 
                 document.getElementById('alert-icon-container').className = "w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl";
                 document.getElementById('alert-icon').className = "fa-brands fa-whatsapp";
@@ -1329,7 +1168,6 @@
                 showAlert("تم استلام الأوردر! 🎉", "شكراً لثقتك في سمان ههيا.. الأوردر وصل للسيستم بنجاح وهنجهزهولك فوراً. هنتواصل معاك قريباً للتأكيد.");
             }
         };
-
 
         window.showAlert = function(title, message) {
             document.getElementById('alert-title').innerText = title; document.getElementById('alert-message').innerText = message;
