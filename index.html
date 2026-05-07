@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -54,6 +54,7 @@
         input[type=number]::-webkit-inner-spin-button, 
         input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 
+        /* حركة علامة العرض (الخصم) */
         .sale-badge {
             animation: bounce-small 2s infinite ease-in-out;
         }
@@ -110,6 +111,7 @@
 
         <div class="p-5 border-t border-gray-200 bg-white shadow-[0_-5px_15px_rgba(0,0,0,0.03)] overflow-y-auto max-h-[60vh] cart-scroll">
             
+            <!-- أزرار نوع العميل -->
             <div class="flex gap-2 mb-4 bg-gray-100 p-1.5 rounded-xl border border-gray-200">
                 <button type="button" id="tab-new" onclick="switchCustomerType('new')" class="flex-1 py-2.5 rounded-lg bg-white shadow-sm font-black text-brand-navy text-sm transition-all">أول مرة أطلب</button>
                 <button type="button" id="tab-old" onclick="switchCustomerType('old')" class="flex-1 py-2.5 rounded-lg text-gray-500 font-bold text-sm transition-all hover:text-brand-navy">طلبت قبل كده</button>
@@ -118,11 +120,11 @@
             <div class="mb-5 space-y-4">
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-1">منطقة التوصيل <span class="text-red-500">*</span></label>
-                    <!-- تم استبدال الخيارات الثابتة لتوليدها ديناميكياً -->
                     <select id="delivery-zone" onchange="updateUI()" class="w-full border border-gray-300 rounded-xl p-3 focus:border-brand-cyanDark outline-none font-semibold text-brand-navy bg-white shadow-sm transition-colors appearance-none">
                     </select>
                 </div>
 
+                <!-- حقول العميل الجديد -->
                 <div id="new-cust-fields" class="space-y-4">
                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-1">الاسم بالكامل <span class="text-red-500">*</span></label>
@@ -138,6 +140,7 @@
                     </div>
                 </div>
 
+                <!-- حقول العميل السابق -->
                 <div id="old-cust-fields" class="space-y-4 hidden">
                     <div class="bg-brand-light/40 border border-brand-cyan/30 rounded-lg p-3 text-xs font-bold text-brand-navy text-center mb-2">
                         <i class="fa-solid fa-bolt text-brand-yellow"></i> بمجرد كتابة رقمك الأوردر هيوصلنا فوراً!
@@ -206,6 +209,28 @@
             <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
                 <div id="connection-status" class="mb-4 p-2 rounded-lg text-xs font-bold bg-gray-100 text-gray-600 text-center">جاري الاتصال بقاعدة البيانات...</div>
                 
+                <div class="bg-brand-light/30 border border-brand-cyan/30 rounded-xl p-4 mb-6">
+                    <h3 class="font-black text-brand-navy mb-3 border-b border-brand-cyan/20 pb-2"><i class="fa-solid fa-motorcycle text-brand-cyanDark"></i> أسعار التوصيل (ج.م)</h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="text-[10px] font-bold text-gray-600 block mb-1">ههيا</label>
+                            <input type="number" id="admin-del-z1" class="w-full border border-gray-300 rounded-lg p-2 text-center font-bold text-brand-navy outline-none focus:border-brand-cyan">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-gray-600 block mb-1">صبيح / مهدية</label>
+                            <input type="number" id="admin-del-z2" class="w-full border border-gray-300 rounded-lg p-2 text-center font-bold text-brand-navy outline-none focus:border-brand-cyan">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-gray-600 block mb-1">العدوة / الشبراوين</label>
+                            <input type="number" id="admin-del-z3" class="w-full border border-gray-300 rounded-lg p-2 text-center font-bold text-brand-navy outline-none focus:border-brand-cyan">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-gray-600 block mb-1">أبوكبير / الزقازيق</label>
+                            <input type="number" id="admin-del-z4" class="w-full border border-gray-300 rounded-lg p-2 text-center font-bold text-brand-navy outline-none focus:border-brand-cyan">
+                        </div>
+                    </div>
+                </div>
+
                 <h3 class="font-black text-brand-navy mb-3"><i class="fa-solid fa-box-open text-brand-yellow"></i> المنتجات والمخزون والعروض</h3>
                 <div id="admin-inputs-container" class="space-y-4"></div>
                 
@@ -233,7 +258,7 @@
 
             <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden mb-8">
                 <div class="w-full h-auto bg-gray-100">
-                    <img src="all-sizes.jpg" loading="lazy" decoding="async" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'100\\' height=\\'100\\'><rect width=\\'100%\\' height=\\'100%\\' fill=\\'%23f1f5f9\\'/><text x=\\'50%\\' y=\\'50%\\' font-size=\\'12\\' font-weight=\\'bold\\' text-anchor=\\'middle\\' fill=\\'%2394a3b8\\'>صورة دليل الأحجام (all-sizes.jpg)</text></svg>'" class="w-full h-auto object-cover" alt="دليل أحجام سمان ههيا">
+                    <img loading="lazy" decoding="async" src="all-sizes.jpg" onerror="this.src='https://placehold.co/600x300/f1f5f9/94a3b8?text=صورة+دليل+الأحجام'" class="w-full h-auto object-cover" alt="دليل أحجام سمان ههيا">
                 </div>
                 <div class="p-3 bg-brand-light/50 border-t border-gray-100 text-center">
                     <p class="text-brand-navy font-bold text-sm"><i class="fa-solid fa-circle-info text-brand-cyanDark"></i> دليل يوضح أحجام الأطباق المتوفرة لدينا</p>
@@ -273,18 +298,17 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
     <script>
-        const ADMIN_PIN = '1234'; // الرقم السري للإدارة
+        const ADMIN_PIN = '1234'; 
 
-        // نظام مناطق التوصيل الديناميكي
         let deliveryZones = [ 
             { id: 'z1', name: 'ههيا', price: 15 }, 
-            { id: 'z2', name: 'صبيح', price: 25 }, 
-            { id: 'z3', name: 'مهدية', price: 25 }, 
-            { id: 'z4', name: 'العدوة', price: 30 }, 
-            { id: 'z5', name: 'الشبراوين', price: 30 }, 
-            { id: 'z6', name: 'أبو كبير', price: 45 }, 
-            { id: 'z7', name: 'الزقازيق', price: 45 }, 
-            { id: 'z8', name: 'الإبراهيمية', price: 45 }, 
+            { id: 'z2a', name: 'صبيح', price: 25 }, 
+            { id: 'z2b', name: 'مهدية', price: 25 }, 
+            { id: 'z3a', name: 'العدوة', price: 30 }, 
+            { id: 'z3b', name: 'الشبراوين', price: 30 }, 
+            { id: 'z4a', name: 'أبو كبير', price: 45 }, 
+            { id: 'z4b', name: 'الزقازيق', price: 45 }, 
+            { id: 'z4c', name: 'الإبراهيمية', price: 45 }, 
             { id: 'other', name: 'مكان آخر', price: 0 } 
         ];
 
@@ -301,22 +325,29 @@
         let globalPrices = {}; Object.keys(productsInfo).forEach(id => globalPrices[id] = productsInfo[id].basePrice);
         let globalOldPrices = {}; Object.keys(productsInfo).forEach(id => globalOldPrices[id] = productsInfo[id].basePrice + 20);
         let globalDiscounts = {}; Object.keys(productsInfo).forEach(id => globalDiscounts[id] = false);
+        
+        let globalDelivery = { z1: 15, z2: 25, z3: 30, z4: 45 };
 
         let cart = {};
         let db = null;
         let hasCloud = false;
         let customerType = 'new'; 
 
-        // حفظ وتحميل السلة من المتصفح
+        // حفظ وتحميل السلة بطريقة آمنة
         function saveCart() {
-            localStorage.setItem('sman_cart', JSON.stringify(cart));
+            try { localStorage.setItem('sman_cart', JSON.stringify(cart)); } catch(e) {}
         }
 
         function loadCart() {
-            const savedCart = localStorage.getItem('sman_cart');
-            if (savedCart) {
-                cart = JSON.parse(savedCart);
-                updateUI();
+            try {
+                const savedCart = localStorage.getItem('sman_cart');
+                if (savedCart) {
+                    cart = JSON.parse(savedCart);
+                    updateUI();
+                }
+            } catch (e) {
+                cart = {};
+                localStorage.removeItem('sman_cart');
             }
         }
 
@@ -328,13 +359,31 @@
         function renderDeliveryZones() {
             const select = document.getElementById('delivery-zone');
             if (!select) return;
-            select.innerHTML = `<option value="" disabled selected>اختر منطقتك لحساب الشحن...</option>`;
+            const currentVal = select.value;
+            select.innerHTML = '<option value="" disabled selected>اختر منطقتك لحساب الشحن...</option>';
+            
+            deliveryZones = [
+                { id: 'z1', name: 'ههيا', price: globalDelivery.z1 || 15 },
+                { id: 'z2a', name: 'صبيح', price: globalDelivery.z2 || 25 },
+                { id: 'z2b', name: 'مهدية', price: globalDelivery.z2 || 25 },
+                { id: 'z3a', name: 'العدوة', price: globalDelivery.z3 || 30 },
+                { id: 'z3b', name: 'الشبراوين', price: globalDelivery.z3 || 30 },
+                { id: 'z4a', name: 'أبو كبير', price: globalDelivery.z4 || 45 },
+                { id: 'z4b', name: 'الزقازيق', price: globalDelivery.z4 || 45 },
+                { id: 'z4c', name: 'الإبراهيمية', price: globalDelivery.z4 || 45 },
+                { id: 'other', name: 'مكان آخر', price: 0 }
+            ];
+
             deliveryZones.forEach(zone => {
                 const option = document.createElement('option');
                 option.value = zone.id;
                 option.textContent = zone.price === 0 ? `${zone.name} (يحدد لاحقاً)` : `${zone.name} (${zone.price} جنيه)`;
                 select.appendChild(option);
             });
+
+            if (currentVal && deliveryZones.find(z => z.id === currentVal)) {
+                select.value = currentVal;
+            }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -386,22 +435,34 @@
             
             db.collection('inventory').doc('stock').onSnapshot(doc => {
                 if(doc.exists) { const data = doc.data(); for(let id in globalStock) if(data[id] !== undefined) globalStock[id] = data[id]; }
-                renderProducts(); updateUI();
+                requestAnimationFrame(() => renderProducts()); updateUI();
             }, error => { hasCloud = false; });
 
             db.collection('inventory').doc('prices').onSnapshot(doc => {
                 if(doc.exists) { const data = doc.data(); for(let id in globalPrices) if(data[id] !== undefined) globalPrices[id] = data[id]; }
-                renderProducts(); updateUI();
+                requestAnimationFrame(() => renderProducts()); updateUI();
             });
 
             db.collection('inventory').doc('discounts_status').onSnapshot(doc => {
                 if(doc.exists) { const data = doc.data(); for(let id in globalDiscounts) if(data[id] !== undefined) globalDiscounts[id] = data[id]; }
-                renderProducts();
+                requestAnimationFrame(() => renderProducts());
             });
 
             db.collection('inventory').doc('old_prices').onSnapshot(doc => {
                 if(doc.exists) { const data = doc.data(); for(let id in globalOldPrices) if(data[id] !== undefined) globalOldPrices[id] = data[id]; }
-                renderProducts();
+                requestAnimationFrame(() => renderProducts());
+            });
+
+            db.collection('inventory').doc('delivery_fees').onSnapshot(doc => {
+                if(doc.exists) { 
+                    const data = doc.data(); 
+                    if(data.z1 !== undefined) globalDelivery.z1 = data.z1;
+                    if(data.z2 !== undefined) globalDelivery.z2 = data.z2;
+                    if(data.z3 !== undefined) globalDelivery.z3 = data.z3;
+                    if(data.z4 !== undefined) globalDelivery.z4 = data.z4;
+                    renderDeliveryZones();
+                    updateUI();
+                }
             });
         }
 
@@ -461,18 +522,23 @@
 
             if(!container || !extrasContainer) return;
 
-            if (container.children.length > 0 && !container.innerHTML.includes('جاري')) {
+            // تحديث بطريقة آمنة لا تخفي العناصر
+            const needsFullRender = container.querySelector('.fa-spinner') !== null;
+
+            if (!needsFullRender) {
                 Object.keys(productsInfo).forEach(id => {
                     const available = getAvailableStock(id);
                     const stockDisplay = document.getElementById(`stock-display-${id}`);
                     const priceDisplay = document.getElementById(`price-display-${id}`);
                     
                     if(stockDisplay) stockDisplay.innerText = available; 
-                    if(priceDisplay) priceDisplay.innerText = globalPrices[id]; 
+                    if(priceDisplay) priceDisplay.innerText = globalPrices[id] || productsInfo[id].basePrice; 
 
                     const actionContainer = document.getElementById(`card-action-${id}`);
                     if(actionContainer) actionContainer.innerHTML = window.getCardActionHTML(id);
                 });
+                // لو في تغيير في حالة الخصومات لازم نعمل Full Render عشان نظهر/نخفي الأيقونة
+                // بس للسرعة هنخليها كده إلا لو الأدمين عمل تعديل
                 return;
             }
 
@@ -482,7 +548,7 @@
             Object.keys(productsInfo).forEach(id => {
                 const item = productsInfo[id];
                 const available = getAvailableStock(id);
-                const currentPrice = globalPrices[id];
+                const currentPrice = globalPrices[id] || item.basePrice;
                 const isDiscountActive = globalDiscounts[id];
                 const oldPrice = globalOldPrices[id];
 
@@ -496,10 +562,10 @@
                     priceHtml = `
                         <div class="flex flex-col">
                             <span class="text-[11px] text-gray-400 line-through decoration-red-500 font-bold">${oldPrice} ج.م</span>
-                            <span class="font-black text-red-600 text-xl">${currentPrice} <span class="text-[10px] text-gray-500">ج.م</span></span>
+                            <span class="font-black text-red-600 text-xl"><span id="price-display-${id}">${currentPrice}</span> <span class="text-[10px] text-gray-500">ج.م</span></span>
                         </div>`;
                 } else {
-                    priceHtml = `<span class="font-black text-brand-cyanDark text-lg">${currentPrice} <span class="text-[10px] text-gray-400">ج.م</span></span>`;
+                    priceHtml = `<span class="font-black text-brand-cyanDark text-lg"><span id="price-display-${id}">${currentPrice}</span> <span class="text-[10px] text-gray-400">ج.م</span></span>`;
                 }
 
                 const cardHtml = `
@@ -517,15 +583,15 @@
                         </div>
                         <div class="flex items-center justify-between mt-auto">
                             <div class="text-[10px] font-bold px-1.5 py-0.5 rounded border ${stockBadgeClass} shrink-0">
-                                المتاح: <span>${available}</span>
+                                المتاح: <span id="stock-display-${id}">${available}</span>
                             </div>
-                            <div class="w-28 shrink-0">
+                            <div class="w-28 shrink-0" id="card-action-${id}">
                                 ${window.getCardActionHTML(id)}
                             </div>
                         </div>
                     </div>
                     <div class="w-32 shrink-0 relative bg-gray-100 border-r border-gray-100">
-                        <img loading="lazy" decoding="async" src="${item.images[0]}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'100\\' height=\\'100\\'><rect width=\\'100%\\' height=\\'100%\\' fill=\\'%23f1f5f9\\'/><text x=\\'50%\\' y=\\'50%\\' font-size=\\'10\\' text-anchor=\\'middle\\' fill=\\'%2394a3b8\\'>صورة</text></svg>'" class="w-full h-full object-cover">
+                        <img loading="lazy" decoding="async" src="${item.images[0]}" onerror="this.src='https://placehold.co/300x300/f1f5f9/94a3b8?text=Image'" class="w-full h-full object-cover">
                     </div>
                 </div>`;
 
@@ -533,8 +599,8 @@
                     container.innerHTML += cardHtml;
                 } else {
                     let extraPriceHtml = isDiscountActive ? 
-                        `<div class="flex gap-2 items-center"><span class="text-red-600 font-black text-sm">${currentPrice} ج</span><span class="text-[10px] text-gray-400 line-through">${oldPrice}</span></div>` : 
-                        `<div class="text-brand-cyanDark font-black text-sm">${currentPrice} ج</div>`;
+                        `<div class="flex gap-2 items-center"><span class="text-red-600 font-black text-sm"><span id="price-display-${id}">${currentPrice}</span> ج</span><span class="text-[10px] text-gray-400 line-through">${oldPrice}</span></div>` : 
+                        `<div class="text-brand-cyanDark font-black text-sm"><span id="price-display-${id}">${currentPrice}</span> ج</div>`;
 
                     const extraHtml = `
                     <div class="bg-white rounded-2xl shadow-sm border ${isDiscountActive ? 'border-red-300' : 'border-gray-200'} overflow-hidden flex flex-row items-center p-2.5 gap-3 h-[90px] relative">
@@ -543,14 +609,14 @@
                             <h4 class="font-black text-brand-navy text-xs sm:text-sm truncate">${item.name}</h4>
                             ${extraPriceHtml}
                             <div class="text-[10px] font-bold px-1.5 py-0.5 rounded inline-flex border ${stockBadgeClass} shrink-0 mt-1">
-                                المتاح: <span>${available}</span>
+                                المتاح: <span id="stock-display-${id}">${available}</span>
                             </div>
                         </div>
-                        <div class="w-28 shrink-0">
+                        <div class="w-28 shrink-0" id="card-action-${id}">
                             ${window.getCardActionHTML(id)}
                         </div>
                         <div class="w-16 h-16 sm:w-20 sm:h-20 shrink-0 relative overflow-hidden rounded-xl border border-gray-100">
-                            <img loading="lazy" decoding="async" src="${item.images[0]}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'100\\' height=\\'100\\'><rect width=\\'100%\\' height=\\'100%\\' fill=\\'%23f8fafc\\'/><text x=\\'50%\\' y=\\'50%\\' font-size=\\'10\\' text-anchor=\\'middle\\' fill=\\'%2394a3b8\\'>قريباً</text></svg>'" class="w-full h-full object-cover">
+                            <img loading="lazy" decoding="async" src="${item.images[0]}" onerror="this.src='https://placehold.co/300x300/f1f5f9/94a3b8?text=Image'" class="w-full h-full object-cover">
                         </div>
                     </div>`;
                     extrasContainer.innerHTML += extraHtml;
@@ -567,11 +633,11 @@
             if (cart[id]) {
                 cart[id].quantity++;
             } else {
-                cart[id] = { quantity: 1, price: globalPrices[id], name: productsInfo[id].name };
+                cart[id] = { quantity: 1, price: globalPrices[id] || productsInfo[id].basePrice, name: productsInfo[id].name };
             }
             saveCart();
             updateUI(); 
-            requestAnimationFrame(() => { renderProducts(); });
+            requestAnimationFrame(() => renderProducts()); 
         };
 
         window.updateQuantity = function(id, delta) {
@@ -592,7 +658,7 @@
             }
             saveCart();
             updateUI(); 
-            requestAnimationFrame(() => { renderProducts(); });
+            requestAnimationFrame(() => renderProducts()); 
         };
 
         window.updateUI = function() {
@@ -603,7 +669,7 @@
             cartItemsContainer.innerHTML = '';
 
             for (let id in cart) {
-                cart[id].price = globalPrices[id] || cart[id].price;
+                cart[id].price = globalPrices[id] || productsInfo[id].basePrice;
                 
                 const item = cart[id];
                 totalItems += item.quantity;
@@ -637,14 +703,14 @@
             }
 
             const deliverySelect = document.getElementById('delivery-zone');
-            const selectedZone = deliveryZones.find(z => z.id === deliverySelect.value);
+            const selectedZone = deliveryZones.find(z => z.id === deliverySelect?.value);
             const deliveryFee = selectedZone ? selectedZone.price : 0;
             
             let freeDelivery = false;
-            if (subTotalPrice >= 500) { 
-                freeDelivery = true; 
+            if (subTotalPrice >= 500 && subTotalPrice > 0) {
+                freeDelivery = true;
             }
-            
+
             const finalDelivery = freeDelivery ? 0 : deliveryFee;
             const finalTotal = subTotalPrice + finalDelivery;
 
@@ -856,7 +922,7 @@
             }
 
             cart = {}; 
-            saveCart(); // تفريغ السلة من الذاكرة
+            saveCart(); 
 
             if (isNew) {
                 document.getElementById('customer-name').value = "";
@@ -869,6 +935,9 @@
             document.getElementById('delivery-zone').value = ""; 
             
             updateUI(); 
+            // عمل تحديث قوي للصفحة عشان نمسح أي أثر للأوردر
+            const container = document.getElementById('products-container');
+            if(container) container.innerHTML = '<div class="text-center py-10 text-brand-cyanDark"><i class="fa-solid fa-spinner fa-spin text-3xl mb-3"></i><p class="font-bold text-sm">جاري تحميل المنيو...</p></div>';
             renderProducts();
             toggleCart();
             checkoutBtn.innerHTML = originalBtnHtml; 
@@ -922,7 +991,6 @@
             setTimeout(() => modal.classList.add('hidden'), 300);
         };
 
-        const ADMIN_PIN = '1234'; 
         window.verifyAdminPin = function() {
             if (document.getElementById('admin-pin').value === ADMIN_PIN) { closeAdminLogin(); openAdminDashboard(); }
             else showAlert("خطأ", "الرمز السري غير صحيح!");
@@ -939,6 +1007,13 @@
         };
 
         window.openAdminDashboard = function() {
+            if(document.getElementById('admin-del-z1')) {
+                document.getElementById('admin-del-z1').value = globalDelivery.z1;
+                document.getElementById('admin-del-z2').value = globalDelivery.z2;
+                document.getElementById('admin-del-z3').value = globalDelivery.z3;
+                document.getElementById('admin-del-z4').value = globalDelivery.z4;
+            }
+
             const container = document.getElementById('admin-inputs-container'); 
             if(!container) return;
             container.innerHTML = '';
@@ -996,6 +1071,13 @@
                 newDiscountsData[id] = isDiscount;
             });
 
+            const newDelData = {
+                z1: parseInt(document.getElementById('admin-del-z1').value) || 15,
+                z2: parseInt(document.getElementById('admin-del-z2').value) || 25,
+                z3: parseInt(document.getElementById('admin-del-z3').value) || 30,
+                z4: parseInt(document.getElementById('admin-del-z4').value) || 45
+            };
+
             const btn = document.querySelector('#admin-dashboard-modal button[onclick="saveAdminData()"]');
             const originalHtml = btn.innerHTML;
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-xl"></i> جاري الحفظ...';
@@ -1006,13 +1088,20 @@
                         db.collection('inventory').doc('stock').set(newStockData),
                         db.collection('inventory').doc('prices').set(newPriceData),
                         db.collection('inventory').doc('discounts_status').set(newDiscountsData),
-                        db.collection('inventory').doc('old_prices').set(newOldPricesData)
+                        db.collection('inventory').doc('old_prices').set(newOldPricesData),
+                        db.collection('inventory').doc('delivery_fees').set(newDelData)
                     ]);
                     closeAdminDashboard(); 
                     btn.innerHTML = originalHtml;
                     document.getElementById('alert-icon-container').className = "w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl";
                     document.getElementById('alert-icon').className = "fa-solid fa-check";
-                    showAlert("تم بنجاح", "تم تحديث جميع الأسعار والعروض بنجاح."); 
+                    showAlert("تم بنجاح", "تم تحديث جميع الأسعار والعروض والتوصيل بنجاح."); 
+                    
+                    // إجبار الموقع يعمل ريفرش خفيف للمنتجات عشان العروض تبان
+                    const container = document.getElementById('products-container');
+                    if(container) container.innerHTML = '<div class="text-center py-10 text-brand-cyanDark"><i class="fa-solid fa-spinner fa-spin text-3xl mb-3"></i><p class="font-bold text-sm">جاري تحديث العروض...</p></div>';
+                    setTimeout(() => renderProducts(), 500);
+
                 } 
                 catch(e) { 
                     btn.innerHTML = originalHtml;
@@ -1023,9 +1112,14 @@
                 globalPrices = newPriceData;
                 globalDiscounts = newDiscountsData;
                 globalOldPrices = newOldPricesData;
+                globalDelivery = newDelData;
                 closeAdminDashboard();
                 btn.innerHTML = originalHtml;
-                renderProducts();
+                renderDeliveryZones();
+                
+                const container = document.getElementById('products-container');
+                if(container) container.innerHTML = '<div class="text-center py-10 text-brand-cyanDark"><i class="fa-solid fa-spinner fa-spin text-3xl mb-3"></i><p class="font-bold text-sm">جاري التحديث...</p></div>';
+                setTimeout(() => renderProducts(), 500);
                 updateUI();
             }
         };
