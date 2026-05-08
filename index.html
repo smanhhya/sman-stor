@@ -1126,7 +1126,7 @@
             }
 
             const makeWebhookUrl = "https://hook.eu1.make.com/nqbt9bhk73h7cgvhvjm51qej6gnlu4pd";
-            const makePayload = {
+                        const makePayload = {
                 customerType: isNew ? "جديد" : "سابق",
                 customerName: customerName,
                 customerPhone: customerPhone,
@@ -1135,8 +1135,9 @@
                 finalTotal: finalTotal,
                 tickTickSubject: tickTickSubject,
                 tickTickDescription: orderDetailsForTickTick,
-                tags: orderTags
+                tags: orderTags // السطر ده هو "كلمة السر" اللي ناقصة في الصورة!
             };
+
 
             try {
                 // إرسال لـ Web3Forms
