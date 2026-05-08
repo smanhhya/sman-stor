@@ -1005,7 +1005,7 @@
             setTimeout(() => { modal.classList.add('hidden'); finalCheckoutStep(); }, 300);
         };
 
-                window.finalCheckoutStep = async function() {
+        window.finalCheckoutStep = async function() {
             const checkoutBtn = document.getElementById('checkout-btn');
             const originalBtnHtml = checkoutBtn.innerHTML;
             checkoutBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-2xl"></i> جاري تسجيل الطلب...';
@@ -1112,53 +1112,18 @@
             if (freeDelivery) orderDetailsForTickTick += ` (شامل التوصيل المجاني)`;
             message += `\n(في انتظار تأكيد الحجز وموعد الاستلام)`;
 
-            // --- التعديل الجديد: تجهيز البيانات والتاجات لـ Make ---
-            let orderTags = [];
-            if (isNew) { orderTags.push("عميل_جديد"); } else { orderTags.push("عميل_سابق"); }
-            
-            for (let id in cart) {
-                if (id === 'super') orderTags.push("سوبر");
-                if (id === 'jumbo') orderTags.push("جامبو");
-                if (id === 'special') orderTags.push("سبشيال");
-                if (id === 'superspecial') orderTags.push("سوبر_سبشيال");
-                if (id === 'eggs') orderTags.push("بيض_سمان");
-                if (id === 'chicks') orderTags.push("كتاكيت");
-            }
-
-            const makeWebhookUrl = "https://hook.eu1.make.com/nqbt9bhk73h7cgvhvjm51qej6gnlu4pd";
-                        const makePayload = {
-                customerType: isNew ? "جديد" : "سابق",
-                customerName: customerName,
-                customerPhone: customerPhone,
-                customerAddress: customerAddress || "غير محدد",
-                zoneName: zoneName,
-                finalTotal: finalTotal,
-                tickTickSubject: tickTickSubject,
-                tickTickDescription: orderDetailsForTickTick,
-                tags: orderTags // السطر ده هو "كلمة السر" اللي ناقصة في الصورة!
-            };
-
-
             try {
-                // إرسال لـ Web3Forms
-                const web3Request = fetch('https://api.web3forms.com/submit', {
+                await fetch('https://api.web3forms.com/submit', {
                     method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                     body: JSON.stringify({ access_key: web3FormsKey, subject: tickTickSubject, "التفاصيل": orderDetailsForTickTick })
                 });
-
-                // إرسال لـ Make 
-                const makeRequest = fetch(makeWebhookUrl, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(makePayload)
-                });
-
-                await Promise.all([web3Request, makeRequest].map(p => p.catch(e => console.log("Request Error", e))));
 
                 if (hasCloud && db) {
                     let updates = {};
                     for (let id in cart) updates[id] = firebase.firestore.FieldValue.increment(-cart[id].quantity);
                     await db.collection('inventory').doc('stock').update(updates);
                     
+                    // تحديث الإحصائيات البسيطة
                     await db.collection('inventory').doc('stats').set({
                         sales: firebase.firestore.FieldValue.increment(finalTotal),
                         orders: firebase.firestore.FieldValue.increment(1)
@@ -1185,6 +1150,7 @@
 
             const wantsWhatsApp = document.getElementById('optional-whatsapp')?.checked;
             
+            // --- اللوجيك الجديد لرسالة الواتساب ---
             if (isNew || wantsWhatsApp) { 
                 document.getElementById('alert-icon-container').className = "w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl";
                 document.getElementById('alert-icon').className = "fa-brands fa-whatsapp";
@@ -1202,9 +1168,6 @@
                 showAlert("تم استلام الأوردر! 🎉", "شكراً لثقتك في سمان ههيا.. الأوردر وصل للسيستم بنجاح وهنجهزهولك فوراً. هنتواصل معاك قريباً للتأكيد.");
             }
         };
-
-        
-
 
         window.showAlert = function(title, message) {
             document.getElementById('alert-title').innerText = title; document.getElementById('alert-message').innerText = message;
