@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -53,13 +52,23 @@
 
         input[type=number]::-webkit-inner-spin-button, 
         input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+
+        .sale-badge { animation: bounce-small 2s infinite ease-in-out; }
+        @keyframes bounce-small {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+        
+        .progress-bar-animated {
+            transition: width 0.5s ease-in-out;
+        }
     </style>
 </head>
 <body class="text-gray-800 antialiased selection:bg-brand-navy selection:text-white">
 
-    <div class="bg-red-600 text-white text-center py-2 font-black text-sm md:text-base z-40 relative shadow-sm">
+    <div id="top-banner" class="bg-red-600 text-white text-center py-2 font-black text-sm md:text-base z-40 relative shadow-sm transition-all hidden">
         <i class="fa-solid fa-fire text-brand-yellow"></i> 
-        متاح الآن حجز أوردرات (دفعة شهر 5) - الكمية محدودة!
+        <span id="top-banner-text">متاح الآن حجز أوردرات - الكمية محدودة!</span>
     </div>
 
     <nav class="bg-white shadow-sm sticky top-0 z-30 border-b-2 border-brand-yellow">
@@ -89,7 +98,7 @@
 
     <div id="cart-overlay" class="fixed inset-0 bg-brand-navy/60 z-50 hidden opacity-0 transition-opacity duration-300 backdrop-blur-sm" onclick="toggleCart()"></div>
     <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full sm:w-96 bg-gray-50 shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
-        <div class="p-4 border-b border-gray-200 flex justify-between items-center bg-white">
+        <div class="p-4 border-b border-gray-200 flex justify-between items-center bg-white shadow-sm z-10">
             <h2 class="text-xl font-black text-brand-navy flex items-center gap-2">
                 <i class="fa-solid fa-basket-shopping text-brand-cyanDark"></i> إتمام الحجز
             </h2>
@@ -98,11 +107,20 @@
             </button>
         </div>
 
+        <div id="free-delivery-tracker" class="bg-white px-4 py-3 border-b border-gray-100 hidden">
+            <div class="flex justify-between text-[11px] font-bold mb-1" id="free-delivery-text">
+                <span class="text-gray-600">باقي <span id="fd-remaining" class="text-brand-cyanDark">0</span> ج وتاخد توصيل مجاني!</span>
+                <i class="fa-solid fa-gift text-brand-yellow"></i>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
+                <div id="fd-progress" class="bg-gradient-to-l from-brand-cyan to-brand-cyanDark h-2.5 rounded-full progress-bar-animated" style="width: 0%"></div>
+            </div>
+        </div>
+
         <div id="cart-items" class="flex-1 overflow-y-auto p-4 space-y-3 cart-scroll bg-gray-50"></div>
 
         <div class="p-5 border-t border-gray-200 bg-white shadow-[0_-5px_15px_rgba(0,0,0,0.03)] overflow-y-auto max-h-[60vh] cart-scroll">
             
-            <!-- أزرار نوع العميل -->
             <div class="flex gap-2 mb-4 bg-gray-100 p-1.5 rounded-xl border border-gray-200">
                 <button type="button" id="tab-new" onclick="switchCustomerType('new')" class="flex-1 py-2.5 rounded-lg bg-white shadow-sm font-black text-brand-navy text-sm transition-all">أول مرة أطلب</button>
                 <button type="button" id="tab-old" onclick="switchCustomerType('old')" class="flex-1 py-2.5 rounded-lg text-gray-500 font-bold text-sm transition-all hover:text-brand-navy">طلبت قبل كده</button>
@@ -112,20 +130,9 @@
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-1">منطقة التوصيل <span class="text-red-500">*</span></label>
                     <select id="delivery-zone" onchange="updateUI()" class="w-full border border-gray-300 rounded-xl p-3 focus:border-brand-cyanDark outline-none font-semibold text-brand-navy bg-white shadow-sm transition-colors appearance-none">
-                        <option value="" disabled selected>اختر منطقتك لحساب الشحن...</option>
-                        <option value="15">ههيا (15 جنيه)</option>
-                        <option value="25">صبيح (25 جنيه)</option>
-                        <option value="25">مهدية (25 جنيه)</option>
-                        <option value="30">العدوة (30 جنيه)</option>
-                        <option value="30">الشبراوين (30 جنيه)</option>
-                        <option value="45">أبو كبير (45 جنيه)</option>
-                        <option value="45">الزقازيق (45 جنيه)</option>
-                        <option value="45">الإبراهيمية (45 جنيه)</option>
-                        <option value="0">مكان آخر (يتم تحديد السعر لاحقاً)</option>
                     </select>
                 </div>
 
-                <!-- حقول العميل الجديد -->
                 <div id="new-cust-fields" class="space-y-4">
                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-1">الاسم بالكامل <span class="text-red-500">*</span></label>
@@ -141,7 +148,6 @@
                     </div>
                 </div>
 
-                <!-- حقول العميل السابق -->
                 <div id="old-cust-fields" class="space-y-4 hidden">
                     <div class="bg-brand-light/40 border border-brand-cyan/30 rounded-lg p-3 text-xs font-bold text-brand-navy text-center mb-2">
                         <i class="fa-solid fa-bolt text-brand-yellow"></i> بمجرد كتابة رقمك الأوردر هيوصلنا فوراً!
@@ -157,10 +163,22 @@
                 </div>
             </div>
 
+            <div class="mb-4">
+                <div class="flex gap-2">
+                    <input type="text" id="promo-code-input" placeholder="كود الخصم (إن وجد)" class="flex-1 border border-gray-300 rounded-xl p-2.5 focus:border-brand-cyan outline-none font-bold text-brand-navy text-sm uppercase text-center" dir="ltr">
+                    <button type="button" onclick="applyPromoCode()" class="bg-gray-800 text-white px-4 rounded-xl font-bold text-sm hover:bg-black transition-colors">تفعيل</button>
+                </div>
+                <p id="promo-message" class="text-[10px] font-bold mt-1 hidden"></p>
+            </div>
+
             <div class="bg-brand-light/30 rounded-xl p-4 mb-4 border border-brand-cyan/20">
                 <div class="flex justify-between text-gray-600 text-sm font-bold mb-2">
                     <span>قيمة الطلبات:</span>
                     <span><span id="cart-subtotal">0</span> ج.م</span>
+                </div>
+                <div id="promo-discount-row" class="flex justify-between text-green-600 text-sm font-bold mb-2 hidden">
+                    <span>الخصم (<span id="promo-label"></span>):</span>
+                    <span>- <span id="cart-discount">0</span> ج.م</span>
                 </div>
                 <div class="flex justify-between text-brand-cyanDark text-sm font-bold mb-3 border-b border-brand-cyan/20 pb-3">
                     <span>مصاريف التوصيل:</span>
@@ -172,20 +190,43 @@
                 </div>
             </div>
 
-            <button type="button" onclick="checkoutWhatsApp()" id="checkout-btn" class="w-full bg-green-500 hover:bg-green-600 text-white font-black py-4 px-4 rounded-xl transition-all flex justify-center items-center gap-2 shadow-md disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-0.5" disabled>
+            <button type="button" onclick="initiateCheckout()" id="checkout-btn" class="w-full bg-green-500 hover:bg-green-600 text-white font-black py-4 px-4 rounded-xl transition-all flex justify-center items-center gap-2 shadow-md disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-0.5" disabled>
                 <i class="fa-brands fa-whatsapp text-2xl" id="btn-icon"></i> <span id="btn-text">تأكيد وإرسال عبر واتساب</span>
             </button>
             <p id="checkout-hint" class="text-center text-xs text-red-500 mt-3 font-bold hidden"><i class="fa-solid fa-circle-info"></i> يرجى استكمال البيانات المطلوبة والمنطقة</p>
         </div>
     </div>
 
-    <div id="alert-modal" class="fixed inset-0 bg-brand-navy/80 z-[80] hidden opacity-0 transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm">
+    <div id="cross-sell-modal" class="fixed inset-0 bg-brand-navy/80 z-[55] hidden opacity-0 transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm">
+        <div class="bg-white rounded-2xl p-6 w-11/12 max-w-sm text-center shadow-2xl transform scale-95 transition-transform duration-300" id="cross-sell-box">
+            <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-brand-yellow text-brand-navy font-black text-xs px-4 py-1 rounded-full shadow-md border-2 border-white">
+                اقتراح لحضرتك 💡
+            </div>
+            <div class="w-24 h-24 mx-auto mb-4 rounded-xl overflow-hidden border-2 border-brand-cyan/30 mt-4">
+                <img id="cross-sell-img" src="" class="w-full h-full object-cover">
+            </div>
+            <h3 class="text-xl font-black text-brand-navy mb-1" id="cross-sell-title">جربت بيض السمان؟</h3>
+            <p class="text-gray-500 text-sm font-bold mb-4" id="cross-sell-desc">مغذي جداً للأطفال وطعمه حكاية!</p>
+            <div class="font-black text-brand-cyanDark text-xl mb-5"><span id="cross-sell-price"></span> ج.م</div>
+            
+            <div class="flex flex-col gap-2">
+                <button onclick="acceptCrossSell()" class="bg-brand-cyanDark hover:bg-brand-navy text-white font-black py-3 px-6 rounded-xl w-full transition-colors flex justify-center items-center gap-2 shadow-md">
+                    <i class="fa-solid fa-plus"></i> ضيفه للسلة وكمل الأوردر
+                </button>
+                <button onclick="declineCrossSell()" class="text-gray-400 hover:text-gray-600 font-bold py-2 text-sm transition-colors underline">
+                    لا شكراً، كمل الأوردر بتاعي
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="alert-modal" class="fixed inset-0 bg-brand-navy/80 z-[60] hidden opacity-0 transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm">
         <div class="bg-white rounded-2xl p-6 w-11/12 max-w-sm text-center shadow-2xl transform scale-95 transition-transform duration-300" id="alert-box">
-            <div class="w-16 h-16 bg-brand-light text-brand-cyanDark rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+            <div class="w-16 h-16 bg-brand-light text-brand-cyanDark rounded-full flex items-center justify-center mx-auto mb-4 text-3xl" id="alert-icon-container">
                 <i class="fa-solid fa-bell" id="alert-icon"></i>
             </div>
             <h3 class="text-xl font-black text-brand-navy mb-2" id="alert-title">تنبيه</h3>
-            <p class="text-gray-600 mb-6 font-semibold text-sm leading-relaxed" id="alert-message">الرسالة</p>
+            <p class="text-gray-600 mb-6 font-semibold text-sm leading-relaxed whitespace-pre-wrap" id="alert-message">الرسالة</p>
             <button onclick="closeAlert()" class="bg-brand-navy hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-xl w-full transition-colors">حسناً</button>
         </div>
     </div>
@@ -193,25 +234,108 @@
     <div id="admin-login-modal" class="fixed inset-0 bg-brand-navy/90 z-[70] hidden opacity-0 transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm">
         <div class="bg-white rounded-2xl p-6 w-11/12 max-w-sm shadow-2xl">
             <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-black text-brand-navy flex items-center gap-2"><i class="fa-solid fa-lock text-brand-yellow"></i> إدارة المخزون</h3>
+                <h3 class="text-xl font-black text-brand-navy flex items-center gap-2"><i class="fa-solid fa-lock text-brand-yellow"></i> الإدارة الشاملة</h3>
                 <button onclick="closeAdminLogin()" class="text-gray-400 hover:text-red-500 bg-gray-100 w-8 h-8 rounded-full"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <input type="password" id="admin-pin" class="w-full border-2 border-gray-200 rounded-xl p-4 mb-4 text-center text-2xl tracking-widest focus:border-brand-cyan outline-none font-bold text-brand-navy" placeholder="الرقم السري">
-            <button onclick="verifyAdminPin()" class="w-full bg-brand-navy text-white font-bold py-4 rounded-xl transition-colors">تسجيل الدخول</button>
+            <button onclick="verifyAdminPin()" class="w-full bg-brand-navy text-white font-bold py-4 rounded-xl transition-colors">دخول</button>
         </div>
     </div>
 
     <div id="admin-dashboard-modal" class="fixed inset-0 bg-gray-50 z-[80] hidden opacity-0 transition-opacity duration-300 flex flex-col">
         <div class="bg-white border-b border-gray-200 p-4 flex justify-between items-center shadow-sm">
-            <h2 class="text-lg font-black text-brand-navy"><i class="fa-solid fa-boxes-stacked text-brand-cyanDark"></i> تحديث المخزون الفعلي</h2>
+            <div class="flex items-center gap-3">
+                <h2 class="text-lg font-black text-brand-navy"><i class="fa-solid fa-sliders text-brand-cyanDark"></i> لوحة التحكم</h2>
+                <span id="unread-orders-badge" class="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full hidden">0 جديد</span>
+            </div>
             <button onclick="closeAdminDashboard()" class="text-gray-500 hover:text-red-500"><i class="fa-solid fa-xmark text-xl"></i></button>
         </div>
-        <div class="p-4 flex-1 overflow-y-auto">
-            <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
-                <div id="connection-status" class="mb-6 p-3 rounded-lg text-sm font-bold bg-gray-100 text-gray-600 text-center">جاري الاتصال...</div>
-                <div id="admin-inputs-container" class="space-y-3"></div>
-                <button onclick="saveStockToCloud()" class="w-full mt-6 bg-brand-cyanDark hover:bg-blue-700 text-white font-black py-4 rounded-xl shadow-md flex justify-center items-center gap-2">
-                    <i class="fa-solid fa-check-double"></i> حفظ الأرصدة الجديدة
+
+        <div class="bg-white border-b border-gray-200 px-4 pt-3 pb-2 flex gap-1 overflow-x-auto">
+            <button onclick="switchAdminTab('stats')" id="admin-tab-stats" class="px-4 py-2 rounded-lg font-bold text-sm transition-colors bg-brand-cyanDark text-white">📊 الإحصائيات</button>
+            <button onclick="switchAdminTab('products')" id="admin-tab-products" class="px-4 py-2 rounded-lg font-bold text-sm transition-colors text-gray-600 hover:bg-gray-100">📦 المنتجات</button>
+            <button onclick="switchAdminTab('settings')" id="admin-tab-settings" class="px-4 py-2 rounded-lg font-bold text-sm transition-colors text-gray-600 hover:bg-gray-100">⚙️ الإعدادات</button>
+            <button onclick="switchAdminTab('orders')" id="admin-tab-orders" class="px-4 py-2 rounded-lg font-bold text-sm transition-colors text-gray-600 hover:bg-gray-100 relative">📋 الطلبات <span id="orders-tab-badge" class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-[10px] flex items-center justify-center rounded-full hidden">0</span></button>
+        </div>
+
+        <div class="p-4 flex-1 overflow-y-auto cart-scroll">
+            <div class="max-w-2xl mx-auto">
+                
+                <div id="admin-panel-stats" class="space-y-4">
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="bg-brand-light/50 border border-brand-cyan/30 rounded-xl p-4 flex flex-col items-center">
+                            <i class="fa-solid fa-sack-dollar text-brand-cyanDark text-2xl mb-1"></i>
+                            <span class="text-[10px] text-gray-500 font-bold">مبيعات اليوم</span>
+                            <span class="font-black text-brand-navy text-xl" id="stat-sales">0</span>
+                        </div>
+                        <div class="bg-orange-50 border border-orange-200 rounded-xl p-4 flex flex-col items-center">
+                            <i class="fa-solid fa-boxes-stacked text-orange-500 text-2xl mb-1"></i>
+                            <span class="text-[10px] text-gray-500 font-bold">إجمالي الطلبات</span>
+                            <span class="font-black text-brand-navy text-xl" id="stat-orders">0</span>
+                        </div>
+                    </div>
+                    <div class="bg-white border rounded-xl p-4 shadow-sm">
+                        <h3 class="font-bold text-brand-navy mb-3">المنتجات الأكثر طلباً</h3>
+                        <div id="top-products-list" class="space-y-2 text-sm font-semibold"></div>
+                    </div>
+                    <div id="connection-status" class="text-xs text-center text-gray-500">جاري الاتصال...</div>
+                </div>
+
+                <div id="admin-panel-products" class="hidden space-y-4">
+                    <p class="text-xs text-gray-500">* المربعات الحمراء = المخزون أقل من 5</p>
+                    <div id="admin-inputs-container" class="space-y-4"></div>
+                </div>
+
+                <div id="admin-panel-settings" class="hidden space-y-5">
+                    <div class="bg-white border rounded-xl p-4 shadow-sm">
+                        <h3 class="font-black text-brand-navy mb-3"><i class="fa-solid fa-bullhorn text-red-500"></i> شريط الإعلانات العلوي</h3>
+                        <label class="flex items-center gap-2 mb-2"><input type="checkbox" id="admin-banner-active" class="accent-brand-cyanDark"> <span class="text-sm font-bold">تفعيل الشريط</span></label>
+                        <input type="text" id="admin-banner-text" class="w-full border rounded-lg p-2 font-bold text-brand-navy">
+                    </div>
+
+                    <div class="bg-white border rounded-xl p-4 shadow-sm">
+                        <h3 class="font-black text-brand-navy mb-3"><i class="fa-solid fa-message text-green-500"></i> رسالة تأكيد الطلب للعميل</h3>
+                        <input type="text" id="admin-success-title" placeholder="عنوان الرسالة" class="w-full border rounded-lg p-2 mb-2 font-bold text-brand-navy">
+                        <textarea id="admin-success-message" rows="3" class="w-full border rounded-lg p-2 font-bold text-brand-navy"></textarea>
+                    </div>
+
+                    <div class="bg-brand-light/30 border border-brand-cyan/30 rounded-xl p-4">
+                        <h3 class="font-black text-brand-navy mb-3"><i class="fa-solid fa-motorcycle text-brand-cyanDark"></i> التوصيل والمناطق</h3>
+                        <label class="flex items-center gap-2 mb-2"><input type="checkbox" id="admin-free-delivery-active" class="accent-brand-cyanDark"> <span class="text-sm font-bold">تفعيل التوصيل المجاني</span></label>
+                        <input type="number" id="admin-free-delivery-threshold" placeholder="الحد الأدنى للمجانية" class="w-full border rounded-lg p-2 mb-3 font-bold text-brand-navy">
+                        <div id="admin-zones-container" class="space-y-2 mb-2"></div>
+                        <button onclick="addNewAdminZone()" class="bg-brand-cyanDark text-white text-xs font-bold px-3 py-1.5 rounded">+ إضافة منطقة</button>
+                    </div>
+
+                    <div class="bg-white border rounded-xl p-4 shadow-sm">
+                        <div class="flex justify-between items-center mb-2"><h3 class="font-black text-brand-navy"><i class="fa-solid fa-ticket text-brand-yellow"></i> أكواد الخصم</h3><button onclick="addNewPromoCode()" class="bg-gray-800 text-white text-xs px-3 py-1 rounded">+ كود</button></div>
+                        <div id="admin-promos-container" class="space-y-2"></div>
+                    </div>
+
+                    <div class="bg-white border rounded-xl p-4 shadow-sm">
+                        <h3 class="font-black text-brand-navy mb-3"><i class="fa-solid fa-lightbulb text-brand-yellow"></i> الاقتراح الذكي قبل الدفع</h3>
+                        <label class="flex items-center gap-2 mb-2"><input type="checkbox" id="admin-crosssell-active" class="accent-brand-cyanDark"> <span class="text-sm font-bold">تفعيل نافذة الاقتراح</span></label>
+                        <select id="admin-crosssell-product" class="w-full border rounded-lg p-2 font-bold"></select>
+                    </div>
+
+                    <div class="bg-white border rounded-xl p-4 shadow-sm">
+                        <h3 class="font-black text-brand-navy mb-3"><i class="fa-solid fa-link text-brand-cyanDark"></i> مفتاح Web3Forms</h3>
+                        <input type="text" id="admin-web3forms-key" dir="ltr" placeholder="access_key" class="w-full border rounded-lg p-2 font-bold text-brand-navy">
+                    </div>
+                </div>
+
+                <div id="admin-panel-orders" class="hidden">
+                    <div class="flex gap-2 mb-3">
+                        <button onclick="filterOrders('all')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-gray-200">الكل</button>
+                        <button onclick="filterOrders('new')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-red-100 text-red-700">جديد</button>
+                        <button onclick="filterOrders('processing')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-yellow-100 text-yellow-700">قيد التجهيز</button>
+                        <button onclick="filterOrders('completed')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-green-100 text-green-700">تم التوصيل</button>
+                    </div>
+                    <div id="orders-list-container" class="space-y-3"></div>
+                </div>
+
+                <button onclick="saveAdminData()" class="w-full mt-6 bg-green-500 hover:bg-green-600 text-white font-black py-4 rounded-xl shadow-md flex justify-center items-center gap-2">
+                    <i class="fa-solid fa-check-double text-xl"></i> حفظ جميع التعديلات
                 </button>
             </div>
         </div>
@@ -224,7 +348,7 @@
             </span>
             <h1 class="text-4xl md:text-5xl font-black mb-2 text-brand-navy">سمان ههيا</h1>
             <p class="text-brand-navy/80 font-bold max-w-xl mx-auto bg-white/80 p-3 rounded-xl backdrop-blur-sm border border-white mt-4 text-sm md:text-base shadow-sm">
-                احجز أوردرك دلوقتي من دفعة شهر 5. الكمية محدودة جداً!
+                مرحباً بك في متجر سمان ههيا.. نضمن لك أعلى جودة ونظافة.
             </p>
         </div>
     </header>
@@ -234,7 +358,7 @@
 
             <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden mb-8">
                 <div class="w-full h-auto bg-gray-100">
-                    <img src="all-sizes.jpg" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'100\\' height=\\'100\\'><rect width=\\'100%\\' height=\\'100%\\' fill=\\'%23f1f5f9\\'/><text x=\\'50%\\' y=\\'50%\\' font-size=\\'12\\' font-weight=\\'bold\\' text-anchor=\\'middle\\' fill=\\'%2394a3b8\\'>صورة دليل الأحجام (all-sizes.jpg)</text></svg>'" class="w-full h-auto object-cover" alt="دليل أحجام سمان ههيا">
+                    <img loading="lazy" decoding="async" src="all-sizes.jpg" onerror="this.style.display='none'" class="w-full h-auto object-cover" alt="دليل أحجام سمان ههيا">
                 </div>
                 <div class="p-3 bg-brand-light/50 border-t border-gray-100 text-center">
                     <p class="text-brand-navy font-bold text-sm"><i class="fa-solid fa-circle-info text-brand-cyanDark"></i> دليل يوضح أحجام الأطباق المتوفرة لدينا</p>
@@ -262,7 +386,7 @@
             </div>
             <div class="text-sm flex gap-4 items-center">
                 <a href="tel:01208027294" class="hover:text-white transition-colors"><i class="fa-solid fa-phone text-brand-yellow"></i> 01208027294</a>
-                <button type="button" onclick="openAdminLogin()" class="text-gray-500 hover:text-white transition-colors" title="إدارة المخزون">
+                <button type="button" onclick="openAdminLogin()" class="text-gray-500 hover:text-white transition-colors" title="إدارة الموقع">
                     <i class="fa-solid fa-lock"></i>
                 </button>
             </div>
@@ -274,28 +398,107 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
     <script>
+        const ADMIN_PIN = '1234'; 
+
         const productsInfo = {
-            'super': { name: 'طبق سوبر', price: 100, weight: '300-350 جم', images: ['super.png'], isExtra: false },
-            'jumbo': { name: 'طبق جامبو', price: 110, weight: '350-400 جم', images: ['jumbo.png'], isExtra: false },
-            'special': { name: 'طبق سبشيال', price: 120, weight: '400-450 جم', images: ['special.png'], isExtra: false },
-            'superspecial': { name: 'سوبر سبشيال', price: 130, weight: '450-500 جم', images: ['superspecial.png'], isExtra: false },
-            'eggs': { name: 'طبق بيض سمان', price: 50, weight: 'طبق 18 بيضة', images: ['eggs.jpg'], isExtra: true },
-            'chicks': { name: 'كتاكيت سمان', price: 8, weight: 'كتكوت', images: ['chicks.jpg'], isExtra: true } 
+            'super': { name: 'طبق سوبر', basePrice: 100, weight: '300-350 جم', images: ['super.png'], isExtra: false },
+            'jumbo': { name: 'طبق جامبو', basePrice: 110, weight: '350-400 جم', images: ['jumbo.png'], isExtra: false },
+            'special': { name: 'طبق سبشيال', basePrice: 120, weight: '400-450 جم', images: ['special.png'], isExtra: false },
+            'superspecial': { name: 'سوبر سبشيال', basePrice: 130, weight: '450-500 جم', images: ['superspecial.png'], isExtra: false },
+            'eggs': { name: 'طبق بيض سمان', basePrice: 50, weight: 'طبق 18 بيضة', images: ['eggs.jpg'], isExtra: true },
+            'chicks': { name: 'كتاكيت سمان', basePrice: 8, weight: 'كتكوت', images: ['chicks.jpg'], isExtra: true } 
         };
 
+        // المتغيرات الديناميكية
         let globalStock = { 'super': 100, 'jumbo': 50, 'special': 30, 'superspecial': 10, 'eggs': 50, 'chicks': 200 };
+        let globalPrices = {}; Object.keys(productsInfo).forEach(id => globalPrices[id] = productsInfo[id].basePrice);
+        let globalOldPrices = {}; Object.keys(productsInfo).forEach(id => globalOldPrices[id] = productsInfo[id].basePrice + 20);
+        let globalDiscounts = {}; Object.keys(productsInfo).forEach(id => globalDiscounts[id] = false);
+        
+        let globalDeliveryZones = [
+            { id: 'z1', name: 'ههيا', price: 15 },
+            { id: 'z2', name: 'صبيح / مهدية', price: 25 },
+            { id: 'z3', name: 'العدوة / الشبراوين', price: 30 },
+            { id: 'z4', name: 'أبو كبير / الزقازيق / الإبراهيمية', price: 45 },
+            { id: 'other', name: 'مكان آخر', price: 0 }
+        ];
+
+        // إعدادات المتجر الإضافية
+        let globalSettings = {
+            freeDeliveryActive: false,
+            freeDeliveryThreshold: 500,
+            bannerActive: true,
+            bannerText: "متاح الآن حجز أوردرات - الكمية محدودة!",
+            crossSellActive: true,
+            crossSellProductId: 'eggs',
+            promoCodes: [],
+            bestSellers: ['super'],
+            web3FormsKey: "d8e4b3fe-018c-4c39-b15f-191ccc7cf10c",
+            successTitle: "تم استلام الأوردر! 🎉",
+            successMessage: "شكراً لثقتك في سمان ههيا.. الأوردر وصل للسيستم بنجاح وهنجهزهولك فوراً. هنتواصل معاك قريباً للتأكيد."
+        };
+
+        let dailyStats = { sales: 0, orders: 0 };
+
+        let tempAdminZones = []; 
+        let tempPromoCodes = [];
+
         let cart = {};
+        let appliedPromo = null; // يحتفظ بالكود المفعل
         let db = null;
         let hasCloud = false;
-        let customerType = 'new'; // الوضع الافتراضي عميل جديد
+        let customerType = 'new'; 
+
+        function saveCart() {
+            try { localStorage.setItem('sman_cart', JSON.stringify(cart)); } catch(e) {}
+        }
+
+        function loadCart() {
+            try {
+                const savedCart = localStorage.getItem('sman_cart');
+                if (savedCart) { cart = JSON.parse(savedCart); updateUI(); }
+            } catch (e) { cart = {}; localStorage.removeItem('sman_cart'); }
+        }
 
         function getAvailableStock(id) {
             const inCart = cart[id]?.quantity || 0;
             return Math.max(0, globalStock[id] - inCart);
         }
 
+        function applySettingsToUI() {
+            const banner = document.getElementById('top-banner');
+            const bannerText = document.getElementById('top-banner-text');
+            if (globalSettings.bannerActive && globalSettings.bannerText.trim() !== '') {
+                bannerText.innerText = globalSettings.bannerText;
+                banner.classList.remove('hidden');
+            } else {
+                banner.classList.add('hidden');
+            }
+        }
+
+        function renderDeliveryZones() {
+            const select = document.getElementById('delivery-zone');
+            if (!select) return;
+            const currentVal = select.value;
+            select.innerHTML = '<option value="" disabled selected>اختر منطقتك لحساب الشحن...</option>';
+            
+            globalDeliveryZones.forEach(zone => {
+                const option = document.createElement('option');
+                option.value = zone.id;
+                option.textContent = zone.price === 0 ? `${zone.name} (يحدد لاحقاً)` : `${zone.name} (${zone.price} جنيه)`;
+                select.appendChild(option);
+            });
+
+            if (currentVal && globalDeliveryZones.find(z => z.id === currentVal)) {
+                select.value = currentVal;
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
+            renderDeliveryZones();
+            loadCart();
             renderProducts(); 
+            applySettingsToUI();
             setupEventListeners();
             initFirebase();
         });
@@ -310,6 +513,16 @@
             if (custPhoneNew) custPhoneNew.addEventListener('input', updateUI);
             if (custPhoneOld) custPhoneOld.addEventListener('input', updateUI);
             if (delZoneInput) delZoneInput.addEventListener('change', updateUI);
+            
+            document.getElementById('promo-code-input')?.addEventListener('input', () => {
+                // إذا مسح الكود وهو كان مفعل، نلغيه
+                if (appliedPromo && document.getElementById('promo-code-input').value.trim() === '') {
+                    appliedPromo = null;
+                    const msg = document.getElementById('promo-message');
+                    msg.classList.add('hidden');
+                    updateUI();
+                }
+            });
         }
 
         function initFirebase() {
@@ -324,30 +537,68 @@
 
             try {
                 firebase.initializeApp(firebaseConfig);
-                const auth = firebase.auth();
                 db = firebase.firestore();
-
-                auth.signInAnonymously().catch(() => {});
-                auth.onAuthStateChanged(user => {
-                    if(user) { hasCloud = true; listenToStock(); } 
+                firebase.auth().signInAnonymously().catch(() => {});
+                firebase.auth().onAuthStateChanged(user => {
+                    if(user) { hasCloud = true; listenToDatabase(); } 
                 });
-            } catch (e) { 
-                console.log("Firebase not initialized"); 
-            }
+            } catch (e) { console.log("Firebase not initialized"); }
         }
 
-        function listenToStock() {
+        function listenToDatabase() {
             if(!db) return;
-            const docRef = db.collection('inventory').doc('stock');
-            docRef.onSnapshot(snapshot => {
-                if (snapshot.exists) {
-                    const data = snapshot.data();
-                    for(let id in globalStock) if(data[id] !== undefined) globalStock[id] = data[id];
+            
+            db.collection('inventory').doc('stock').onSnapshot(doc => {
+                if(doc.exists) { const data = doc.data(); for(let id in globalStock) if(data[id] !== undefined) globalStock[id] = data[id]; }
+                requestAnimationFrame(() => renderProducts()); updateUI();
+            }, error => { hasCloud = false; });
+
+            db.collection('inventory').doc('prices').onSnapshot(doc => {
+                if(doc.exists) { const data = doc.data(); for(let id in globalPrices) if(data[id] !== undefined) globalPrices[id] = data[id]; }
+                requestAnimationFrame(() => renderProducts()); updateUI();
+            });
+
+            db.collection('inventory').doc('discounts_status').onSnapshot(doc => {
+                if(doc.exists) { const data = doc.data(); for(let id in globalDiscounts) if(data[id] !== undefined) globalDiscounts[id] = data[id]; }
+                requestAnimationFrame(() => renderProducts());
+            });
+
+            db.collection('inventory').doc('old_prices').onSnapshot(doc => {
+                if(doc.exists) { const data = doc.data(); for(let id in globalOldPrices) if(data[id] !== undefined) globalOldPrices[id] = data[id]; }
+                requestAnimationFrame(() => renderProducts());
+            });
+
+            db.collection('inventory').doc('settings').onSnapshot(doc => {
+                if(doc.exists) { 
+                    const data = doc.data(); 
+                    if(data.deliveryZones) globalDeliveryZones = data.deliveryZones;
+                    if(data.freeDeliveryActive !== undefined) globalSettings.freeDeliveryActive = data.freeDeliveryActive;
+                    if(data.freeDeliveryThreshold !== undefined) globalSettings.freeDeliveryThreshold = data.freeDeliveryThreshold;
+                    
+                    if(data.bannerActive !== undefined) globalSettings.bannerActive = data.bannerActive;
+                    if(data.bannerText !== undefined) globalSettings.bannerText = data.bannerText;
+                    if(data.crossSellActive !== undefined) globalSettings.crossSellActive = data.crossSellActive;
+                    if(data.crossSellProductId !== undefined) globalSettings.crossSellProductId = data.crossSellProductId;
+                    if(data.promoCodes !== undefined) globalSettings.promoCodes = data.promoCodes;
+                    if(data.bestSellers !== undefined) globalSettings.bestSellers = data.bestSellers;
+                    if(data.web3FormsKey !== undefined) globalSettings.web3FormsKey = data.web3FormsKey;
+                    if(data.successTitle !== undefined) globalSettings.successTitle = data.successTitle;
+                    if(data.successMessage !== undefined) globalSettings.successMessage = data.successMessage;
+                    
+                    applySettingsToUI();
+                    renderDeliveryZones();
+                    renderProducts();
+                    updateUI();
                 }
-                renderProducts(); 
-                updateUI();
-            }, error => {
-                hasCloud = false; 
+            });
+
+            // قراءة الإحصائيات (مبسطة)
+            db.collection('inventory').doc('stats').onSnapshot(doc => {
+                if(doc.exists) {
+                    dailyStats = doc.data();
+                    if(document.getElementById('stat-sales')) document.getElementById('stat-sales').innerText = dailyStats.sales || 0;
+                    if(document.getElementById('stat-orders')) document.getElementById('stat-orders').innerText = dailyStats.orders || 0;
+                }
             });
         }
 
@@ -383,6 +634,28 @@
             updateUI();
         };
 
+        window.applyPromoCode = function() {
+            const input = document.getElementById('promo-code-input').value.trim().toUpperCase();
+            const msg = document.getElementById('promo-message');
+            
+            if (input === '') return;
+
+            const promo = globalSettings.promoCodes.find(p => p.code.toUpperCase() === input);
+            
+            if (promo) {
+                appliedPromo = promo;
+                msg.innerText = "تم تفعيل كود الخصم بنجاح 🎉";
+                msg.className = "text-[11px] font-bold mt-1 text-green-600";
+                msg.classList.remove('hidden');
+            } else {
+                appliedPromo = null;
+                msg.innerText = "كود الخصم غير صحيح أو منتهي.";
+                msg.className = "text-[11px] font-bold mt-1 text-red-500";
+                msg.classList.remove('hidden');
+            }
+            updateUI();
+        };
+
         window.getCardActionHTML = function(id) {
             const inCart = cart[id]?.quantity || 0;
             const available = getAvailableStock(id);
@@ -407,11 +680,16 @@
 
             if(!container || !extrasContainer) return;
 
-            if (container.children.length > 0 && !container.innerHTML.includes('جاري')) {
+            const needsFullRender = container.querySelector('.fa-spinner') !== null;
+
+            if (!needsFullRender) {
                 Object.keys(productsInfo).forEach(id => {
                     const available = getAvailableStock(id);
                     const stockDisplay = document.getElementById(`stock-display-${id}`);
+                    const priceDisplay = document.getElementById(`price-display-${id}`);
+                    
                     if(stockDisplay) stockDisplay.innerText = available; 
+                    if(priceDisplay) priceDisplay.innerText = globalPrices[id] || productsInfo[id].basePrice; 
 
                     const actionContainer = document.getElementById(`card-action-${id}`);
                     if(actionContainer) actionContainer.innerHTML = window.getCardActionHTML(id);
@@ -425,22 +703,44 @@
             Object.keys(productsInfo).forEach(id => {
                 const item = productsInfo[id];
                 const available = getAvailableStock(id);
+                const currentPrice = globalPrices[id] || item.basePrice;
+                const isDiscountActive = globalDiscounts[id];
+                const oldPrice = globalOldPrices[id];
+                const isBestSeller = globalSettings.bestSellers && globalSettings.bestSellers.includes(id);
+
                 const stockBadgeClass = available <= 10 ? (available === 0 ? 'bg-red-50 text-red-600' : 'bg-orange-50 text-orange-600') : 'bg-green-50 text-green-700';
 
+                let priceHtml = '';
+                let saleBadgeHtml = '';
+
+                if (isDiscountActive) {
+                    saleBadgeHtml = `<div class="absolute top-4 left-4 bg-red-500 text-white text-[10px] font-black px-3 py-1 rounded-full shadow-lg sale-badge z-10"><i class="fa-solid fa-tag"></i> عرض</div>`;
+                    priceHtml = `
+                        <div class="flex flex-col">
+                            <span class="text-[11px] text-gray-400 line-through decoration-red-500 font-bold">${oldPrice} ج.م</span>
+                            <span class="font-black text-red-600 text-xl"><span id="price-display-${id}">${currentPrice}</span> <span class="text-[10px] text-gray-500">ج.م</span></span>
+                        </div>`;
+                } else {
+                    priceHtml = `<span class="font-black text-brand-cyanDark text-lg"><span id="price-display-${id}">${currentPrice}</span> <span class="text-[10px] text-gray-400">ج.م</span></span>`;
+                }
+
+                let bestSellerHtml = isBestSeller ? `<div class="absolute bottom-2 right-2 bg-brand-navy text-brand-yellow text-[10px] font-black px-2 py-1 rounded shadow z-10 border border-brand-yellow/30">الأكثر طلباً 🔥</div>` : '';
+
                 const cardHtml = `
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden flex flex-row h-[130px] relative">
+                <div class="bg-white rounded-2xl shadow-sm border ${isDiscountActive ? 'border-red-200' : 'border-gray-200'} overflow-hidden flex flex-row h-[130px] relative">
+                    ${saleBadgeHtml}
                     <div class="p-3 flex-1 flex flex-col justify-between bg-white min-w-0">
                         <div>
                             <h3 class="text-sm md:text-base font-black text-brand-navy truncate mb-1">${item.name}</h3>
-                            <div class="flex items-center gap-2 mb-1">
-                                <span class="font-black text-brand-cyanDark text-lg">${item.price} <span class="text-[10px] text-gray-400">ج.م</span></span>
+                            <div class="flex items-center justify-between gap-2 mb-1">
+                                ${priceHtml}
                                 <span class="bg-gray-50 text-gray-500 text-[10px] px-1.5 py-0.5 rounded border border-gray-200 font-bold whitespace-nowrap">
                                     <i class="fa-solid fa-scale-balanced mr-1"></i> ${item.weight}
                                 </span>
                             </div>
                         </div>
                         <div class="flex items-center justify-between mt-auto">
-                            <div id="stock-badge-${id}" class="text-[10px] font-bold px-1.5 py-0.5 rounded border ${stockBadgeClass} shrink-0">
+                            <div class="text-[10px] font-bold px-1.5 py-0.5 rounded border ${stockBadgeClass} shrink-0">
                                 المتاح: <span id="stock-display-${id}">${available}</span>
                             </div>
                             <div class="w-28 shrink-0" id="card-action-${id}">
@@ -449,19 +749,25 @@
                         </div>
                     </div>
                     <div class="w-32 shrink-0 relative bg-gray-100 border-r border-gray-100">
-                        <img id="img-${id}" src="${item.images[0]}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'100\\' height=\\'100\\'><rect width=\\'100%\\' height=\\'100%\\' fill=\\'%23f1f5f9\\'/><text x=\\'50%\\' y=\\'50%\\' font-size=\\'10\\' text-anchor=\\'middle\\' fill=\\'%2394a3b8\\'>صورة</text></svg>'" class="w-full h-full object-cover">
+                        ${bestSellerHtml}
+                        <img loading="lazy" decoding="async" src="${item.images[0]}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'100\\' height=\\'100\\'><rect width=\\'100%\\' height=\\'100%\\' fill=\\'%23f1f5f9\\'/><text x=\\'50%\\' y=\\'50%\\' font-size=\\'10\\' text-anchor=\\'middle\\' fill=\\'%2394a3b8\\'>صورة</text></svg>'" class="w-full h-full object-cover">
                     </div>
                 </div>`;
 
                 if (!item.isExtra) {
                     container.innerHTML += cardHtml;
                 } else {
+                    let extraPriceHtml = isDiscountActive ? 
+                        `<div class="flex gap-2 items-center"><span class="text-red-600 font-black text-sm"><span id="price-display-${id}">${currentPrice}</span> ج</span><span class="text-[10px] text-gray-400 line-through">${oldPrice}</span></div>` : 
+                        `<div class="text-brand-cyanDark font-black text-sm"><span id="price-display-${id}">${currentPrice}</span> ج</div>`;
+
                     const extraHtml = `
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden flex flex-row items-center p-2.5 gap-3 h-[90px]">
+                    <div class="bg-white rounded-2xl shadow-sm border ${isDiscountActive ? 'border-red-300' : 'border-gray-200'} overflow-hidden flex flex-row items-center p-2.5 gap-3 h-[90px] relative">
+                        ${isDiscountActive ? `<div class="absolute top-1 right-1 bg-red-500 w-2 h-2 rounded-full sale-badge"></div>` : ''}
                         <div class="flex-1 min-w-0">
                             <h4 class="font-black text-brand-navy text-xs sm:text-sm truncate">${item.name}</h4>
-                            <div class="text-brand-cyanDark font-black text-xs sm:text-sm mb-1">${item.price} ج <span class="text-[10px] text-gray-400 font-bold">/ ${item.weight}</span></div>
-                            <div id="stock-badge-${id}" class="text-[10px] font-bold px-1.5 py-0.5 rounded inline-flex border ${stockBadgeClass} shrink-0">
+                            ${extraPriceHtml}
+                            <div class="text-[10px] font-bold px-1.5 py-0.5 rounded inline-flex border ${stockBadgeClass} shrink-0 mt-1">
                                 المتاح: <span id="stock-display-${id}">${available}</span>
                             </div>
                         </div>
@@ -469,7 +775,8 @@
                             ${window.getCardActionHTML(id)}
                         </div>
                         <div class="w-16 h-16 sm:w-20 sm:h-20 shrink-0 relative overflow-hidden rounded-xl border border-gray-100">
-                            <img id="img-${id}" src="${item.images[0]}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'100\\' height=\\'100\\'><rect width=\\'100%\\' height=\\'100%\\' fill=\\'%23f8fafc\\'/><text x=\\'50%\\' y=\\'50%\\' font-size=\\'10\\' text-anchor=\\'middle\\' fill=\\'%2394a3b8\\'>قريباً</text></svg>'" class="w-full h-full object-cover">
+                            ${bestSellerHtml}
+                            <img loading="lazy" decoding="async" src="${item.images[0]}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'100\\' height=\\'100\\'><rect width=\\'100%\\' height=\\'100%\\' fill=\\'%23f8fafc\\'/><text x=\\'50%\\' y=\\'50%\\' font-size=\\'10\\' text-anchor=\\'middle\\' fill=\\'%2394a3b8\\'>قريباً</text></svg>'" class="w-full h-full object-cover">
                         </div>
                     </div>`;
                     extrasContainer.innerHTML += extraHtml;
@@ -486,10 +793,11 @@
             if (cart[id]) {
                 cart[id].quantity++;
             } else {
-                cart[id] = { quantity: 1, price: productsInfo[id].price, name: productsInfo[id].name };
+                cart[id] = { quantity: 1, price: globalPrices[id] || productsInfo[id].basePrice, name: productsInfo[id].name };
             }
+            saveCart();
             updateUI(); 
-            renderProducts(); 
+            requestAnimationFrame(() => renderProducts()); 
         };
 
         window.updateQuantity = function(id, delta) {
@@ -508,8 +816,9 @@
                     delete cart[id]; 
                 }
             }
+            saveCart();
             updateUI(); 
-            renderProducts(); 
+            requestAnimationFrame(() => renderProducts()); 
         };
 
         window.updateUI = function() {
@@ -520,6 +829,8 @@
             cartItemsContainer.innerHTML = '';
 
             for (let id in cart) {
+                cart[id].price = globalPrices[id] || productsInfo[id].basePrice;
+                
                 const item = cart[id];
                 totalItems += item.quantity;
                 subTotalPrice += item.quantity * item.price;
@@ -551,24 +862,75 @@
                 }
             }
 
-            const deliverySelect = document.getElementById('delivery-zone');
-            const deliveryFee = deliverySelect ? (parseInt(deliverySelect.value) || 0) : 0;
-            const finalTotal = subTotalPrice + deliveryFee;
-
-            const subTotalEl = document.getElementById('cart-subtotal');
-            const delFeeEl = document.getElementById('cart-delivery-fee');
-            const totalEl = document.getElementById('cart-total');
-
-            if(subTotalEl) subTotalEl.innerText = subTotalPrice;
-
-            if(delFeeEl) {
-                if(deliverySelect && deliverySelect.value === "0" && deliverySelect.options[deliverySelect.selectedIndex].text.includes("مكان آخر")) {
-                    delFeeEl.innerText = "يحدد لاحقاً";
+            // Gamification logic (شريط التوصيل المجاني)
+            const tracker = document.getElementById('free-delivery-tracker');
+            if (globalSettings.freeDeliveryActive && totalItems > 0) {
+                tracker.classList.remove('hidden');
+                let remaining = Math.max(0, globalSettings.freeDeliveryThreshold - subTotalPrice);
+                let percentage = Math.min(100, (subTotalPrice / globalSettings.freeDeliveryThreshold) * 100);
+                
+                document.getElementById('fd-progress').style.width = percentage + '%';
+                
+                const textContainer = document.getElementById('free-delivery-text');
+                if (remaining > 0) {
+                    textContainer.innerHTML = `<span class="text-gray-600">باقي <span class="text-brand-cyanDark font-black text-sm">${remaining}</span> ج وتاخد توصيل مجاني!</span><i class="fa-solid fa-gift text-brand-cyanDark text-lg"></i>`;
+                    document.getElementById('fd-progress').className = "bg-gradient-to-l from-brand-cyan to-brand-cyanDark h-2.5 rounded-full progress-bar-animated";
                 } else {
-                    delFeeEl.innerText = deliveryFee + " ج.م";
+                    textContainer.innerHTML = `<span class="text-green-600 font-black">مبروك! حصلت على توصيل مجاني 🎉</span><i class="fa-solid fa-check-circle text-green-500 text-lg"></i>`;
+                    document.getElementById('fd-progress').className = "bg-green-500 h-2.5 rounded-full progress-bar-animated";
+                }
+            } else {
+                tracker.classList.add('hidden');
+            }
+
+            // Promo Code Logic
+            let discountAmount = 0;
+            const promoRow = document.getElementById('promo-discount-row');
+            if (appliedPromo && totalItems > 0) {
+                if (appliedPromo.type === 'percent') {
+                    discountAmount = (subTotalPrice * (appliedPromo.discount / 100));
+                } else {
+                    discountAmount = appliedPromo.discount;
+                }
+                // تأكد إن الخصم ميبقاش أكبر من السعر
+                discountAmount = Math.min(discountAmount, subTotalPrice);
+                
+                document.getElementById('promo-label').innerText = appliedPromo.code;
+                document.getElementById('cart-discount').innerText = Math.round(discountAmount);
+                promoRow.classList.remove('hidden');
+            } else {
+                promoRow.classList.add('hidden');
+            }
+
+            const totalAfterPromo = subTotalPrice - discountAmount;
+
+            const deliverySelect = document.getElementById('delivery-zone');
+            const selectedZone = globalDeliveryZones.find(z => z.id === deliverySelect?.value);
+            const deliveryFee = selectedZone ? selectedZone.price : 0;
+            
+            let freeDelivery = false;
+            // يتم حساب التوصيل المجاني على المجموع بعد الخصم
+            if (globalSettings.freeDeliveryActive && totalAfterPromo >= globalSettings.freeDeliveryThreshold && totalItems > 0) {
+                freeDelivery = true;
+            }
+
+            const finalDelivery = freeDelivery ? 0 : deliveryFee;
+            const finalTotal = totalAfterPromo + finalDelivery;
+
+            if(document.getElementById('cart-subtotal')) document.getElementById('cart-subtotal').innerText = subTotalPrice;
+
+            if(document.getElementById('cart-delivery-fee')) {
+                if (freeDelivery) {
+                    document.getElementById('cart-delivery-fee').innerHTML = `<span class="text-green-600 font-black">مجاني 🎉</span>`;
+                } else {
+                    if(selectedZone && selectedZone.price === 0) {
+                        document.getElementById('cart-delivery-fee').innerText = "يحدد لاحقاً";
+                    } else {
+                        document.getElementById('cart-delivery-fee').innerText = finalDelivery + " ج.م";
+                    }
                 }
             }
-            if(totalEl) totalEl.innerText = finalTotal;
+            if(document.getElementById('cart-total')) document.getElementById('cart-total').innerText = Math.round(finalTotal);
 
             const checkoutBtn = document.getElementById('checkout-btn');
             const checkoutHint = document.getElementById('checkout-hint');
@@ -579,25 +941,20 @@
                         const name = document.getElementById('customer-name').value.trim();
                         const phone = document.getElementById('customer-phone-new').value.trim();
                         if (name.length >= 3 && phone.length >= 10) { 
-                            checkoutBtn.disabled = false; 
-                            checkoutHint.classList.add('hidden'); 
+                            checkoutBtn.disabled = false; checkoutHint.classList.add('hidden'); 
                         } else { 
-                            checkoutBtn.disabled = true; 
-                            checkoutHint.classList.remove('hidden'); 
+                            checkoutBtn.disabled = true; checkoutHint.classList.remove('hidden'); 
                         }
                     } else {
                         const phone = document.getElementById('customer-phone-old').value.trim();
                         if (phone.length >= 10) { 
-                            checkoutBtn.disabled = false; 
-                            checkoutHint.classList.add('hidden'); 
+                            checkoutBtn.disabled = false; checkoutHint.classList.add('hidden'); 
                         } else { 
-                            checkoutBtn.disabled = true; 
-                            checkoutHint.classList.remove('hidden'); 
+                            checkoutBtn.disabled = true; checkoutHint.classList.remove('hidden'); 
                         }
                     }
                 } else { 
-                    checkoutBtn.disabled = true; 
-                    checkoutHint.classList.remove('hidden'); 
+                    checkoutBtn.disabled = true; checkoutHint.classList.remove('hidden'); 
                 }
             }
         };
@@ -608,24 +965,66 @@
             if(!sidebar || !overlay) return;
 
             if (sidebar.classList.contains('translate-x-full')) {
-                sidebar.classList.remove('translate-x-full'); 
-                overlay.classList.remove('hidden');
-                setTimeout(() => overlay.classList.remove('opacity-0'), 10); 
-                document.body.style.overflow = 'hidden';
+                sidebar.classList.remove('translate-x-full'); overlay.classList.remove('hidden');
+                setTimeout(() => overlay.classList.remove('opacity-0'), 10); document.body.style.overflow = 'hidden';
             } else {
-                sidebar.classList.add('translate-x-full'); 
-                overlay.classList.add('opacity-0');
-                setTimeout(() => overlay.classList.add('hidden'), 300); 
-                document.body.style.overflow = '';
+                sidebar.classList.add('translate-x-full'); overlay.classList.add('opacity-0');
+                setTimeout(() => overlay.classList.add('hidden'), 300); document.body.style.overflow = '';
             }
         };
 
-        window.checkoutWhatsApp = async function() {
+        // --- نظام الاقتراح الذكي (Cross-sell) وتأكيد الطلب ---
+        
+        window.initiateCheckout = function() {
+            // التحقق من الاقتراح الذكي
+            if (globalSettings.crossSellActive && globalSettings.crossSellProductId) {
+                const crossSellId = globalSettings.crossSellProductId;
+                // إذا لم يكن في السلة وإذا كان المخزون يسمح
+                if (!cart[crossSellId] && getAvailableStock(crossSellId) > 0) {
+                    const item = productsInfo[crossSellId];
+                    document.getElementById('cross-sell-title').innerText = `جربت ${item.name}؟`;
+                    document.getElementById('cross-sell-price').innerText = globalPrices[crossSellId] || item.basePrice;
+                    document.getElementById('cross-sell-img').src = item.images[0];
+                    
+                    const modal = document.getElementById('cross-sell-modal');
+                    const box = document.getElementById('cross-sell-box');
+                    modal.classList.remove('hidden');
+                    setTimeout(() => { modal.classList.remove('opacity-0'); box.classList.remove('scale-95'); box.classList.add('scale-100'); }, 10);
+                    return; // توقف هنا وانتظر تفاعل المستخدم مع النافذة
+                }
+            }
+            // إذا لم يكن هناك اقتراح، أكمل فوراً
+            finalCheckoutStep();
+        };
+
+        window.acceptCrossSell = function() {
+            const crossSellId = globalSettings.crossSellProductId;
+            addToCart(crossSellId);
+            
+            const modal = document.getElementById('cross-sell-modal');
+            const box = document.getElementById('cross-sell-box');
+            modal.classList.add('opacity-0'); box.classList.remove('scale-100'); box.classList.add('scale-95');
+            setTimeout(() => { modal.classList.add('hidden'); finalCheckoutStep(); }, 300);
+        };
+
+        window.declineCrossSell = function() {
+            const modal = document.getElementById('cross-sell-modal');
+            const box = document.getElementById('cross-sell-box');
+            modal.classList.add('opacity-0'); box.classList.remove('scale-100'); box.classList.add('scale-95');
+            setTimeout(() => { modal.classList.add('hidden'); finalCheckoutStep(); }, 300);
+        };
+
+        window.finalCheckoutStep = async function() {
+            const checkoutBtn = document.getElementById('checkout-btn');
+            const originalBtnHtml = checkoutBtn.innerHTML;
+            checkoutBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-2xl"></i> جاري تسجيل الطلب...';
+            checkoutBtn.disabled = true;
+
             const isNew = customerType === 'new';
             const deliverySelect = document.getElementById('delivery-zone');
-            const zoneNameOriginal = deliverySelect.options[deliverySelect.selectedIndex].text;
-            const zoneName = zoneNameOriginal.includes('مكان آخر') ? 'مكان آخر' : zoneNameOriginal.split(' (')[0];
-            const deliveryFee = parseInt(deliverySelect.value) || 0;
+            const selectedZone = globalDeliveryZones.find(z => z.id === deliverySelect.value);
+            const zoneName = selectedZone ? selectedZone.name : 'غير محدد';
+            const deliveryFee = selectedZone ? selectedZone.price : 0;
 
             let customerName = ""; let customerPhone = ""; let customerAddress = "";
 
@@ -637,7 +1036,7 @@
                 const nameRegex = /^[\u0600-\u06FF\sA-Za-z]+$/;
                 if (customerName.length < 3 || !nameRegex.test(customerName)) {
                     showAlert("تنبيه", "يرجى كتابة اسم صحيح وخالي من الأرقام والرموز.");
-                    return;
+                    checkoutBtn.innerHTML = originalBtnHtml; checkoutBtn.disabled = false; return;
                 }
             } else {
                 customerPhone = document.getElementById('customer-phone-old').value.trim();
@@ -649,206 +1048,550 @@
                     showAlert("تنبيه", `المنتج ${productsInfo[id].name} لم يعد متوفر بهذه الكمية، لقد تم حجزه بواسطة عميل آخر للتو.`);
                     cart[id].quantity = globalStock[id];
                     if(cart[id].quantity === 0) delete cart[id];
-                    updateUI();
-                    renderProducts();
-                    return;
+                    saveCart(); updateUI(); renderProducts();
+                    checkoutBtn.innerHTML = originalBtnHtml; checkoutBtn.disabled = false; return;
                 }
             }
 
             const now = new Date();
             const orderDate = now.toLocaleDateString('ar-EG');
             const orderTime = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
-            const web3FormsKey = "d8e4b3fe-018c-4c39-b15f-191ccc7cf10c"; 
+            
+            // قراءة مفتاح Web3Forms من الإعدادات
+            const web3FormsKey = globalSettings.web3FormsKey || "d8e4b3fe-018c-4c39-b15f-191ccc7cf10c"; 
 
-            let subTotal = 0;
+            let subTotal = 0; 
             let itemsSummaryArray = [];
+            let smartTagsArray = []; // مصفوفة الهاشتاجات الذكية
+            
+            // إضافة تاج العميل
+            smartTagsArray.push(isNew ? "#عميل_جديد" : "#عميل_سابق");
 
-            let message = "السلام عليكم، أريد تأكيد حجزي في *(دفعة شهر 5)*:\n\n";
-            message += `📋 *بيانات العميل:*\n`;
+            let message = "السلام عليكم، أريد تأكيد حجزي:\n\n📋 *بيانات العميل:*\n";
+            
             if (isNew) {
                 message += `👤 الاسم: ${customerName}\n📱 الموبايل: ${customerPhone}\n📍 المنطقة: ${zoneName}\n`;
                 if(customerAddress) message += `🏠 العنوان: ${customerAddress}\n`;
-            } else {
-                message += `🔁 عميل سابق\n📱 الموبايل المسجل: ${customerPhone}\n📍 المنطقة: ${zoneName}\n`;
-            }
-            message += `🕒 وقت الطلب: ${orderDate} - ${orderTime}\n\n`;
-            message += `🛒 *الطلبات:*\n`;
+            } else { message += `🔁 عميل سابق\n📱 الموبايل المسجل: ${customerPhone}\n📍 المنطقة: ${zoneName}\n`; }
+            
+            message += `🕒 وقت الطلب: ${orderDate} - ${orderTime}\n\n🛒 *الطلبات:*\n`;
 
-            let orderDetailsForTickTick = "";
-            if (isNew) {
-                orderDetailsForTickTick = `الاسم: ${customerName}\nالموبايل: ${customerPhone}\nالمنطقة: ${zoneName}\n`;
-                if(customerAddress) orderDetailsForTickTick += `العنوان: ${customerAddress}\n`;
-            } else {
-                orderDetailsForTickTick = `عميل سابق يطلب مجدداً\nالموبايل المسجل: ${customerPhone}\nالمنطقة: ${zoneName}\n`;
+            for (let id in cart) {
+                const item = cart[id]; 
+                const itemTotal = item.quantity * item.price; 
+                subTotal += itemTotal;
+                
+                let shortName = item.name.replace('طبق ', '').split(' (')[0];
+                itemsSummaryArray.push(`${item.quantity} ${shortName}`);
+                
+                // إنشاء الهاشتاج
+                let tagName = "#" + shortName.replace(/ /g, '_');
+                if(!smartTagsArray.includes(tagName)) {
+                    smartTagsArray.push(tagName);
+                }
+
+                message += `▪️ ${item.name}\n  └ ${item.quantity} × ${item.price} = ${itemTotal} ج.م\n`;
             }
-            orderDetailsForTickTick += `وقت الطلب: ${orderDate} - ${orderTime}\n\nالطلبات:\n`;
+
+            // حساب الخصم
+            let discountAmount = 0;
+            let discountText = "";
+            if (appliedPromo) {
+                if (appliedPromo.type === 'percent') {
+                    discountAmount = (subTotal * (appliedPromo.discount / 100));
+                } else {
+                    discountAmount = appliedPromo.discount;
+                }
+                discountAmount = Math.min(discountAmount, subTotal);
+                discountAmount = Math.round(discountAmount);
+                discountText = `🎁 كود خصم (${appliedPromo.code}): -${discountAmount} ج.م\n`;
+                message += `\n${discountText}`;
+            }
+
+            const totalAfterPromo = subTotal - discountAmount;
+
+            let freeDelivery = (globalSettings.freeDeliveryActive && totalAfterPromo >= globalSettings.freeDeliveryThreshold);
+            const finalDelivery = freeDelivery ? 0 : deliveryFee;
+            const finalTotal = totalAfterPromo + finalDelivery;
+            
+            let deliveryText = freeDelivery ? "مجاني 🎉" : ((deliveryFee === 0 && zoneName === 'مكان آخر') ? "يحدد لاحقاً" : `${deliveryFee} ج.م`);
+
+            message += `\n═════════════════\n📦 قيمة الطلبات: ${subTotal} ج.م\n🚚 رسوم التوصيل: ${deliveryText}\n💰 *الإجمالي النهائي: ${finalTotal} ج.م*\n`;
+            
+            if(deliveryFee === 0 && zoneName === 'مكان آخر' && !freeDelivery) {
+                message += `*(الإجمالي غير شامل رسوم التوصيل)*\n`;
+            }
+            message += `\n(في انتظار تأكيد الحجز وموعد الاستلام)`;
+
+            // ---------------------------------------------------------
+            // تصميم فاتورة تيك تك (Receipt Style)
+            // ---------------------------------------------------------
+            let orderDetailsForTickTick = `================================\n`;
+            orderDetailsForTickTick += `          فاتورة طلب سمان ههيا\n`;
+            orderDetailsForTickTick += `================================\n`;
+            orderDetailsForTickTick += `👤 الاسم      : ${customerName}\n`;
+            orderDetailsForTickTick += `📱 الموبايل    : ${customerPhone}\n`;
+            orderDetailsForTickTick += `📍 المنطقة    : ${zoneName}\n`;
+            if(customerAddress) {
+                orderDetailsForTickTick += `🏠 العنوان    : ${customerAddress}\n`;
+            }
+            orderDetailsForTickTick += `🕒 وقت الطلب  : ${orderDate} - ${orderTime}\n`;
+            orderDetailsForTickTick += `--------------------------------\n`;
+            orderDetailsForTickTick += `🛒 الطلبات:\n`;
 
             for (let id in cart) {
                 const item = cart[id];
                 const itemTotal = item.quantity * item.price;
-                subTotal += itemTotal;
-
-                // تجهيز ملخص الأوردر عشان عنوان تيك تيك
-                let shortName = item.name.replace('طبق ', '').split(' (')[0];
-                itemsSummaryArray.push(`${item.quantity} ${shortName}`);
-
-                message += `▪️ ${item.name}\n`;
-                message += `  └ ${item.quantity} × ${item.price} = ${itemTotal} ج.م\n`;
-
-                orderDetailsForTickTick += `▪️ ${item.name}\n  └ ${item.quantity} × ${item.price} = ${itemTotal} ج.م\n`;
+                orderDetailsForTickTick += `[ ${item.quantity} ] ${item.name} ........ ${itemTotal} ج.م\n`;
             }
 
-            const finalTotal = subTotal + deliveryFee;
-            const deliveryText = (deliveryFee === 0 && zoneName === 'مكان آخر') ? "يحدد لاحقاً" : `${deliveryFee} ج.م`;
-
-            // تجهيز عنوان تيك تيك اللي هيظهرلك برة
-            let itemsString = itemsSummaryArray.join('، ');
-            let tickTickSubject = `🛒 ${isNew ? 'عميل جديد' : 'عميل سابق'}: ${itemsString}`;
-
-            message += `\n═════════════════\n`;
-            message += `📦 قيمة الطلبات: ${subTotal} ج.م\n`;
-            message += `🚚 رسوم التوصيل: ${deliveryText}\n`;
-            message += `💰 *الإجمالي النهائي: ${finalTotal} ج.م*\n`;
-
-            if(deliveryFee === 0 && zoneName === 'مكان آخر') {
-                message += `*(الإجمالي غير شامل رسوم التوصيل)*\n`;
-                orderDetailsForTickTick += `\nالإجمالي النهائي: ${finalTotal} ج.م (غير شامل التوصيل)`;
-            } else {
-                orderDetailsForTickTick += `\nالإجمالي النهائي: ${finalTotal} ج.م`;
+            orderDetailsForTickTick += `--------------------------------\n`;
+            orderDetailsForTickTick += `قيمة الطلبات : ${subTotal} ج.م\n`;
+            if (discountAmount > 0) {
+                orderDetailsForTickTick += `الخصم (${appliedPromo.code}) : -${discountAmount} ج.م\n`;
             }
+            orderDetailsForTickTick += `رسوم التوصيل : ${deliveryText}\n`;
+            orderDetailsForTickTick += `================================\n`;
+            
+            if(deliveryFee === 0 && zoneName === 'مكان آخر' && !freeDelivery) {
+                orderDetailsForTickTick += `💰 الإجمالي النهائي : ${finalTotal} ج.م (غير شامل التوصيل)\n`;
+            } else { 
+                orderDetailsForTickTick += `💰 الإجمالي النهائي : ${finalTotal} ج.م\n`;
+            }
+            
+            orderDetailsForTickTick += `================================\n\n`;
+            orderDetailsForTickTick += smartTagsArray.join(' '); // إضافة التاجات في النهاية
 
-            message += `\n(في انتظار تأكيد الحجز وموعد الاستلام)`;
+            // عنوان المهمة في تيك تك (مثال: 2 جامبو 1 بيض سمان)
+            let tickTickSubject = itemsSummaryArray.join(' '); 
 
-            const checkoutBtn = document.getElementById('checkout-btn');
-            const originalBtnHtml = checkoutBtn.innerHTML;
-            checkoutBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-2xl"></i> جاري تسجيل الطلب...';
+            // --- إرسال البيانات لـ Make و Web3Forms ---
+            const makeWebhookUrl = "https://hook.eu1.make.com/nqbt9bhk73h7cgvhvjm51qej6gnlu4pd";
+            const makePayload = {
+                customerType: isNew ? "جديد" : "سابق",
+                customerName: customerName,
+                customerPhone: customerPhone,
+                customerAddress: customerAddress || "غير محدد",
+                zoneName: zoneName,
+                finalTotal: finalTotal,
+                tickTickSubject: tickTickSubject,
+                tickTickDescription: orderDetailsForTickTick
+            };
 
             try {
-                await fetch('https://api.web3forms.com/submit', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                    body: JSON.stringify({
-                        access_key: web3FormsKey,
-                        subject: tickTickSubject,
-                        "التفاصيل": orderDetailsForTickTick
-                    })
+                const web3Request = fetch('https://api.web3forms.com/submit', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({ access_key: web3FormsKey, subject: tickTickSubject, "التفاصيل": orderDetailsForTickTick })
                 });
+
+                const makeRequest = fetch(makeWebhookUrl, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(makePayload)
+                });
+
+                await Promise.all([web3Request, makeRequest].map(p => p.catch(e => console.log("Request Error", e))));
+
+                // حفظ الطلب في Firestore
+                if (hasCloud && db) {
+                    const orderData = {
+                        customerName,
+                        customerPhone,
+                        customerAddress: customerAddress || "غير محدد",
+                        zone: zoneName,
+                        items: [],
+                        subtotal: subTotal,
+                        discount: discountAmount,
+                        deliveryFee: finalDelivery,
+                        total: finalTotal,
+                        status: "new",
+                        isRead: false,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    };
+                    for (let id in cart) {
+                        orderData.items.push({
+                            id,
+                            name: cart[id].name,
+                            quantity: cart[id].quantity,
+                            price: cart[id].price
+                        });
+                    }
+                    await db.collection("orders").add(orderData);
+                }
 
                 if (hasCloud && db) {
                     let updates = {};
-                    for (let id in cart) {
-                        updates[id] = firebase.firestore.FieldValue.increment(-cart[id].quantity);
-                    }
+                    for (let id in cart) updates[id] = firebase.firestore.FieldValue.increment(-cart[id].quantity);
                     await db.collection('inventory').doc('stock').update(updates);
+                    
+                    await db.collection('inventory').doc('stats').set({
+                        sales: firebase.firestore.FieldValue.increment(finalTotal),
+                        orders: firebase.firestore.FieldValue.increment(1)
+                    }, { merge: true });
                 }
+            } catch(e) { console.log("Sync Error", e); }
 
-            } catch(e) { 
-                console.log("Sync Error", e); 
-            }
+            cart = {}; saveCart(); appliedPromo = null;
+            document.getElementById('promo-code-input').value = "";
+            document.getElementById('promo-message').classList.add('hidden');
 
-            cart = {}; 
             if (isNew) {
-                document.getElementById('customer-name').value = "";
-                document.getElementById('customer-phone-new').value = "";
-                document.getElementById('customer-address').value = "";
+                document.getElementById('customer-name').value = ""; document.getElementById('customer-phone-new').value = ""; document.getElementById('customer-address').value = "";
             } else {
-                document.getElementById('customer-phone-old').value = "";
-                document.getElementById('optional-whatsapp').checked = false;
+                document.getElementById('customer-phone-old').value = ""; document.getElementById('optional-whatsapp').checked = false;
             }
             document.getElementById('delivery-zone').value = ""; 
+            
             updateUI(); 
-            renderProducts();
-            toggleCart();
-            checkoutBtn.innerHTML = originalBtnHtml; 
+            const container = document.getElementById('products-container');
+            if(container) container.innerHTML = '<div class="text-center py-10 text-brand-cyanDark"><i class="fa-solid fa-spinner fa-spin text-3xl mb-3"></i><p class="font-bold text-sm">جاري تحميل المنيو...</p></div>';
+            renderProducts(); toggleCart();
+            checkoutBtn.innerHTML = originalBtnHtml; checkoutBtn.disabled = false;
 
             const wantsWhatsApp = document.getElementById('optional-whatsapp')?.checked;
             
-            if (isNew || wantsWhatsApp) {
-                window.location.href = `https://api.whatsapp.com/send?phone=201208027294&text=${encodeURIComponent(message)}`;
+            if (isNew || wantsWhatsApp) { 
+                document.getElementById('alert-icon-container').className = "w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl";
+                document.getElementById('alert-icon').className = "fa-brands fa-whatsapp";
+                
+                showAlert("جاري التحويل للواتساب 🚀", "تم تجهيز الأوردر بتاعك.. هيتم تحويلك للواتساب دلوقتي عشان تدوس إرسال وتأكد الحجز.");
+                
+                setTimeout(() => {
+                    window.location.href = `https://api.whatsapp.com/send?phone=201208027294&text=${encodeURIComponent(message)}`;
+                }, 2500); 
+
             } else {
-                showAlert("تم استلام الأوردر! 🎉", "شكراً لثقتك في سمان ههيا.. الأوردر وصل للسيستم بنجاح وهنجهزهولك فوراً. هنتواصل معاك قريباً للتأكيد.");
+                document.getElementById('alert-icon-container').className = "w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl";
+                document.getElementById('alert-icon').className = "fa-solid fa-check";
+                
+                const alertTitle = globalSettings.successTitle || "تم استلام الأوردر! 🎉";
+                const alertMsg = globalSettings.successMessage || "شكراً لثقتك في سمان ههيا.. الأوردر وصل للسيستم بنجاح وهنجهزهولك فوراً. هنتواصل معاك قريباً للتأكيد.";
+                
+                showAlert(alertTitle, alertMsg);
             }
         };
 
         window.showAlert = function(title, message) {
-            document.getElementById('alert-title').innerText = title; 
-            document.getElementById('alert-message').innerText = message;
-            const modal = document.getElementById('alert-modal');
-            const box = document.getElementById('alert-box');
+            document.getElementById('alert-title').innerText = title; document.getElementById('alert-message').innerText = message;
+            const modal = document.getElementById('alert-modal'); const box = document.getElementById('alert-box');
             if(!modal || !box) return;
             modal.classList.remove('hidden');
             setTimeout(() => { modal.classList.remove('opacity-0'); box.classList.remove('scale-95'); box.classList.add('scale-100'); }, 10);
         };
         window.closeAlert = function() {
-            const modal = document.getElementById('alert-modal');
-            const box = document.getElementById('alert-box');
+            const modal = document.getElementById('alert-modal'); const box = document.getElementById('alert-box');
             if(!modal || !box) return;
-            modal.classList.add('opacity-0'); 
-            box.classList.remove('scale-100'); 
-            box.classList.add('scale-95');
-            setTimeout(() => modal.classList.add('hidden'), 300);
+            modal.classList.add('opacity-0'); box.classList.remove('scale-100'); box.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.getElementById('alert-icon-container').className = "w-16 h-16 bg-brand-light text-brand-cyanDark rounded-full flex items-center justify-center mx-auto mb-4 text-3xl";
+                document.getElementById('alert-icon').className = "fa-solid fa-bell";
+            }, 300);
         };
 
         window.openAdminLogin = function() {
-            const modal = document.getElementById('admin-login-modal'); 
-            if(!modal) return;
-            modal.classList.remove('hidden');
-            setTimeout(() => modal.classList.remove('opacity-0'), 10); 
+            const modal = document.getElementById('admin-login-modal'); if(!modal) return;
+            modal.classList.remove('hidden'); setTimeout(() => modal.classList.remove('opacity-0'), 10); 
             document.getElementById('admin-pin').value = '';
         };
         window.closeAdminLogin = function() {
-            const modal = document.getElementById('admin-login-modal'); 
-            if(!modal) return;
-            modal.classList.add('opacity-0');
-            setTimeout(() => modal.classList.add('hidden'), 300);
+            const modal = document.getElementById('admin-login-modal'); if(!modal) return;
+            modal.classList.add('opacity-0'); setTimeout(() => modal.classList.add('hidden'), 300);
         };
+
         window.verifyAdminPin = function() {
-            if (document.getElementById('admin-pin').value === '1234') { closeAdminLogin(); openAdminDashboard(); }
+            if (document.getElementById('admin-pin').value === ADMIN_PIN) { closeAdminLogin(); openAdminDashboard(); }
             else showAlert("خطأ", "الرمز السري غير صحيح!");
         };
-        window.openAdminDashboard = function() {
-            const container = document.getElementById('admin-inputs-container'); 
+
+        // --- دوال لوحة التحكم المتكاملة ---
+
+        let adminCurrentTab = 'stats';
+        let orderFilter = 'all';
+        let ordersList = [];
+
+        window.switchAdminTab = function(tab) {
+            adminCurrentTab = tab;
+            document.querySelectorAll('[id^="admin-panel-"]').forEach(el => el.classList.add('hidden'));
+            document.getElementById('admin-panel-' + tab).classList.remove('hidden');
+            
+            ['stats','products','settings','orders'].forEach(t => {
+                const btn = document.getElementById('admin-tab-' + t);
+                if(t === tab) btn.className = "px-4 py-2 rounded-lg font-bold text-sm transition-colors bg-brand-cyanDark text-white";
+                else btn.className = "px-4 py-2 rounded-lg font-bold text-sm transition-colors text-gray-600 hover:bg-gray-100";
+            });
+            
+            if(tab === 'orders') loadOrders();
+        };
+
+        async function loadOrders() {
+            if(!hasCloud || !db) return;
+            const snapshot = await db.collection("orders").orderBy("createdAt","desc").get();
+            ordersList = [];
+            snapshot.forEach(doc => ordersList.push({id: doc.id, ...doc.data()}));
+            renderOrdersList();
+        }
+
+        function renderOrdersList() {
+            const container = document.getElementById('orders-list-container');
+            if(!container) return;
+            let filtered = ordersList;
+            if(orderFilter !== 'all') filtered = ordersList.filter(o => o.status === orderFilter);
+            
+            const unreadCount = ordersList.filter(o => o.isRead === false).length;
+            const badge = document.getElementById('unread-orders-badge');
+            const tabBadge = document.getElementById('orders-tab-badge');
+            if(unreadCount > 0) {
+                badge.classList.remove('hidden'); badge.innerText = unreadCount + ' جديد';
+                tabBadge.classList.remove('hidden'); tabBadge.innerText = unreadCount;
+            } else {
+                badge.classList.add('hidden');
+                tabBadge.classList.add('hidden');
+            }
+            
+            container.innerHTML = filtered.map(order => `
+                <div class="bg-white p-4 rounded-xl border shadow-sm ${order.isRead ? 'border-gray-200' : 'border-red-300 bg-red-50'}">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <span class="font-black text-brand-navy">${order.customerName}</span>
+                            <span class="text-xs text-gray-500 mx-2">${order.customerPhone}</span>
+                        </div>
+                        <select onchange="updateOrderStatus('${order.id}', this.value)" class="text-xs border rounded p-1 font-bold">
+                            <option value="new" ${order.status === 'new' ? 'selected' : ''}>جديد</option>
+                            <option value="processing" ${order.status === 'processing' ? 'selected' : ''}>قيد التجهيز</option>
+                            <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>تم التوصيل</option>
+                        </select>
+                    </div>
+                    <div class="text-xs text-gray-600 mb-2">${order.zone} | ${order.items.map(i => i.quantity + ' ' + i.name).join('، ')}</div>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="font-black text-brand-cyanDark">${order.total} ج.م</span>
+                        <button onclick="copyOrderToWhatsApp('${order.id}')" class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded font-bold"><i class="fa-brands fa-whatsapp"></i> نسخ</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function updateOrderStatus(orderId, newStatus) {
+            if(!hasCloud || !db) return;
+            await db.collection("orders").doc(orderId).update({status: newStatus});
+            loadOrders();
+        }
+
+        window.copyOrderToWhatsApp = function(orderId) {
+            const order = ordersList.find(o => o.id === orderId);
+            if(!order) return;
+            let msg = `فاتورة طلب سمان ههيا\n👤 ${order.customerName}\n📱 ${order.customerPhone}\n📍 ${order.zone}\n🛒 ${order.items.map(i => i.quantity + ' ' + i.name).join('، ')}\n💰 الإجمالي: ${order.total} ج.م`;
+            navigator.clipboard.writeText(msg).then(() => alert('تم نسخ الفاتورة'));
+        };
+
+        window.filterOrders = function(status) {
+            orderFilter = status;
+            renderOrdersList();
+        };
+
+        window.toggleOldPriceInput = function(id) {
+            const oldPriceInput = document.getElementById(`admin-oldprice-${id}`);
+            const checkbox = document.getElementById(`admin-discount-check-${id}`);
+            if(checkbox.checked) { oldPriceInput.classList.remove('hidden'); } else { oldPriceInput.classList.add('hidden'); }
+        };
+
+        window.syncAdminZonesFromDOM = function() {
+            const zoneElements = document.querySelectorAll('.admin-zone-row');
+            tempAdminZones = [];
+            zoneElements.forEach(row => {
+                const id = row.dataset.id;
+                const name = row.querySelector('.zone-name-input').value;
+                const price = parseInt(row.querySelector('.zone-price-input').value) || 0;
+                tempAdminZones.push({ id, name, price });
+            });
+        }
+
+        window.renderAdminZones = function() {
+            const container = document.getElementById('admin-zones-container');
             if(!container) return;
             container.innerHTML = '';
-            Object.keys(productsInfo).forEach(id => {
+            tempAdminZones.forEach((zone, index) => {
                 container.innerHTML += `
-                    <div class="flex justify-between items-center bg-gray-50 p-3 rounded-xl border border-gray-200">
-                        <span class="font-bold text-brand-navy text-sm">${productsInfo[id].name}</span>
-                        <div class="flex items-center gap-2"><input type="number" id="admin-input-${id}" value="${globalStock[id]}" class="w-16 text-center border border-gray-300 rounded-lg p-1.5 font-black text-brand-cyanDark focus:border-brand-cyan outline-none"></div>
+                    <div class="admin-zone-row flex gap-2 items-center bg-white p-2 rounded border border-gray-200" data-id="${zone.id}">
+                        <input type="text" placeholder="اسم المنطقة" value="${zone.name}" class="zone-name-input flex-1 border rounded p-2 text-sm outline-none focus:border-brand-cyan font-bold text-brand-navy">
+                        <input type="number" placeholder="السعر" value="${zone.price}" class="zone-price-input w-16 border rounded p-2 text-sm outline-none focus:border-brand-cyan text-center font-bold text-brand-navy">
+                        <button onclick="removeAdminZone(${index})" class="text-red-500 hover:text-red-700 w-8 h-8 flex items-center justify-center bg-red-50 rounded"><i class="fa-solid fa-trash text-xs"></i></button>
                     </div>`;
             });
-            const modal = document.getElementById('admin-dashboard-modal'); 
-            modal.classList.remove('hidden');
-            setTimeout(() => modal.classList.remove('opacity-0'), 10);
-        };
-        window.closeAdminDashboard = function() {
-            const modal = document.getElementById('admin-dashboard-modal'); 
-            if(!modal) return;
-            modal.classList.add('opacity-0');
-            setTimeout(() => modal.classList.add('hidden'), 300);
-        };
-        window.saveStockToCloud = async function() {
-            let newStockData = {};
-            Object.keys(productsInfo).forEach(id => {
-                const val = parseInt(document.getElementById(`admin-input-${id}`).value);
-                newStockData[id] = isNaN(val) ? 0 : Math.max(0, val);
+        }
+
+        window.addNewAdminZone = function() {
+            syncAdminZonesFromDOM();
+            tempAdminZones.push({ id: 'z_' + Date.now(), name: '', price: 0 });
+            renderAdminZones();
+        }
+
+        window.removeAdminZone = function(index) {
+            syncAdminZonesFromDOM();
+            tempAdminZones.splice(index, 1);
+            renderAdminZones();
+        }
+
+        window.syncPromoCodesFromDOM = function() {
+            const promoElements = document.querySelectorAll('.admin-promo-row');
+            tempPromoCodes = [];
+            promoElements.forEach(row => {
+                const code = row.querySelector('.promo-code-input').value.toUpperCase();
+                const discount = parseInt(row.querySelector('.promo-discount-input').value) || 0;
+                const type = row.querySelector('.promo-type-input').value;
+                if(code) tempPromoCodes.push({ code, discount, type });
             });
-            if (hasCloud && db) {
-                try { 
-                    await db.collection('inventory').doc('stock').set(newStockData); 
-                    closeAdminDashboard(); 
-                    showAlert("تم بنجاح", "تم تحديث أرصدة المخزون وسيظهر للعملاء فوراً."); 
-                } 
-                catch(e) { showAlert("خطأ", "فشل التحديث. تأكد من الإنترنت."); }
-            } else {
-                globalStock = newStockData;
+        }
+
+        window.renderAdminPromos = function() {
+            const container = document.getElementById('admin-promos-container');
+            if(!container) return;
+            container.innerHTML = '';
+            tempPromoCodes.forEach((promo, index) => {
+                container.innerHTML += `
+                    <div class="admin-promo-row flex gap-2 items-center bg-gray-50 p-2 rounded border border-gray-200">
+                        <input type="text" placeholder="الكود" value="${promo.code}" class="promo-code-input w-24 border rounded p-2 text-xs outline-none focus:border-brand-cyan font-bold text-brand-navy uppercase text-center">
+                        <input type="number" placeholder="الخصم" value="${promo.discount}" class="promo-discount-input w-16 border rounded p-2 text-xs outline-none focus:border-brand-cyan text-center font-bold text-brand-navy">
+                        <select class="promo-type-input flex-1 border rounded p-2 text-xs outline-none focus:border-brand-cyan font-bold text-brand-navy bg-white">
+                            <option value="fixed" ${promo.type === 'fixed' ? 'selected' : ''}>جنيه</option>
+                            <option value="percent" ${promo.type === 'percent' ? 'selected' : ''}>% نسبة</option>
+                        </select>
+                        <button onclick="removePromoCode(${index})" class="text-red-500 hover:text-red-700 w-8 h-8 flex items-center justify-center bg-red-100 rounded"><i class="fa-solid fa-trash text-xs"></i></button>
+                    </div>`;
+            });
+            if(tempPromoCodes.length === 0) {
+                container.innerHTML = '<p class="text-[10px] text-gray-400 text-center py-2">لا يوجد أكواد خصم حالياً</p>';
+            }
+        }
+
+        window.addNewPromoCode = function() {
+            syncPromoCodesFromDOM();
+            tempPromoCodes.push({ code: '', discount: 0, type: 'fixed' });
+            renderAdminPromos();
+        }
+
+        window.removePromoCode = function(index) {
+            syncPromoCodesFromDOM();
+            tempPromoCodes.splice(index, 1);
+            renderAdminPromos();
+        }
+
+        window.openAdminDashboard = function() {
+            document.getElementById('admin-banner-active').checked = globalSettings.bannerActive;
+            document.getElementById('admin-banner-text').value = globalSettings.bannerText;
+
+            document.getElementById('admin-success-title').value = globalSettings.successTitle || '';
+            document.getElementById('admin-success-message').value = globalSettings.successMessage || '';
+
+            document.getElementById('admin-web3forms-key').value = globalSettings.web3FormsKey || '';
+
+            document.getElementById('admin-free-delivery-active').checked = globalSettings.freeDeliveryActive;
+            document.getElementById('admin-free-delivery-threshold').value = globalSettings.freeDeliveryThreshold;
+            
+            tempAdminZones = JSON.parse(JSON.stringify(globalDeliveryZones));
+            renderAdminZones();
+
+            tempPromoCodes = JSON.parse(JSON.stringify(globalSettings.promoCodes || []));
+            renderAdminPromos();
+
+            document.getElementById('admin-crosssell-active').checked = globalSettings.crossSellActive;
+            const csSelect = document.getElementById('admin-crosssell-product');
+            csSelect.innerHTML = '';
+            Object.keys(productsInfo).forEach(id => csSelect.innerHTML += `<option value="${id}" ${globalSettings.crossSellProductId === id ? 'selected' : ''}>${productsInfo[id].name}</option>`);
+
+            const container = document.getElementById('admin-inputs-container');
+            container.innerHTML = '';
+            Object.keys(productsInfo).forEach(id => {
+                const isActive = globalDiscounts[id];
+                const isBestSeller = globalSettings.bestSellers?.includes(id);
+                const stockVal = globalStock[id];
+                const stockClasses = stockVal < 5 ? "bg-red-50 text-red-600 border-red-500" : "text-brand-cyanDark border-gray-300";
+                container.innerHTML += `
+                    <div class="flex flex-col bg-gray-50 p-4 rounded-xl border border-gray-200 shadow-sm">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="font-black text-brand-navy text-sm">${productsInfo[id].name}</span>
+                            <label class="flex items-center gap-1"><input type="checkbox" id="admin-bestseller-${id}" ${isBestSeller ? 'checked' : ''} class="w-3 h-3 accent-brand-yellow"> <span class="text-[10px]">الأكثر طلباً</span></label>
+                        </div>
+                        <div class="flex gap-2 mb-3">
+                            <div class="flex-1"><input type="number" id="admin-price-${id}" value="${globalPrices[id]}" class="w-full border rounded p-2 font-black"></div>
+                            <div class="flex-1"><input type="number" id="admin-stock-${id}" value="${stockVal}" class="w-full border rounded p-2 font-black ${stockClasses}"></div>
+                        </div>
+                        <div class="flex items-center gap-2 bg-brand-light/40 p-2 rounded">
+                            <input type="checkbox" id="admin-discount-check-${id}" ${isActive ? 'checked' : ''} onchange="toggleOldPriceInput('${id}')" class="w-4 h-4 accent-brand-cyanDark">
+                            <label class="text-[11px] font-bold" onclick="document.getElementById('admin-discount-check-${id}').click()">عرض خصم</label>
+                            <input type="number" id="admin-oldprice-${id}" value="${globalOldPrices[id]}" class="w-16 border rounded p-1 ml-auto text-xs ${isActive ? '' : 'hidden'} text-red-500 line-through">
+                        </div>
+                    </div>`;
+            });
+
+            document.getElementById('admin-dashboard-modal').classList.remove('hidden');
+            setTimeout(() => document.getElementById('admin-dashboard-modal').classList.remove('opacity-0'), 10);
+            switchAdminTab('stats');
+            loadOrders();
+        };
+
+        window.closeAdminDashboard = function() {
+            const modal = document.getElementById('admin-dashboard-modal'); if(!modal) return;
+            modal.classList.add('opacity-0'); setTimeout(() => modal.classList.add('hidden'), 300);
+        };
+
+        window.saveAdminData = async function() {
+            syncAdminZonesFromDOM();
+            syncPromoCodesFromDOM();
+
+            let newStockData = {}, newPriceData = {}, newDiscountsData = {}, newOldPricesData = {};
+            let newBestSellers = [];
+            Object.keys(productsInfo).forEach(id => {
+                const stockVal = parseInt(document.getElementById('admin-stock-'+id).value);
+                const priceVal = parseInt(document.getElementById('admin-price-'+id).value);
+                const oldPriceVal = parseInt(document.getElementById('admin-oldprice-'+id).value);
+                const isDiscount = document.getElementById('admin-discount-check-'+id).checked;
+                const isBestSeller = document.getElementById('admin-bestseller-'+id).checked;
+                newStockData[id] = isNaN(stockVal) ? 0 : Math.max(0, stockVal);
+                newPriceData[id] = isNaN(priceVal) ? productsInfo[id].basePrice : Math.max(0, priceVal);
+                newOldPricesData[id] = isNaN(oldPriceVal) ? newPriceData[id]+20 : Math.max(0, oldPriceVal);
+                newDiscountsData[id] = isDiscount;
+                if(isBestSeller) newBestSellers.push(id);
+            });
+
+            const newSettings = {
+                deliveryZones: tempAdminZones.filter(z => z.name.trim()),
+                freeDeliveryActive: document.getElementById('admin-free-delivery-active').checked,
+                freeDeliveryThreshold: parseInt(document.getElementById('admin-free-delivery-threshold').value) || 0,
+                bannerActive: document.getElementById('admin-banner-active').checked,
+                bannerText: document.getElementById('admin-banner-text').value,
+                crossSellActive: document.getElementById('admin-crosssell-active').checked,
+                crossSellProductId: document.getElementById('admin-crosssell-product').value,
+                promoCodes: tempPromoCodes,
+                bestSellers: newBestSellers,
+                web3FormsKey: document.getElementById('admin-web3forms-key').value.trim(),
+                successTitle: document.getElementById('admin-success-title').value.trim(),
+                successMessage: document.getElementById('admin-success-message').value.trim()
+            };
+
+            if(hasCloud && db) {
+                await Promise.all([
+                    db.collection("inventory").doc("stock").set(newStockData),
+                    db.collection("inventory").doc("prices").set(newPriceData),
+                    db.collection("inventory").doc("discounts_status").set(newDiscountsData),
+                    db.collection("inventory").doc("old_prices").set(newOldPricesData),
+                    db.collection("inventory").doc("settings").set(newSettings)
+                ]);
                 closeAdminDashboard();
-                renderProducts();
+                showAlert("تم بنجاح", "تم حفظ جميع التعديلات بنجاح.");
+                setTimeout(() => location.reload(), 500);
+            } else {
+                // بدون اتصال
+                globalStock = newStockData; globalPrices = newPriceData; globalDiscounts = newDiscountsData; globalOldPrices = newOldPricesData;
+                Object.assign(globalSettings, newSettings);
+                globalDeliveryZones = newSettings.deliveryZones;
+                
+                closeAdminDashboard();
+                applySettingsToUI(); renderDeliveryZones();
+                const container = document.getElementById('products-container');
+                if(container) container.innerHTML = '<div class="text-center py-10 text-brand-cyanDark"><i class="fa-solid fa-spinner fa-spin text-3xl mb-3"></i><p class="font-bold text-sm">جاري تحميل المنيو...</p></div>';
+                setTimeout(() => renderProducts(), 500); updateUI();
             }
         };
     </script>
 </body>
 </html>
-
-
-```
