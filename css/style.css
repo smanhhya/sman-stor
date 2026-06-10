@@ -1,0 +1,56 @@
+/* إعدادات المتغيرات الأساسية (Tailwind بيسحب منها) */
+:root {
+    --brand-navy: #1b4332;
+    --brand-cyanDark: #b91c1c;
+    --brand-yellow: #f59e0b;
+}
+
+/* تأثير النبض للزراير */
+@keyframes pulse-btn {
+    0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(245, 158, 11, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+}
+.pulse-animation {
+    animation: pulse-btn 2s infinite;
+}
+
+/* شريط الأخبار المتحرك */
+.marquee-container {
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+}
+.marquee-content {
+    display: inline-block;
+    animation: marquee 25s linear infinite;
+}
+@keyframes marquee {
+    0% { transform: translateX(-100vw); }
+    100% { transform: translateX(100%); }
+}
+
+/* ستايل السلايدر المخصص */
+.slider-wrapper {
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+}
+.slider-dot.active {
+    background-color: var(--brand-cyanDark);
+    width: 1.5rem;
+}
+#slider-track > img, 
+#slider-track > div {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 85vh;
+    object-fit: contain;
+    background-color: #f9fafb;
+}
+
+/* شريط خطوات الدفع */
+.step-active .step-icon { background-color: var(--brand-navy); color: white; border-color: var(--brand-navy); }
+.step-active .step-text { color: var(--brand-navy); font-weight: 900; }
+.step-completed .step-icon { background-color: #10b981; color: white; border-color: #10b981; }
+.step-line { flex: 1; height: 2px; background-color: #e5e7eb; margin: 0 10px; }
+.step-line.active { background-color: #10b981; }
