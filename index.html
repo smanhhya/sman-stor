@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -134,16 +135,27 @@
                     <span>اختر نظام عمل المحاكي:</span>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full md:w-auto bg-emeraldExec-950 p-1.5 rounded-xl border border-emeraldExec-800">
-                    <button id="btnModeSmart" onclick="setSimMode('smart')" class="px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition flex items-center justify-center gap-2 bg-emeraldExec-600 text-white shadow">
+                    <button id="btnModeSmart" onclick="setSimMode('smart')" class="px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition flex items-center justify-center gap-2 bg-emeraldExec-600 text-white shadow cursor-pointer">
                         <i class="fa-solid fa-wand-magic-sparkles"></i>
                         <span>الوضع الترابطي الذكي (حساب تلقائي من الماكينة والأمهات)</span>
                     </button>
-                    <button id="btnModeManual" onclick="setSimMode('manual')" class="px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition flex items-center justify-center gap-2 text-slate-300 hover:text-white">
+                    <button id="btnModeManual" onclick="setSimMode('manual')" class="px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition flex items-center justify-center gap-2 text-slate-300 hover:text-white cursor-pointer">
                         <i class="fa-solid fa-pen-to-square"></i>
                         <span>الوضع الحر المباشر (تعديل الأرقام والكميات يدوياً)</span>
                     </button>
                 </div>
             </div>
+
+            <!-- Quick Executive Section Navigation Bar -->
+            <nav class="mt-4 pt-3 border-t border-emeraldExec-800/70 flex flex-wrap items-center gap-2 text-xs font-bold no-print">
+                <span class="text-slate-300 ml-1"><i class="fa-solid fa-compass text-goldExec-400 ml-1"></i>انتقال سريع:</span>
+                <a href="#secCoreSim" class="px-3 py-1.5 rounded-lg bg-emeraldExec-800 hover:bg-goldExec-500 hover:text-emeraldExec-950 text-white transition">1. المحاكي المالي الأساسي</a>
+                <a href="#secBioRadar" class="px-3 py-1.5 rounded-lg bg-emeraldExec-800 hover:bg-goldExec-500 hover:text-emeraldExec-950 text-goldExec-400 border border-goldExec-500/30 transition"><i class="fa-solid fa-microscope ml-1"></i>2. رادار الكفاءة العلمية اللحظي</a>
+                <a href="#secValueAdded" class="px-3 py-1.5 rounded-lg bg-emeraldExec-800 hover:bg-goldExec-500 hover:text-emeraldExec-950 text-emeraldExec-100 transition"><i class="fa-solid fa-rocket ml-1"></i>3. مضاعف الأرباح والقيمة المضافة</a>
+                <a href="#secHatcheryMatrix" class="px-3 py-1.5 rounded-lg bg-emeraldExec-800 hover:bg-goldExec-500 hover:text-emeraldExec-950 text-white transition"><i class="fa-solid fa-calendar-days ml-1"></i>4. مصفوفة المفرخ (30 يوماً)</a>
+                <a href="#secRiskCapex" class="px-3 py-1.5 rounded-lg bg-emeraldExec-800 hover:bg-goldExec-500 hover:text-emeraldExec-950 text-white transition"><i class="fa-solid fa-shield-halved ml-1"></i>5. استرداد رأس المال ودرع المخاطر</a>
+                <a href="#secScientificSOP" class="px-3 py-1.5 rounded-lg bg-emeraldExec-800 hover:bg-goldExec-500 hover:text-emeraldExec-950 text-goldExec-400 border border-goldExec-500/30 transition"><i class="fa-solid fa-book-medical ml-1"></i>6. الدليل العلمي الذهبي والتسويق</a>
+            </nav>
         </div>
     </header>
 
@@ -188,27 +200,24 @@
                         <i class="fa-solid fa-dove text-goldExec-600"></i>
                     </div>
                     <div class="text-base sm:text-lg font-black text-goldExec-800 mt-1" id="kpiFlockSize">300 أم + 100 ذكر</div>
-                    <div class="text-[11px] text-goldExec-700 font-semibold" id="kpiFlockCost">تكلفة شراء: 23,000 ج.م</div>
-                </div>
-
-                <!-- KPI 5: Remaining Surplus Eggs -->
+                    <!-- KPI 5: Remaining Surplus Eggs -->
                 <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
                     <div class="flex items-center justify-between text-xs font-bold text-slate-600">
                         <span>البيض الباقي (الفائض للبيع)</span>
                         <i class="fa-solid fa-egg text-amber-500"></i>
                     </div>
                     <div class="text-base sm:text-lg font-black text-slate-800 mt-1" id="kpiSurplusEggsMonth">3,120 بيضة/شهر</div>
-                    <div class="text-[11px] text-emeraldExec-700 font-bold" id="kpiSurplusEggsBatch">624 بيضة باقية لكل دفعة</div>
+                    <div class="text-[11px] text-emeraldExec-700 font-bold" id="kpiSurplusEggsBatch">624/دفعة | 1,872 لـ 3 دفعات</div>
                 </div>
 
                 <!-- KPI 6: Profit Margin & Break-Even -->
                 <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
                     <div class="flex items-center justify-between text-xs font-bold text-slate-600">
-                        <span>هامش الربح الصافي</span>
+                        <span>هامش الربح والأمان</span>
                         <i class="fa-solid fa-chart-pie text-emeraldExec-700"></i>
                     </div>
-                    <div class="text-lg sm:text-xl font-black text-emeraldExec-800 mt-1" id="kpiProfitMargin">27.27%</div>
-                    <div class="text-[11px] text-slate-500" id="kpiBreakEvenPairs">التعادل: 499 جوز مذبوح</div>
+                    <div class="text-lg sm:text-xl font-black text-emeraldExec-800 mt-1" id="kpiProfitMargin">27.3%</div>
+                    <div class="text-[11px] text-slate-500" id="kpiBreakEvenPairs">التعادل: 499 جوز (أمان 34%)</div>
                 </div>
             </div>
         </div>
@@ -218,21 +227,24 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 space-y-8">
 
         <!-- Quick Interactive Guide Alert -->
-        <div id="modeStatusBanner" class="bg-emeraldExec-900 text-white rounded-2xl p-4 shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-r-8 border-goldExec-500">
+        <div id="secCoreSim" class="bg-emeraldExec-900 text-white rounded-2xl p-4 shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-r-8 border-goldExec-500">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-goldExec-500/20 border border-goldExec-400 flex items-center justify-center text-goldExec-400 shrink-0">
                     <i class="fa-solid fa-lightbulb text-lg"></i>
                 </div>
                 <div>
                     <h2 class="font-bold text-sm sm:text-base text-goldExec-400" id="modeBannerTitle">
-                        أنت الآن في «الوضع الترابطي الذكي» — كل الأرقام مربوطة هندسياً ببعضها
+                        أنت الآن في «الوضع الترابطي الذكي» — كل الأرقام مربوطة هندسياً وعلمياً ببعضها
                     </h2>
                     <p class="text-xs sm:text-sm text-slate-200 mt-0.5" id="modeBannerDesc">
-                        بمجرد تغيير سعة المكنة (816 بيضة) أو أيام التجميع (4 أيام) أو سعر الجوز المذبوح (115 ج.م)، يقوم النظام تلقائياً بحساب عدد الأمهات، والبيض الباقي، والكتاكيت، والتسمين، وصافي الربح!
+                        الأرقام الأساسية مضبوطة بالملليم على خطتك المعتمدة (30,000 ج.م صافي ربح). جرّب تحريك أي شريط تمرير أو رقم وشاهد التحليل المالي والعلمي اللحظي!
                     </p>
                 </div>
             </div>
             <div class="flex items-center gap-2 shrink-0 self-end sm:self-center">
+                <span id="badgeValueAddedActive" class="hidden text-xs bg-goldExec-500 text-emeraldExec-950 px-3 py-1.5 rounded-lg font-black">
+                    + القيمة المضافة مفعلة
+                </span>
                 <span class="text-xs bg-emeraldExec-800 px-3 py-1.5 rounded-lg border border-emeraldExec-700 text-emeraldExec-100 font-semibold">
                     المعيار العالمي للفقس: تجميع 4 أيام
                 </span>
@@ -375,11 +387,11 @@
                                     نسبة الفقس الفعلية بالماكينة (%)
                                 </label>
                                 <div class="relative">
-                                    <input type="number" id="inpHatchRate" value="82.72" min="40" max="98" step="0.1" oninput="recalculateAll()" class="w-full rounded-xl border border-slate-300 px-3.5 py-2 text-sm font-bold text-slate-900 bg-white">
+                                    <input type="number" id="inpHatchRate" value="83.33" min="40" max="98" step="0.1" oninput="recalculateAll()" class="w-full rounded-xl border border-slate-300 px-3.5 py-2 text-sm font-bold text-slate-900 bg-white">
                                     <span class="absolute left-3 top-2 text-xs text-slate-400 font-semibold">% فقس</span>
                                 </div>
                                 <span class="text-[11px] text-emeraldExec-700 font-bold mt-0.5 block">
-                                    تُخرج <strong id="lblChicksPerBatch">675</strong> كتكوت/دفعة (<strong id="lblChicksPerMonth">3,375</strong>/شهر)
+                                    تُخرج <strong id="lblChicksPerBatch">680</strong> كتكوت/دفعة (<strong id="lblChicksPerMonth">3,400</strong>/شهر)
                                 </span>
                             </div>
                         </div>
@@ -397,21 +409,26 @@
                             240 بيضة/يوم
                         </span>
                     </div>
-                    <div class="grid grid-cols-3 gap-2 text-center">
-                        <div class="bg-white p-2.5 rounded-xl border border-goldExec-200">
-                            <span class="text-[11px] text-slate-500 block font-semibold">إنتاج البيض شهرياً</span>
-                            <span class="text-base sm:text-lg font-black text-slate-800" id="boxTotalEggsMonth">7,200</span>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+                        <div class="bg-white p-2 rounded-xl border border-goldExec-200">
+                            <span class="text-[10px] text-slate-500 block font-semibold">إنتاج البيض شهرياً</span>
+                            <span class="text-sm sm:text-base font-black text-slate-800" id="boxTotalEggsMonth">7,200</span>
                             <span class="text-[10px] text-slate-500 block" id="boxTotalEggsCycle">1,440 كل 6 أيام</span>
                         </div>
-                        <div class="bg-white p-2.5 rounded-xl border border-emeraldExec-200">
-                            <span class="text-[11px] text-emeraldExec-800 block font-semibold">يدخل المكنة شهرياً</span>
-                            <span class="text-base sm:text-lg font-black text-emeraldExec-700" id="boxIncubatorEggsMonth">4,080</span>
+                        <div class="bg-white p-2 rounded-xl border border-emeraldExec-200">
+                            <span class="text-[10px] text-emeraldExec-800 block font-semibold">يدخل المكنة شهرياً</span>
+                            <span class="text-sm sm:text-base font-black text-emeraldExec-700" id="boxIncubatorEggsMonth">4,080</span>
                             <span class="text-[10px] text-emeraldExec-600 block" id="boxIncubatorBatchesNote">5 دفعات × 816</span>
                         </div>
-                        <div class="bg-goldExec-100/80 p-2.5 rounded-xl border-2 border-goldExec-500">
-                            <span class="text-[11px] text-goldExec-900 block font-bold">البيض الباقي الفائض</span>
-                            <span class="text-base sm:text-lg font-black text-goldExec-800" id="boxSurplusEggsMonth">3,120</span>
+                        <div class="bg-goldExec-100/80 p-2 rounded-xl border-2 border-goldExec-500">
+                            <span class="text-[10px] text-goldExec-900 block font-bold">البيض الباقي (5 دفعات)</span>
+                            <span class="text-sm sm:text-base font-black text-goldExec-800" id="boxSurplusEggsMonth">3,120</span>
                             <span class="text-[10px] text-goldExec-900 font-bold block" id="boxSurplusEggsBatch">624 باقية/دفعة</span>
+                        </div>
+                        <div class="bg-white p-2 rounded-xl border border-amber-300">
+                            <span class="text-[10px] text-amber-900 block font-bold">الباقي لكل 3 دفعات</span>
+                            <span class="text-sm sm:text-base font-black text-amber-800" id="boxSurplus3Batches">1,872</span>
+                            <span class="text-[10px] text-slate-500 block" id="boxSurplusIfOnly3">4,752 لو 3 دفعات/شهر</span>
                         </div>
                     </div>
                 </div>
@@ -439,7 +456,7 @@
                         <div class="bg-emeraldExec-50/70 p-3.5 rounded-xl border border-emeraldExec-200">
                             <div class="flex items-center justify-between mb-2">
                                 <span class="text-xs font-extrabold text-emeraldExec-900">
-                                    توزيع الكتاكيت الفاقسة شهرياً (<span id="lblTotalChicksToSplit">3,375</span> كتكوت):
+                                    توزيع الكتاكيت الفاقسة شهرياً (<span id="lblTotalChicksToSplit">3,400</span> كتكوت):
                                 </span>
                                 <span class="text-[11px] font-bold text-emeraldExec-700" id="lblSplitPercentage">53% بيع عمر يوم | 47% تسمين</span>
                             </div>
@@ -459,8 +476,8 @@
                                     <label class="block text-[11px] font-bold text-slate-700 mb-1">
                                         يدخل عنبر التسمين شهرياً
                                     </label>
-                                    <input type="number" id="inpChicksFattening" value="1575" min="0" step="10" oninput="onManualFatteningInput()" class="w-full rounded-xl border border-slate-300 px-3 py-1.5 text-sm font-bold text-slate-800 bg-slate-100" readonly>
-                                    <span class="text-[10px] text-slate-500 mt-0.5 block"><strong id="lblChicksFatteningPerBatch">315</strong> كتكوت لكل دفعة</span>
+                                    <input type="number" id="inpChicksFattening" value="1600" min="0" step="10" oninput="onManualFatteningInput()" class="w-full rounded-xl border border-slate-300 px-3 py-1.5 text-sm font-bold text-slate-800 bg-slate-100" readonly>
+                                    <span class="text-[10px] text-slate-500 mt-0.5 block"><strong id="lblChicksFatteningPerBatch">320</strong> كتكوت لكل دفعة</span>
                                 </div>
 
                                 <!-- Mortality Rate in Fattening -->
@@ -468,7 +485,7 @@
                                     <label class="block text-[11px] font-bold text-slate-700 mb-1">
                                         نسبة النفوق بالتسمين (%)
                                     </label>
-                                    <input type="number" id="inpMortalityRate" value="3.49" min="0" max="30" step="0.1" oninput="recalculateAll()" class="w-full rounded-xl border border-slate-300 px-3 py-1.5 text-sm font-bold text-slate-900 bg-white">
+                                    <input type="number" id="inpMortalityRate" value="5" min="0" max="30" step="0.5" oninput="recalculateAll()" class="w-full rounded-xl border border-slate-300 px-3 py-1.5 text-sm font-bold text-slate-900 bg-white">
                                     <span class="text-[10px] text-emeraldExec-800 font-bold mt-0.5 block">
                                         الصافي: <strong id="lblNetSlaughterBirds">1,520</strong> طائر (<strong id="lblNetSlaughterPairs">760</strong> جوز)
                                     </span>
@@ -672,7 +689,7 @@
                                     </label>
                                     <input type="number" id="inpFatteningFeedCost" value="23000" min="0" step="100" oninput="onManualFeedInput()" class="w-full rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm font-black text-slate-900 bg-white">
                                     <span class="text-[10px] text-slate-500 mt-1 block" id="lblFatteningFeedDetail">
-                                        920 كجم علف × 25 ج.م/كجم
+                                        920 كجم علف × 25 ج.م/كجم (1,600 طائر)
                                     </span>
                                 </div>
 
@@ -928,11 +945,633 @@
                 </div>
             </div>
         </div>
+
+        <!-- ======================================================================================== -->
+        <!-- NEW MODULE A: LIVE BIO-EFFICIENCY RADAR & SCIENTIFIC DIAGNOSTICS                         -->
+        <!-- ======================================================================================== -->
+        <section id="secBioRadar" class="bg-white rounded-2xl border-2 border-emeraldExec-700 card-shadow overflow-hidden">
+            <div class="bg-gradient-to-l from-emeraldExec-900 via-emeraldExec-800 to-emeraldExec-900 text-white px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b-4 border-goldExec-500">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-goldExec-500 text-emeraldExec-950 font-black flex items-center justify-center text-lg shadow">
+                        <i class="fa-solid fa-microscope"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h2 class="font-black text-lg sm:text-xl text-white">رادار الكفاءة الحيوية والمستشار العلمي اللحظي</h2>
+                            <span class="text-[11px] bg-goldExec-500 text-emeraldExec-950 font-extrabold px-2.5 py-0.5 rounded-full">ذكاء علمي تفاعلي</span>
+                        </div>
+                        <p class="text-xs text-slate-200 mt-0.5">يقرأ أرقامك الحالية في الأعلى ويحلل كفاءة الفقس، ومعامل التحويل الغذائي (FCR)، وتوازن القطيع علمياً</p>
+                    </div>
+                </div>
+                <div class="text-xs font-bold bg-emeraldExec-950/80 px-3.5 py-2 rounded-xl border border-goldExec-500/40 text-goldExec-400">
+                    <i class="fa-solid fa-dna ml-1"></i>
+                    <span>الحالة الحيوية للمزرعة: <strong id="bioOverallHealthStatus" class="text-emeraldExec-400">مثالية (طراز عالمي A+)</strong></span>
+                </div>
+            </div>
+
+            <div class="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Diagnostic Card 1: Blastoderm & Egg Storage Science -->
+                <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-5 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-extrabold px-2.5 py-1 rounded-lg bg-emeraldExec-100 text-emeraldExec-900 border border-emeraldExec-300">
+                                <i class="fa-solid fa-egg ml-1 text-emeraldExec-700"></i>فسيولوجيا الأجنة والتخزين
+                            </span>
+                            <span id="bioBadgeStorage" class="text-xs font-black text-emeraldExec-700">تجميع 4 أيام (مثالي)</span>
+                        </div>
+                        <h3 class="font-extrabold text-base text-slate-900 mb-2">مؤشر حيوية «البلاستوديرم» ودرجة الـ pH</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-3" id="bioStorageScientificText">
+                            عند تجميع الـ 816 بيضة خلال <strong>4 أيام فقط</strong>، يستقر الأس الهيدروجيني لزلال البيضة (Albumen pH) عند <strong>8.2 – 8.4</strong>، وهو الوسط الكيميائي الأمثل لانقسام خلايا الجنين فور دخول المكنة.
+                        </p>
+                        <div class="bg-white p-3 rounded-xl border border-slate-200 space-y-2 text-xs">
+                            <div class="flex justify-between">
+                                <span class="text-slate-500 font-semibold">درجة حرارة غرفة حفظ البيض:</span>
+                                <span class="font-black text-emeraldExec-800">15°م إلى 18°م (رطوبة 75%)</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-500 font-semibold">تأثير مدة التجميع الحالية على الفقس:</span>
+                                <span class="font-black text-emeraldExec-700" id="bioHatchImpactVal">0% فاقد تخزين (أعلى حيوية)</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-500 font-semibold">التسخين التمهيدي قبل المكنة:</span>
+                                <span class="font-bold text-slate-800">6 ساعات في حرارة 25°م لمنع التعرّق</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-200 text-[11px] text-goldExec-900 font-bold bg-goldExec-50 p-2.5 rounded-lg border border-goldExec-200">
+                        <i class="fa-solid fa-flask text-goldExec-600 ml-1"></i>
+                        <span>القاعدة العلمية: كل يوم تخزين إضافي بعد اليوم الرابع يرفع pH البياض فوق 9.0 ويخفض الفقس بنسبة 1.8% إلى 2.2% يومياً!</span>
+                    </div>
+                </div>
+
+                <!-- Diagnostic Card 2: Live FCR & Feed Waste Optimizer -->
+                <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-5 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-extrabold px-2.5 py-1 rounded-lg bg-amber-100 text-amber-900 border border-amber-300">
+                                <i class="fa-solid fa-scale-balanced ml-1 text-amber-700"></i>هندسة التغذية والتحويل (FCR)
+                            </span>
+                            <span id="bioBadgeFCR" class="text-xs font-black text-emeraldExec-700">FCR: 2.52 : 1</span>
+                        </div>
+                        <h3 class="font-extrabold text-base text-slate-900 mb-2">معامل التحويل الغذائي ومانع الهدر العلفى</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                            طائر السمان يشتهر بـ «نثر العلف بالمنقار» مما يسبب هدر <strong>8% إلى 12%</strong> من العلف في الفرشة إذا لم تُضبط العلافات والإضاءة علمياً.
+                        </p>
+                        <div class="bg-white p-3 rounded-xl border border-slate-200 space-y-2 text-xs">
+                            <div class="flex justify-between">
+                                <span class="text-slate-500 font-semibold">إجمالي الوزن الحي المنتج شهرياً:</span>
+                                <span class="font-black text-slate-800" id="bioLiveWeightTotal">364.8 كجم لحم حي (240 جم/طائر)</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-500 font-semibold">تكلفة العلف لإنتاج 1 جوز مذبوح:</span>
+                                <span class="font-black text-amber-800" id="bioFeedPerPair">30.26 ج.م / للجوز</span>
+                            </div>
+                            <div class="flex justify-between items-center pt-1 border-t border-slate-100">
+                                <span class="text-emeraldExec-900 font-bold">وفر تطبيق «شبك العلافات + الإضاءة المتقطعة»:</span>
+                                <span class="font-black text-emeraldExec-700 text-sm" id="bioFeedSavingPotential">+2,316 ج.م/شهر</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between gap-2">
+                        <span class="text-[11px] text-slate-600 font-semibold">
+                            إظلام ساعتين كل 6 ساعات بعد عمر 14 يوماً يرفع هرمون النمو ويمنع نثر العلف.
+                        </span>
+                        <button onclick="toggleScientificFeedSaving()" id="btnApplyFeedScience" class="px-3 py-1.5 rounded-lg bg-emeraldExec-800 hover:bg-emeraldExec-700 text-white text-[11px] font-bold shrink-0 transition cursor-pointer">
+                            معاينة أثر الوفر (7%)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Diagnostic Card 3: Sex Ratio, Fertility & Cloacal Gland Foam -->
+                <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-5 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-extrabold px-2.5 py-1 rounded-lg bg-emeraldExec-100 text-emeraldExec-900 border border-emeraldExec-300">
+                                <i class="fa-solid fa-venus-mars ml-1 text-emeraldExec-700"></i>توازن القطيع والخصوبة
+                            </span>
+                            <span id="bioBadgeSexRatio" class="text-xs font-black text-emeraldExec-700">نسبة 1 ذكر : 3 إناث</span>
+                        </div>
+                        <h3 class="font-extrabold text-base text-slate-900 mb-2">كفاءة التلقيح وكثافة البطاريات</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                            يتميز ذكر السمان البالغ بوجود <strong>«غدة المجمع الرغوية (Cloacal Gland)»</strong> التي تفرز رغوة بروتينية تحفظ الحيوانات المنوية وتنشطها داخل قناة البيض لمدة 6 أيام.
+                        </p>
+                        <div class="bg-white p-3 rounded-xl border border-slate-200 space-y-2 text-xs">
+                            <div class="flex justify-between">
+                                <span class="text-slate-500 font-semibold">عدد الأقفاص المطلوبة للأمهات:</span>
+                                <span class="font-black text-slate-800" id="bioBreederCagesNeeded">16 عين بطارية (25 طائر/عين)</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-500 font-semibold">مساحة عنبر التسمين المطلوبة:</span>
+                                <span class="font-black text-slate-800" id="bioFatteningSpaceNeeded">32 م² أقفاص (50 طائر/م²)</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-500 font-semibold">نسبة الإخصاب المتوقعة علمياً:</span>
+                                <span class="font-black text-emeraldExec-700">91% إلى 94% (إضاءة 16 ساعة)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-200 text-[11px] text-emeraldExec-900 font-bold bg-emeraldExec-50 p-2.5 rounded-lg border border-emeraldExec-200">
+                        <i class="fa-solid fa-user-doctor text-emeraldExec-700 ml-1"></i>
+                        <span>نصيحة للمهندس: لا تزد الذكور عن 1:3 أبداً لأن الزيادة تسبب نقر الرأس والعمى وإجهاد الإناث وانخفاض البيض بـ 15%!</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================================================================================== -->
+        <!-- NEW MODULE B: VALUE-ADDED & MARINATED PRODUCT BOOSTER ("مضاعف الأرباح الإضافي")            -->
+        <!-- ======================================================================================== -->
+        <section id="secValueAdded" class="bg-gradient-to-br from-emeraldExec-950 via-emeraldExec-900 to-slate-900 text-white rounded-2xl border-2 border-goldExec-500 card-shadow overflow-hidden">
+            <div class="px-6 py-4 border-b border-emeraldExec-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-goldExec-500 text-emeraldExec-950 font-black flex items-center justify-center text-lg shadow">
+                        <i class="fa-solid fa-rocket"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h2 class="font-black text-lg sm:text-xl text-goldExec-400">محاكي القيمة المضافة والمنتجات المبتكرة (أرباح فوق الـ 30,000 ج.م)</h2>
+                            <span class="text-[11px] bg-emeraldExec-700 text-emeraldExec-100 font-bold px-2.5 py-0.5 rounded-full border border-emeraldExec-500">بدون زيادة عدد الأمهات</span>
+                        </div>
+                        <p class="text-xs text-slate-300 mt-0.5">
+                            كيف ترفع ربحك الصافي من نفس الـ 760 جوز مذبوح ونفس الـ 3,120 بيضة باقية عبر التتبيل الفاخر والتعبئة الذكية؟
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Master Toggle to Include/Exclude from Main Budget -->
+                <div class="bg-emeraldExec-950/90 px-4 py-2.5 rounded-xl border border-goldExec-500/50 flex items-center gap-3 self-start md:self-center">
+                    <label class="flex items-center gap-2.5 cursor-pointer text-xs sm:text-sm font-extrabold text-goldExec-400">
+                        <input type="checkbox" id="chkIncludeValueAdded" onchange="recalculateAll()" class="w-4 h-4 rounded accent-amber-500 cursor-pointer">
+                        <span>دمج أرباح القيمة المضافة في الميزانية الرئيسية بالأعلى</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                <!-- Value-Added Product 1: Marinated Butterfly Quail -->
+                <div class="lg:col-span-4 bg-white/10 backdrop-blur-sm rounded-2xl p-5 border border-white/15 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-goldExec-400"><i class="fa-solid fa-fire-burner ml-1"></i>المنتج الذهبي الأول</span>
+                        <span class="text-xs font-black bg-goldExec-500 text-emeraldExec-950 px-2.5 py-0.5 rounded-lg" id="lblVaMarinatedProfit">+4,104 ج.م صافي/شهر</span>
+                    </div>
+                    <h3 class="font-extrabold text-base text-white">سمان «فراشة متبل» جاهز للشوي (Vacuum)</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        فتح السمان فراشة وتتبيله (تندوري / أعشاب روزماري / باربكيو) في أكياس تفريغ هواء يرفع سعر الجوز للمستهلك من 115 إلى 140 ج.م (بتكلفة تتبيل وتغليف 7 ج.م فقط للجوز = <strong>+18 ج.م ربح صافي إضافي للجوز</strong>).
+                    </p>
+                    <div class="pt-2">
+                        <div class="flex justify-between text-xs font-bold mb-1">
+                            <span class="text-slate-200">نسبة التحويل للسمان المتبل: <strong id="lblVaMarinatedPct" class="text-goldExec-400">30%</strong> (<strong id="lblVaMarinatedPairs">228</strong> جوز)</span>
+                            <span class="text-emeraldExec-300">هامش صافي +<span id="lblVaMarginPerPair">18</span> ج/جوز</span>
+                        </div>
+                        <input type="range" id="rngVaMarinatedPct" min="0" max="100" step="5" value="30" oninput="recalculateAll()" class="w-full h-2 rounded-lg cursor-pointer accent-amber-400">
+                    </div>
+                </div>
+
+                <!-- Value-Added Product 2: Branded Healthy Egg Packs & Pickled Quail Eggs -->
+                <div class="lg:col-span-4 bg-white/10 backdrop-blur-sm rounded-2xl p-5 border border-white/15 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-goldExec-400"><i class="fa-solid fa-box-open ml-1"></i>المنتج الذهبي الثاني</span>
+                        <span class="text-xs font-black bg-goldExec-500 text-emeraldExec-950 px-2.5 py-0.5 rounded-lg" id="lblVaEggsProfit">+1,404 ج.م صافي/شهر</span>
+                    </div>
+                    <h3 class="font-extrabold text-base text-white">عبوات «بيض ذكاء الأطفال» ومخلل بيض السمان</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        تعبئة «البيض الباقي» في عبوات شفافة فاخرة (24 بيضة) موجهة للأمهات والأطفال (غني بفيتامين B12 والحديد 5 أضعاف بيض الدجاج) أو برطمانات بيض سمان مسلوق متبل للمطاعم يحقق <strong>+0.90 ج.م ربح صافي إضافي للبيضة</strong>.
+                    </p>
+                    <div class="pt-2">
+                        <div class="flex justify-between text-xs font-bold mb-1">
+                            <span class="text-slate-200">نسبة تعبئة البيض الفاخر: <strong id="lblVaEggsPct" class="text-goldExec-400">50%</strong> (<strong id="lblVaEggsCount">1,560</strong> بيضة)</span>
+                            <span class="text-emeraldExec-300">هامش صافي +0.90 ج/بيضة</span>
+                        </div>
+                        <input type="range" id="rngVaEggsPct" min="0" max="100" step="5" value="50" oninput="recalculateAll()" class="w-full h-2 rounded-lg cursor-pointer accent-amber-400">
+                    </div>
+                </div>
+
+                <!-- Value-Added Summary & Impact Card -->
+                <div class="lg:col-span-4 bg-gradient-to-b from-goldExec-500 to-goldExec-600 text-emeraldExec-950 rounded-2xl p-5 shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-black uppercase tracking-wider bg-emeraldExec-950 text-goldExec-400 px-3 py-1 rounded-full">الكنز الإضافي الكامن</span>
+                            <i class="fa-solid fa-gem text-2xl text-emeraldExec-950"></i>
+                        </div>
+                        <div class="mt-3">
+                            <span class="text-xs font-extrabold text-emeraldExec-900 block">إجمالي الربح الصافي الإضافي شهرياً:</span>
+                            <div class="text-2xl sm:text-3xl font-black text-emeraldExec-950 mt-0.5" id="lblVaTotalExtraProfit">+5,508 ج.م / شهر</div>
+                        </div>
+                        <div class="mt-3 pt-3 border-t border-emeraldExec-950/20 flex items-center justify-between text-xs font-bold">
+                            <span>صافي ربح المزرعة شامل القيمة المضافة:</span>
+                            <span class="text-base font-black bg-white/90 px-2.5 py-1 rounded-lg text-emeraldExec-900" id="lblVaCombinedNetProfit">35,508 ج.م</span>
+                        </div>
+                    </div>
+                    <p class="text-[11px] font-bold text-emeraldExec-950 mt-3 leading-snug">
+                        <i class="fa-solid fa-circle-info ml-1"></i>
+                        تبقى ميزانيتك الأساسية (30,000 ج.م) ثابتة تماماً، ويمكنك تفعيل مربع الاختيار بالأعلى لضم هذا الربح الإضافي فوراً!
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================================================================================== -->
+        <!-- NEW MODULE C: INTERACTIVE 30-DAY ROLLING HATCHERY & BROODING MATRIX                      -->
+        <!-- ======================================================================================== -->
+        <section id="secHatcheryMatrix" class="bg-white rounded-2xl border border-slate-200 card-shadow overflow-hidden">
+            <div class="bg-emeraldExec-900 text-white px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b-2 border-goldExec-500">
+                <div class="flex items-center gap-3">
+                    <span class="w-9 h-9 rounded-xl bg-goldExec-500 text-emeraldExec-950 font-black flex items-center justify-center text-base">
+                        <i class="fa-solid fa-calendar-check"></i>
+                    </span>
+                    <div>
+                        <h2 class="font-extrabold text-base sm:text-lg">مصفوفة التشغيل الزمني للمفرخ والتحضين (كيف تدور الـ 3 دفعات × 816 بيضة بلا تعارض؟)</h2>
+                        <p class="text-xs text-slate-300">اضغط على أي دفعة لمعاينة جدولها الزمني الدقيق وحرارتها ورطوبتها من يوم جمع البيض حتى البيع والذبح</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-1.5 flex-wrap">
+                    <button onclick="selectBatchInspector(1)" id="btnBatchTab1" class="px-3 py-1.5 rounded-lg text-xs font-black bg-goldExec-500 text-emeraldExec-950 transition cursor-pointer">الدفعة 1 (يوم 1)</button>
+                    <button onclick="selectBatchInspector(2)" id="btnBatchTab2" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emeraldExec-800 text-slate-200 hover:bg-emeraldExec-700 transition cursor-pointer">الدفعة 2 (يوم 7)</button>
+                    <button onclick="selectBatchInspector(3)" id="btnBatchTab3" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emeraldExec-800 text-slate-200 hover:bg-emeraldExec-700 transition cursor-pointer">الدفعة 3 (يوم 13)</button>
+                    <button onclick="selectBatchInspector(4)" id="btnBatchTab4" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emeraldExec-800 text-slate-200 hover:bg-emeraldExec-700 transition cursor-pointer">الدفعة 4 (يوم 19)</button>
+                    <button onclick="selectBatchInspector(5)" id="btnBatchTab5" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emeraldExec-800 text-slate-200 hover:bg-emeraldExec-700 transition cursor-pointer">الدفعة 5 (يوم 25)</button>
+                </div>
+            </div>
+
+            <div class="p-6 space-y-6">
+                <!-- Interactive Selected Batch Timeline Inspector -->
+                <div class="bg-emeraldExec-50/80 border-2 border-emeraldExec-600 rounded-2xl p-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 mb-3 border-b border-emeraldExec-200">
+                        <div class="flex items-center gap-2">
+                            <span class="px-3 py-1 rounded-lg bg-emeraldExec-800 text-goldExec-400 font-black text-xs" id="batchInspBadge">الدفعة رقم 1 — الرف الأول بالمكنة</span>
+                            <h3 class="font-extrabold text-sm sm:text-base text-emeraldExec-950" id="batchInspTitle">تفاصيل الرحلة الكاملة للـ 816 بيضة في الدفعة الأولى</h3>
+                        </div>
+                        <span class="text-xs font-bold text-emeraldExec-800" id="batchInspSummary">تُخرج 680 كتكوتاً في اليوم 18 (360 بيع فوري + 320 للتسمين)</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 text-xs">
+                        <div class="bg-white p-3 rounded-xl border border-slate-200">
+                            <div class="font-black text-amber-700 mb-1"><i class="fa-solid fa-box-archive ml-1"></i>1. التجميع والتبخير</div>
+                            <div class="font-bold text-slate-800" id="bStage1Days">الأيام: -3 إلى يوم 1</div>
+                            <p class="text-[11px] text-slate-500 mt-1">تجميع 816 بيضة منتقاة في 4 أيام (حرارة 16°م) + تبخير وتدفئة 25°م لـ 6 ساعات.</p>
+                        </div>
+                        <div class="bg-white p-3 rounded-xl border border-emeraldExec-200">
+                            <div class="font-black text-emeraldExec-700 mb-1"><i class="fa-solid fa-temperature-half ml-1"></i>2. السِتر (التقليب)</div>
+                            <div class="font-bold text-slate-800" id="bStage2Days">اليوم 1 إلى اليوم 14</div>
+                            <p class="text-[11px] text-slate-500 mt-1">حرارة <strong>37.7°م</strong> | رطوبة <strong>55–60%</strong> | تقليب أوتوماتيكي 45° كل ساعتين.</p>
+                        </div>
+                        <div class="bg-white p-3 rounded-xl border border-amber-200">
+                            <div class="font-black text-amber-600 mb-1"><i class="fa-solid fa-lightbulb ml-1"></i>3. الفحص الضوئي</div>
+                            <div class="font-bold text-slate-800" id="bStage3Days">اليوم 7 (منتصف المدة)</div>
+                            <p class="text-[11px] text-slate-500 mt-1">فحص عينة عشوائية للتأكد من تكوّن الشبكة الدموية العنكبوتية واستبعاد اللايح.</p>
+                        </div>
+                        <div class="bg-white p-3 rounded-xl border border-emeraldExec-300 bg-emeraldExec-50/40">
+                            <div class="font-black text-emeraldExec-800 mb-1"><i class="fa-solid fa-egg ml-1"></i>4. الهاتشر (الفقس)</div>
+                            <div class="font-bold text-slate-800" id="bStage4Days">اليوم 15 إلى اليوم 17</div>
+                            <p class="text-[11px] text-slate-500 mt-1">نقل للسلال السفلية | إيقاف التقليب | حرارة <strong>37.2°م</strong> | رفع الرطوبة <strong>72–75%</strong>.</p>
+                        </div>
+                        <div class="bg-goldExec-50 p-3 rounded-xl border border-goldExec-400">
+                            <div class="font-black text-goldExec-900 mb-1"><i class="fa-solid fa-hand-holding-dollar ml-1"></i>5. الاستلام والتسمين</div>
+                            <div class="font-bold text-slate-900" id="bStage5Days">الفقس: يوم 18 | الذبح: يوم 53</div>
+                            <p class="text-[11px] text-goldExec-900 mt-1">استلام الكتاكيت الجافة، تسليم الحجوزات فوراً، ونزول دفعة التسمين على حرارة 36.5°م.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visual 30-Day Rolling Gantt Table -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-right border-collapse text-xs">
+                        <thead>
+                            <tr class="bg-slate-800 text-white">
+                                <th class="p-2.5 border border-slate-700">رقم الدفعة والرف بالمكنة</th>
+                                <th class="p-2.5 border border-slate-700 text-center">فترة جمع الـ 816 بيضة</th>
+                                <th class="p-2.5 border border-slate-700 text-center">دخول السِتر (14 يوم تقليب)</th>
+                                <th class="p-2.5 border border-slate-700 text-center">النقل للهاتشر (3 أيام فقس)</th>
+                                <th class="p-2.5 border border-slate-700 text-center">يوم الخروج والسيولة الفورية</th>
+                                <th class="p-2.5 border border-slate-700 text-center">البيض الباقي من نفس الدورة</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">
+                            <tr class="hover:bg-emeraldExec-50/50">
+                                <td class="p-2.5 font-black text-emeraldExec-900">الدفعة (1) — الرف العلوي (أ)</td>
+                                <td class="p-2.5 text-center text-slate-600">الأربعة أيام قبل البدء</td>
+                                <td class="p-2.5 text-center font-bold text-emeraldExec-700 bg-emeraldExec-50">يوم 1 ← يوم 14</td>
+                                <td class="p-2.5 text-center font-bold text-amber-800 bg-amber-50">يوم 15 ← يوم 17</td>
+                                <td class="p-2.5 text-center font-black text-emeraldExec-900">يوم 18 (680 كتكوت)</td>
+                                <td class="p-2.5 text-center font-bold text-goldExec-800">624 بيضة باقية</td>
+                            </tr>
+                            <tr class="hover:bg-emeraldExec-50/50">
+                                <td class="p-2.5 font-black text-emeraldExec-900">الدفعة (2) — الرف الأوسط (ب)</td>
+                                <td class="p-2.5 text-center text-slate-600">يوم 3 ← يوم 6 (4 أيام)</td>
+                                <td class="p-2.5 text-center font-bold text-emeraldExec-700 bg-emeraldExec-50">يوم 7 ← يوم 20</td>
+                                <td class="p-2.5 text-center font-bold text-amber-800 bg-amber-50">يوم 21 ← يوم 23</td>
+                                <td class="p-2.5 text-center font-black text-emeraldExec-900">يوم 24 (680 كتكوت)</td>
+                                <td class="p-2.5 text-center font-bold text-goldExec-800">624 بيضة باقية</td>
+                            </tr>
+                            <tr class="hover:bg-emeraldExec-50/50">
+                                <td class="p-2.5 font-black text-emeraldExec-900">الدفعة (3) — الرف السفلي (ج)</td>
+                                <td class="p-2.5 text-center text-slate-600">يوم 9 ← يوم 12 (4 أيام)</td>
+                                <td class="p-2.5 text-center font-bold text-emeraldExec-700 bg-emeraldExec-50">يوم 13 ← يوم 26</td>
+                                <td class="p-2.5 text-center font-bold text-amber-800 bg-amber-50">يوم 27 ← يوم 29</td>
+                                <td class="p-2.5 text-center font-black text-emeraldExec-900">يوم 30 (680 كتكوت)</td>
+                                <td class="p-2.5 text-center font-bold text-goldExec-800">624 بيضة باقية (إجمالي 3 دفعات = 1,872)</td>
+                            </tr>
+                            <tr class="hover:bg-emeraldExec-50/50 bg-slate-50/70">
+                                <td class="p-2.5 font-black text-emeraldExec-900">الدفعة (4) — تحل محل الدفعة 1 بالرف (أ)</td>
+                                <td class="p-2.5 text-center text-slate-600">يوم 15 ← يوم 18 (4 أيام)</td>
+                                <td class="p-2.5 text-center font-bold text-emeraldExec-700">يوم 19 ← يوم 2 (الشهر التالي)</td>
+                                <td class="p-2.5 text-center font-bold text-amber-800">يوم 3 ← يوم 5 (الشهر التالي)</td>
+                                <td class="p-2.5 text-center font-black text-emeraldExec-900">يوم 6 بالشهر التالي</td>
+                                <td class="p-2.5 text-center font-bold text-goldExec-800">624 بيضة باقية</td>
+                            </tr>
+                            <tr class="hover:bg-emeraldExec-50/50 bg-slate-50/70">
+                                <td class="p-2.5 font-black text-emeraldExec-900">الدفعة (5) — تحل محل الدفعة 2 بالرف (ب)</td>
+                                <td class="p-2.5 text-center text-slate-600">يوم 21 ← يوم 24 (4 أيام)</td>
+                                <td class="p-2.5 text-center font-bold text-emeraldExec-700">يوم 25 ← يوم 8 (الشهر التالي)</td>
+                                <td class="p-2.5 text-center font-bold text-amber-800">يوم 9 ← يوم 11 (الشهر التالي)</td>
+                                <td class="p-2.5 text-center font-black text-emeraldExec-900">يوم 12 بالشهر التالي</td>
+                                <td class="p-2.5 text-center font-bold text-goldExec-800">624 بيضة باقية (إجمالي الشهر = 3,120)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================================================================================== -->
+        <!-- NEW MODULE D: CAPEX PAYBACK, BREAK-EVEN SHIELD & STRESS-TEST SIMULATOR                   -->
+        <!-- ======================================================================================== -->
+        <div id="secRiskCapex" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- Left 6 cols: Interactive CAPEX & ROI Payback Calculator -->
+            <section class="lg:col-span-6 bg-white rounded-2xl border border-slate-200 card-shadow overflow-hidden flex flex-col justify-between">
+                <div>
+                    <div class="bg-slate-800 text-white px-5 py-4 flex items-center justify-between border-b-2 border-goldExec-500">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-8 h-8 rounded-lg bg-goldExec-500 text-slate-950 font-black flex items-center justify-center text-sm">
+                                <i class="fa-solid fa-Vault"></i>
+                            </span>
+                            <div>
+                                <h2 class="font-extrabold text-base sm:text-lg">حاسبة رأس المال التأسيسي وفترة الاسترداد (CAPEX & ROI)</h2>
+                                <p class="text-xs text-slate-300">احسب تكلفة التأسيس الفعلية ومتى يسترد المشروع كامل رأس ماله من صافي الربح</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-5 space-y-4">
+                        <div class="bg-emeraldExec-50 p-3 rounded-xl border border-emeraldExec-200 flex items-center justify-between">
+                            <label class="flex items-center gap-2 text-xs font-bold text-emeraldExec-900 cursor-pointer">
+                                <input type="checkbox" id="chkMachineOwned" onchange="recalculateAll()" class="w-4 h-4 rounded text-emeraldExec-700">
+                                <span>ماكينة التفريخ والبطاريات متوفرة لديّ بالفعل (استبعاد ثمنها من التأسيس)</span>
+                            </label>
+                            <span class="text-[11px] font-bold text-emeraldExec-700">تخصيص حر</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                            <div class="p-3 rounded-xl border border-slate-200 bg-slate-50">
+                                <label class="font-bold text-slate-700 block mb-1">ثمن قطيع الأمهات والذكور (تلقائي)</label>
+                                <input type="number" id="inpCapexFlock" value="23000" readonly class="w-full rounded-lg border border-slate-300 px-3 py-1.5 font-black text-emeraldExec-900 bg-slate-100">
+                                <span class="text-[10px] text-slate-500 mt-1 block">مربوط بعدد وسعر الأمهات والذكور بالأعلى</span>
+                            </div>
+                            <div class="p-3 rounded-xl border border-slate-200 bg-slate-50">
+                                <label class="font-bold text-slate-700 block mb-1">سعر ماكينة التفريخ (3 دفعات × 816)</label>
+                                <input type="number" id="inpCapexMachine" value="22000" min="0" step="1000" oninput="recalculateAll()" class="w-full rounded-lg border border-slate-300 px-3 py-1.5 font-black text-slate-900 bg-white">
+                                <span class="text-[10px] text-slate-500 mt-1 block">ديجيتال أوتوماتيك بالكامل (سِتر + هاتشر)</span>
+                            </div>
+                            <div class="p-3 rounded-xl border border-slate-200 bg-slate-50">
+                                <label class="font-bold text-slate-700 block mb-1">بطاريات البياض والتسمين ومعدات الذبح</label>
+                                <input type="number" id="inpCapexEquipment" value="32000" min="0" step="1000" oninput="recalculateAll()" class="w-full rounded-lg border border-slate-300 px-3 py-1.5 font-black text-slate-900 bg-white">
+                                <span class="text-[10px] text-slate-500 mt-1 block">بطاريات + ديب فريزر + ريشة تنظيف سمان</span>
+                            </div>
+                            <div class="p-3 rounded-xl border border-slate-200 bg-slate-50">
+                                <label class="font-bold text-slate-700 block mb-1">احتياطي سيولة تشغيل أول دورة</label>
+                                <input type="number" id="inpCapexWorking" value="15000" min="0" step="1000" oninput="recalculateAll()" class="w-full rounded-lg border border-slate-300 px-3 py-1.5 font-black text-slate-900 bg-white">
+                                <span class="text-[10px] text-slate-500 mt-1 block">علف أول 18 يوماً حتى بدء بيع أول فقسة</span>
+                            </div>
+                        </div>
+
+                        <!-- CAPEX Results Bar -->
+                        <div class="grid grid-cols-3 gap-2.5 pt-2 text-center">
+                            <div class="p-3 rounded-xl bg-slate-100 border border-slate-300">
+                                <span class="text-[11px] text-slate-600 font-bold block">إجمالي رأس المال التأسيسي</span>
+                                <span class="text-base sm:text-lg font-black text-slate-900 mt-0.5 block" id="lblTotalCapex">92,000 ج.م</span>
+                            </div>
+                            <div class="p-3 rounded-xl bg-emeraldExec-50 border-2 border-emeraldExec-600">
+                                <span class="text-[11px] text-emeraldExec-900 font-bold block">فترة استرداد رأس المال</span>
+                                <span class="text-base sm:text-lg font-black text-emeraldExec-800 mt-0.5 block" id="lblCapexPaybackPeriod">3.1 شهور</span>
+                            </div>
+                            <div class="p-3 rounded-xl bg-goldExec-50 border border-goldExec-400">
+                                <span class="text-[11px] text-goldExec-900 font-bold block">العائد السنوي على الاستثمار</span>
+                                <span class="text-base sm:text-lg font-black text-goldExec-800 mt-0.5 block" id="lblAnnualROI">391% سنوياً</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-slate-50 border-t border-slate-200 px-5 py-3 text-xs text-slate-600 font-semibold">
+                    <i class="fa-solid fa-chart-line text-emeraldExec-700 ml-1"></i>
+                    <span>دورة رأس المال في السمان هي الأسرع داجنياً في مصر (الفقس في 17 يوماً والنضج في 35 يوماً).</span>
+                </div>
+            </section>
+
+            <!-- Right 6 cols: Break-Even Shield & Emergency Stress-Test Simulator -->
+            <section class="lg:col-span-6 bg-white rounded-2xl border border-slate-200 card-shadow overflow-hidden flex flex-col justify-between">
+                <div>
+                    <div class="bg-emeraldExec-900 text-white px-5 py-4 flex items-center justify-between border-b-2 border-goldExec-500">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-8 h-8 rounded-lg bg-goldExec-500 text-emeraldExec-950 font-black flex items-center justify-center text-sm">
+                                <i class="fa-solid fa-shield-virus"></i>
+                            </span>
+                            <div>
+                                <h2 class="font-extrabold text-base sm:text-lg">درع الأمان ونقطة التعادل ومحاكاة الطوارئ</h2>
+                                <p class="text-xs text-slate-300">اختبر صمود مشروعك أمام غلاء الأعلاف أو موجات الحر وتعرّف على الروشتة العلمية المضادة</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-5 space-y-4">
+                        <!-- Break-even Progress Bar -->
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <div class="flex justify-between items-center text-xs font-bold mb-1.5">
+                                <span class="text-slate-700">مؤشر نقطة التعادل (Break-Even Safety Cushion):</span>
+                                <span class="text-emeraldExec-800 font-black" id="lblSafetyMarginPct">هامش أمان تشغيلي: 34.4%</span>
+                            </div>
+                            <div class="w-full h-4 bg-slate-200 rounded-full overflow-hidden flex">
+                                <div id="barBreakEven" class="bg-amber-500 h-full transition-all duration-300" style="width: 65.6%" title="مبيعات تغطية التكاليف"></div>
+                                <div id="barSafetyProfit" class="bg-emeraldExec-600 h-full transition-all duration-300" style="width: 34.4%" title="منطقة الأمان والربح الصافي"></div>
+                            </div>
+                            <div class="flex justify-between text-[11px] text-slate-600 mt-1.5 font-semibold">
+                                <span>نقطة التعادل (لا ربح ولا خسارة): <strong id="lblBePairsDetail" class="text-amber-800">499 جوز مذبوح</strong></span>
+                                <span>إنتاجك الفعلي: <strong id="lblActualPairsDetail" class="text-emeraldExec-800">760 جوز مذبوح</strong></span>
+                            </div>
+                        </div>
+
+                        <!-- Interactive Emergency Stress-Test Buttons -->
+                        <div>
+                            <div class="text-xs font-extrabold text-slate-800 mb-2">
+                                <i class="fa-solid fa-flask-vial text-goldExec-600 ml-1"></i>
+                                <span>اضغط لاختبار سيناريو طوارئ ومعرفة خطة الإنقاذ العلمية الفورية:</span>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                                <button onclick="runStressScenario('normal')" id="btnStressNormal" class="p-2.5 rounded-xl border-2 border-emeraldExec-600 bg-emeraldExec-50 text-emeraldExec-950 font-black text-xs transition cursor-pointer">
+                                    1. الوضع القياسي المستقر
+                                </button>
+                                <button onclick="runStressScenario('feed10')" id="btnStressFeed" class="p-2.5 rounded-xl border border-slate-300 bg-white hover:bg-amber-50 text-slate-800 font-bold text-xs transition cursor-pointer">
+                                    2. قفزة أسعار العلف (+10%)
+                                </button>
+                                <button onclick="runStressScenario('heatwave')" id="btnStressHeat" class="p-2.5 rounded-xl border border-slate-300 bg-white hover:bg-red-50 text-slate-800 font-bold text-xs transition cursor-pointer">
+                                    3. موجة حر شديدة (أغسطس)
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Stress Test Dynamic Result & Scientific Counter-Measure -->
+                        <div id="stressResultCard" class="p-4 rounded-xl bg-emeraldExec-50 border border-emeraldExec-300 space-y-2 text-xs">
+                            <div class="flex items-center justify-between font-black text-emeraldExec-950">
+                                <span id="stressTitle"><i class="fa-solid fa-circle-check text-emeraldExec-700 ml-1"></i>الوضع القياسي: صافي الربح 30,000 ج.م/شهرياً</span>
+                                <span id="stressImpactBadge" class="px-2 py-0.5 rounded bg-emeraldExec-700 text-white text-[11px]">آمن 100%</span>
+                            </div>
+                            <p id="stressDesc" class="text-slate-700 leading-relaxed">
+                                يعمل المشروع بكامل كفاءته مع فائض أمان قدره 261 جوزاً فوق نقطة التعادل. حتى لو انخفضت المبيعات بنسبة 30% لن يخسر المشروع جنيهاً واحداً!
+                            </p>
+                            <div id="stressCounterProtocol" class="bg-white p-2.5 rounded-lg border border-emeraldExec-200 text-emeraldExec-900 font-bold">
+                                <strong>الدرع العلمي الاستباقي:</strong> تثبيت علف 24% بروتين في التسمين و20% للأمهات مع 2.8% كالسيوم وتحصين نيوكاسل الدوري.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-slate-50 border-t border-slate-200 px-5 py-3 text-xs text-slate-600 font-semibold flex items-center justify-between">
+                    <span>أدنى سعر بيع للجوز لتغطية كافة المصاريف (سعر التعادل):</span>
+                    <strong class="text-amber-800 text-sm" id="lblBreakEvenPairPrice">75.53 ج.م / للجوز</strong>
+                </div>
+            </section>
+        </div>
+
+        <!-- ======================================================================================== -->
+        <!-- NEW MODULE E: SCIENTIFIC GOLDEN SOP GUIDE & INTERACTIVE MARKETING PLAN                   -->
+        <!-- ======================================================================================== -->
+        <section id="secScientificSOP" class="bg-white rounded-2xl border border-slate-200 card-shadow overflow-hidden">
+            <div class="bg-emeraldExec-900 text-white px-6 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b-2 border-goldExec-500">
+                <div class="flex items-center gap-3">
+                    <span class="w-9 h-9 rounded-xl bg-goldExec-500 text-emeraldExec-950 font-black flex items-center justify-center text-base">
+                        <i class="fa-solid fa-book-medical"></i>
+                    </span>
+                    <div>
+                        <h2 class="font-extrabold text-base sm:text-lg">الدليل العلمي الذهبي للتشغيل وخطة التسويق التنفيذية بمركز ههيا والشرقية</h2>
+                        <p class="text-xs text-slate-300">بروتوكولات علمية جاهزة للتنفيذ بواسطة المهندس والعمال لضمان أعلى فقس وأعلى وزن ذبح</p>
+                    </div>
+                </div>
+
+                <!-- SOP Tabs -->
+                <div class="flex flex-wrap gap-1.5">
+                    <button onclick="switchSopTab(1)" id="btnSop1" class="px-3 py-1.5 rounded-lg text-xs font-black bg-goldExec-500 text-emeraldExec-950 transition cursor-pointer">1. أسرار الفقس (85%+)</button>
+                    <button onclick="switchSopTab(2)" id="btnSop2" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emeraldExec-800 text-slate-200 hover:bg-emeraldExec-700 transition cursor-pointer">2. التغذية والإضاءة</button>
+                    <button onclick="switchSopTab(3)" id="btnSop3" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emeraldExec-800 text-slate-200 hover:bg-emeraldExec-700 transition cursor-pointer">3. التحصينات والأمن الحيوي</button>
+                    <button onclick="switchSopTab(4)" id="btnSop4" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emeraldExec-800 text-slate-200 hover:bg-emeraldExec-700 transition cursor-pointer">4. الذبح والتسويق بالشرقية</button>
+                </div>
+            </div>
+
+            <div class="p-6">
+                <!-- SOP Content 1: Incubation & Hatchability Secrets -->
+                <div id="sopPanel1" class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                        <h3 class="font-black text-sm text-emeraldExec-900 flex items-center gap-1.5">
+                            <i class="fa-solid fa-1 text-goldExec-600"></i>
+                            <span>انتقاء وتطهير الـ 816 بيضة</span>
+                        </h3>
+                        <p class="text-slate-600 leading-relaxed">
+                            يُجمع البيض 3 مرات يومياً (10 ص، 2 م، 6 م). تُختار البيضة ذات الوزن <strong>11.5 إلى 13.5 جرام</strong> المبرقشة بانتظام، وتُستبعد البيضة الكروية أو المدببة جداً أو القشرة الطباشيرية. يُمسح البيض جافاً أو يُبخّر ولا يُغسل بالماء أبداً لحماية طبقة الـ (Cuticle) الحامية للجنين.
+                        </p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                        <h3 class="font-black text-sm text-emeraldExec-900 flex items-center gap-1.5">
+                            <i class="fa-solid fa-2 text-goldExec-600"></i>
+                            <span>ضبط المكنة والتهوية (الأكسجين)</span>
+                        </h3>
+                        <p class="text-slate-600 leading-relaxed">
+                            بما أن المكنة تحوي 3 دفعات متداخلة (2,448 بيضة)، يجب فتح فتحات التهوية بنسبة 40% دائماً لأن أجنة الدفعة الأقدم (عمر 10–14 يوماً) تستهلك أكسجين عالٍ وتطرد غاز CO2. إذا زاد CO2 عن 0.5% يموت الجنين في اليوم 15 (الكبس).
+                        </p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-emeraldExec-50 border border-emeraldExec-200 space-y-2">
+                        <h3 class="font-black text-sm text-emeraldExec-900 flex items-center gap-1.5">
+                            <i class="fa-solid fa-3 text-goldExec-600"></i>
+                            <span>سر «الرش بالماء الدافئ» في اليوم 15</span>
+                        </h3>
+                        <p class="text-emeraldExec-950 leading-relaxed">
+                            عند نقل الدفعة إلى سلال الفقس (الهاتشر) في اليوم 15، قم برش البيض رذاذاً خفيفاً بماء دافئ (38°م) مضافاً إليه نقطة خل تفاح لكل لتر؛ هذا يرقق قشرة بيضة السمان الصلبة ويسهّل نقر الكتكوت ويرفع الفقس بـ <strong>4% إلى 5% فوراً</strong>!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- SOP Content 2: Nutrition & Lighting Protocols -->
+                <div id="sopPanel2" class="hidden grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                        <h3 class="font-black text-sm text-emeraldExec-900">برنامج تغذية قطيع التسمين (35 يوماً)</h3>
+                        <ul class="space-y-1.5 text-slate-600 list-disc pr-4">
+                            <li><strong>من يوم 1 إلى يوم 18:</strong> علف بادئ سمان مطحون ناعم (24% بروتين – طاقة 2900 ك.كالوري) + مضاد سموم وكوكسيديا.</li>
+                            <li><strong>من يوم 19 إلى يوم 35 (الذبح):</strong> علف نامي خشن (حبيبات 2 مم) 22% بروتين وطاقة 3050 ك.كالوري لترسيب اللحم في الصدر والفخذ والوصول لوزن 240–250 جم.</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                        <h3 class="font-black text-sm text-emeraldExec-900">برنامج تغذية وإضاءة الـ 300 أم</h3>
+                        <ul class="space-y-1.5 text-slate-600 list-disc pr-4">
+                            <li><strong>العليقة البياضة:</strong> 20% بروتين + 2.8% إلى 3% كالسيوم + فيتامين AD3E وهـ سيلينيوم مرتين أسبوعياً في الماء لرفع الإخصاب.</li>
+                            <li><strong>برنامج الإضاءة:</strong> 16 ساعة إضاءة مستمرة + 8 ساعات إظلام يومياً (شدة إضاءة دافئة 15 لوكس)؛ لا تقلل الإضاءة أبداً عن 16 ساعة حتى لا يتوقف التبويض.</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 space-y-2">
+                        <h3 class="font-black text-sm text-amber-900">منحنى حرارة التحضين الذهبي</h3>
+                        <ul class="space-y-1.5 text-amber-950 list-disc pr-4">
+                            <li><strong>الأسبوع الأول (أخطر مرحلة):</strong> 36.5°م في الأيام الثلاثة الأولى ثم 35°م، مع فرشة نشارة خشب مغطاة بورق كرتون معرج لمنع انزلاق الأرجل (Splayed Legs).</li>
+                            <li><strong>الأسبوع الثاني:</strong> 32°م إلى 30°م مع توسيع المساحة.</li>
+                            <li><strong>الأسبوع الثالث وحتى الذبح:</strong> النقل لبطاريات التسمين في حرارة الغرفة (24–26°م).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- SOP Content 3: Biosecurity & Vet Program -->
+                <div id="sopPanel3" class="hidden grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                        <h3 class="font-black text-sm text-emeraldExec-900">استقبال الكتاكيت (أول 72 ساعة)</h3>
+                        <p class="text-slate-600 leading-relaxed">
+                            يُستقبل الكتكوت عمر يوم على محلول معالجة جفاف + فيتامين C و B المركب لمدة 8 ساعات، يليها جرعة تحضين (تيلوزين + كوليستين أو دوكسي) لمدة 3 أيام لتطهير القناة الهضمية والتنفسية تماماً وخفض النفوق لأقل من 3%.
+                        </p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                        <h3 class="font-black text-sm text-emeraldExec-900">التحصين والوقاية من الكلوستريديا</h3>
+                        <p class="text-slate-600 leading-relaxed">
+                            السمان مقاوم لمعظم الأمراض، ولكن يجب تحصين قطيع الأمهات ضد <strong>النيوكاسل (لاسوتا أو كلون 30)</strong> كل 45 يوماً في مياه الشرب، مع وضع مضاد كوكسيديا وكلوستريديا (أوكسي تتراسيكلين أو أمبروليوم) وقائياً لقطيع التسمين في اليوم 14 واليوم 24.
+                        </p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-emeraldExec-50 border border-emeraldExec-200 space-y-2">
+                        <h3 class="font-black text-sm text-emeraldExec-900">مهمة المهندس والعاملين اليومية</h3>
+                        <p class="text-emeraldExec-950 leading-relaxed">
+                            كشط السبلة من تحت البطاريات كل 48 ساعة لمنع تصاعد غاز الأمونيا (الأمونيا تسبب التهاب العيون وانخفاض إنتاج البيض)، وتطهير صواني الهاتشر بالرباعي أمونيوم أو الفيركون S فور خروج كل دفعة كتاكيت كل 6 أيام.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- SOP Content 4: Slaughtering Protocol & Marketing Plan in Hehia -->
+                <div id="sopPanel4" class="hidden space-y-4 text-xs">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                            <h3 class="font-black text-sm text-emeraldExec-900">بروتوكول الذبح والتسميط والتبريد القياسي</h3>
+                            <p class="text-slate-600 leading-relaxed">
+                                تصويم طيور التسمين عن العلف لمدة <strong>6 ساعات قبل الذبح</strong> (مع استمرار الماء) لتفريغ الحوصلة والأمعاء. بعد الذبح والادماء لمدة دقيقتين، يتم التسميط في ماء حرارته <strong>54°م إلى 56°م لمدة 30 ثانية فقط</strong> (الماء المغلي يسلخ جلد السمان الرقيق!)، ثم الترييش في ماكينة أصابع المطاط الطرية، فالغمر في <strong>ماء مثلج مضاف إليه قليل من الملح والليمون لمدة 20 دقيقة</strong> لشد اللحم وإعطائه اللون الأبيض الوردي الفاخر.
+                            </p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-goldExec-50 border border-goldExec-300 space-y-2">
+                            <h3 class="font-black text-sm text-goldExec-900">توزيع الحصص التسويقية المعتمدة (110,000 ج.م/شهرياً)</h3>
+                            <ul class="space-y-1.5 text-goldExec-950 list-disc pr-4 font-semibold">
+                                <li><strong>مطاعم المشويات والكبابجية (ههيا – الزقازيق – أبو كبير):</strong> 456 جوزاً شهرياً (60%) بسعر جملة 110 ج.م للجوز بتوريد أسبوعي ثابت.</li>
+                                <li><strong>الأسر والنوادي والتوصيل المنزلي والسوبرماركت:</strong> 304 جوزاً شهرياً (40%) بسعر قطاعي 122.5 ج.م للجوز (ليحقق متوسط 115 ج.م للجوز = 87,400 ج.م).</li>
+                                <li><strong>حجوزات الكتاكيت عمر يوم:</strong> فتح الحجز قبل فقس كل دفعة بـ 72 ساعة لتصريف 360 كتكوتاً كل 6 أيام بسعر 9 ج.م للكتكوت (16,200 ج.م شهرياً).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <script>
         // Current Simulation Mode: 'smart' or 'manual'
         let currentMode = 'smart';
+        let feedScienceActive = false;
+        let currentStressMode = 'normal';
 
         // Chart.js instances
         let revChart = null;
@@ -1076,6 +1715,8 @@
             const incubatorEggsMonth = Math.round(batchEggs * batchesPerMonth);
             const surplusEggsMonth = Math.max(0, totalEggsMonth - incubatorEggsMonth);
             const surplusEggsPerBatch = batchesPerMonth > 0 ? Math.round(surplusEggsMonth / batchesPerMonth) : 0;
+            const surplusEggs3Batches = surplusEggsPerBatch * 3;
+            const surplusIfOnly3BatchesMonth = Math.max(0, totalEggsMonth - (batchEggs * 3));
 
             document.getElementById('lblDailyEggProd').textContent = `${fmtNum(dailyEggsProduced)} بيضة/يوم`;
             document.getElementById('boxTotalEggsMonth').textContent = fmtNum(totalEggsMonth);
@@ -1084,6 +1725,8 @@
             document.getElementById('boxIncubatorBatchesNote').textContent = `${fmtNum(batchesPerMonth)} دفعات × ${fmtNum(batchEggs)}`;
             document.getElementById('boxSurplusEggsMonth').textContent = fmtNum(surplusEggsMonth);
             document.getElementById('boxSurplusEggsBatch').textContent = `${fmtNum(surplusEggsPerBatch)} باقية/دفعة`;
+            document.getElementById('boxSurplus3Batches').textContent = fmtNum(surplusEggs3Batches);
+            document.getElementById('boxSurplusIfOnly3').textContent = `${fmtNum(surplusIfOnly3BatchesMonth)} لو 3 دفعات/شهر`;
 
             // Hatchability & Chicks Output
             const hatchRatePct = parseFloat(document.getElementById('inpHatchRate').value) || 0;
@@ -1123,6 +1766,32 @@
             document.getElementById('lblNetSlaughterBirds').textContent = fmtNum(netSlaughterBirds);
             document.getElementById('lblNetSlaughterPairs').textContent = fmtNum(netSlaughterPairs, netSlaughterPairs % 1 === 0 ? 0 : 1);
 
+            // Value-Added Booster Calculations (Module B)
+            const vaMarinatedPct = parseFloat(document.getElementById('rngVaMarinatedPct').value) || 0;
+            const vaEggsPct = parseFloat(document.getElementById('rngVaEggsPct').value) || 0;
+            const vaMarinatedPairs = Math.round(netSlaughterPairs * (vaMarinatedPct / 100));
+            const vaMarinatedNetExtra = vaMarinatedPairs * 18; // +18 EGP net margin per pair after seasoning/vacuum pack
+            const vaPackagedEggs = Math.round(surplusEggsMonth * (vaEggsPct / 100));
+            const vaEggsNetExtra = Math.round(vaPackagedEggs * 0.90); // +0.90 EGP net margin per branded/pickled egg
+            const vaTotalExtraProfit = vaMarinatedNetExtra + vaEggsNetExtra;
+
+            document.getElementById('lblVaMarinatedPct').textContent = `${vaMarinatedPct}%`;
+            document.getElementById('lblVaMarinatedPairs').textContent = fmtNum(vaMarinatedPairs);
+            document.getElementById('lblVaMarinatedProfit').textContent = `+${fmtNum(vaMarinatedNetExtra)} ج.م صافي/شهر`;
+
+            document.getElementById('lblVaEggsPct').textContent = `${vaEggsPct}%`;
+            document.getElementById('lblVaEggsCount').textContent = fmtNum(vaPackagedEggs);
+            document.getElementById('lblVaEggsProfit').textContent = `+${fmtNum(vaEggsNetExtra)} ج.م صافي/شهر`;
+            document.getElementById('lblVaTotalExtraProfit').textContent = `+${fmtNum(vaTotalExtraProfit)} ج.م / شهر`;
+
+            const includeValueAdded = document.getElementById('chkIncludeValueAdded').checked;
+            const badgeVa = document.getElementById('badgeValueAddedActive');
+            if (includeValueAdded) {
+                badgeVa.classList.remove('hidden');
+            } else {
+                badgeVa.classList.add('hidden');
+            }
+
             // Revenues Calculation
             const chickPrice = parseFloat(document.getElementById('inpChickPrice').value) || 0;
             const pairPrice = parseFloat(document.getElementById('inpPairPrice').value) || 0;
@@ -1130,8 +1799,8 @@
             const manureRev = parseFloat(document.getElementById('inpManureRev').value) || 0;
 
             const revChicks = Math.round(chicksSold * chickPrice);
-            const revSlaughter = Math.round(netSlaughterPairs * pairPrice);
-            const revSurplusEggs = Math.round(surplusEggsMonth * surplusEggPrice);
+            const revSlaughter = Math.round(netSlaughterPairs * pairPrice) + (includeValueAdded ? vaMarinatedNetExtra : 0);
+            const revSurplusEggs = Math.round(surplusEggsMonth * surplusEggPrice) + (includeValueAdded ? vaEggsNetExtra : 0);
             const totalRevenue = revChicks + revSlaughter + revSurplusEggs + Math.round(manureRev);
 
             document.getElementById('lblRevChicks').textContent = `${fmtNum(revChicks)} ج.م`;
@@ -1162,10 +1831,11 @@
 
             const totalBreederBirds = mothersCount + malesCount;
             if (autoFeed) {
-                // Default benchmark: 400 breeder birds = 10,080 EGP (25.2 EGP/bird/month = 35g × 30d × 24 EGP/kg)
-                breederFeedCost = Math.round(totalBreederBirds * 25.2);
-                // Default benchmark: 1,575 fattening chicks = 23,000 EGP (~14.6031746 EGP/chick entered)
-                fatteningFeedCost = Math.round(chicksFattening * (23000 / 1575));
+                const feedMultiplier = feedScienceActive ? 0.93 : 1.0; // 7% feed saving when scientific feeder/lighting toggle is previewed
+                // Default benchmark: 400 breeder birds = 10,080 EGP (25.2 EGP/bird/month)
+                breederFeedCost = Math.round(totalBreederBirds * 25.2 * feedMultiplier);
+                // Default benchmark: 1,600 fattening chicks = 23,000 EGP (14.375 EGP/chick entered)
+                fatteningFeedCost = Math.round(chicksFattening * (23000 / 1600) * feedMultiplier);
                 document.getElementById('inpBreederFeedCost').value = breederFeedCost;
                 document.getElementById('inpFatteningFeedCost').value = fatteningFeedCost;
             }
@@ -1181,6 +1851,10 @@
             const netProfit = totalRevenue - totalExpenses;
             const profitMargin = totalRevenue > 0 ? ((netProfit / totalRevenue) * 100) : 0;
 
+            // Update Value-Added Combined Net Profit Preview
+            const baseNetWithoutVa = includeValueAdded ? (netProfit - vaTotalExtraProfit) : netProfit;
+            document.getElementById('lblVaCombinedNetProfit').textContent = `${fmtNum(baseNetWithoutVa + vaTotalExtraProfit)} ج.م`;
+
             // Update Top KPI Bar
             document.getElementById('kpiNetProfit').textContent = `${fmtNum(netProfit)} ج.م`;
             document.getElementById('kpiDailyProfit').textContent = `${fmtNum(Math.round(netProfit / 30))} ج.م صافي يومياً`;
@@ -1189,55 +1863,20 @@
             document.getElementById('kpiFlockSize').textContent = `${fmtNum(mothersCount)} أم + ${fmtNum(malesCount)} ذكر`;
             document.getElementById('kpiFlockCost').textContent = `تكلفة شراء: ${fmtNum(flockCapital)} ج.م`;
             document.getElementById('kpiSurplusEggsMonth').textContent = `${fmtNum(surplusEggsMonth)} بيضة/شهر`;
-            document.getElementById('kpiSurplusEggsBatch').textContent = `${fmtNum(surplusEggsPerBatch)} بيضة باقية لكل دفعة`;
+            document.getElementById('kpiSurplusEggsBatch').textContent = `${fmtNum(surplusEggsPerBatch)}/دفعة | ${fmtNum(surplusEggs3Batches)} لـ 3 دفعات`;
             document.getElementById('kpiProfitMargin').textContent = `${fmtNum(profitMargin, 1)}%`;
 
             // Break-even slaughtered pairs calculation
             const fixedAndOtherExpenses = totalExpenses - (revChicks + revSurplusEggs + manureRev);
             const breakEvenPairs = pairPrice > 0 ? Math.max(0, Math.ceil(fixedAndOtherExpenses / pairPrice)) : 0;
-            document.getElementById('kpiBreakEvenPairs').textContent = `التعادل: ${fmtNum(breakEvenPairs)} جوز مذبوح`;
+            const safetyMarginPct = netSlaughterPairs > 0 ? Math.max(0, ((netSlaughterPairs - breakEvenPairs) / netSlaughterPairs) * 100) : 0;
+            document.getElementById('kpiBreakEvenPairs').textContent = `التعادل: ${fmtNum(breakEvenPairs)} جوز (أمان ${fmtNum(safetyMarginPct, 0)}%)`;
 
-            // Style Net Profit KPI Card dynamically
-            const kpiCard = document.getElementById('kpiNetProfitCard');
-            const kpiBadge = document.getElementById('kpiProfitStatusBadge');
-            const kpiProfitVal = document.getElementById('kpiNetProfit');
-            const targetVal = parseFloat(document.getElementById('inpTargetProfit').value) || 30000;
+            // Update Module A: Live Bio-Efficiency Radar
+            updateBioEfficiencyRadar(collectionDays, netSlaughterBirds, netSlaughterPairs, fatteningFeedCost, breederFeedCost, totalBreederBirds, chicksFattening);
 
-            if (netProfit >= targetVal) {
-                kpiCard.className = "p-2.5 rounded-xl bg-emeraldExec-50 border-2 border-emeraldExec-600 flex flex-col justify-between";
-                kpiBadge.className = "text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emeraldExec-600 text-white";
-                kpiBadge.textContent = "محقق للهدف";
-                kpiProfitVal.className = "text-xl sm:text-2xl font-black text-emeraldExec-800 mt-1";
-            } else if (netProfit > 0) {
-                kpiCard.className = "p-2.5 rounded-xl bg-amber-50 border-2 border-amber-500 flex flex-col justify-between";
-                kpiBadge.className = "text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-600 text-white";
-                kpiBadge.textContent = "ربح أقل من الهدف";
-                kpiProfitVal.className = "text-xl sm:text-2xl font-black text-amber-800 mt-1";
-            } else {
-                kpiCard.className = "p-2.5 rounded-xl bg-red-50 border-2 border-red-500 flex flex-col justify-between";
-                kpiBadge.className = "text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-red-600 text-white";
-                kpiBadge.textContent = "خسارة تشغيلية";
-                kpiProfitVal.className = "text-xl sm:text-2xl font-black text-red-700 mt-1";
-            }
-
-            // 5. Update Executive Financial Statement Table
-            document.getElementById('tblDescSlaughter').textContent = `${fmtNum(netSlaughterPairs)} جوز (${fmtNum(netSlaughterBirds)} طائر) × ${fmtNum(pairPrice)} ج.م للجوز`;
-            document.getElementById('tblValSlaughter').textContent = fmtNum(revSlaughter);
-
-            document.getElementById('tblDescChicks').textContent = `${fmtNum(chicksSold)} كتكوت (${fmtNum(chicksSoldPerBatch)}/دفعة) × ${fmtNum(chickPrice)} ج.م للكتكوت`;
-            document.getElementById('tblValChicks').textContent = fmtNum(revChicks);
-
-            document.getElementById('tblDescEggs').textContent = `${fmtNum(surplusEggsMonth)} بيضة باقية × ${fmtNum(surplusEggPrice, 2)} ج.م + ${fmtNum(manureRev)} ج.م سبلة`;
-            document.getElementById('tblValEggs').textContent = fmtNum(revSurplusEggs + manureRev);
-
-            document.getElementById('tblDescSalaries').textContent = `${fmtNum(engCount)} مهندس (${fmtNum(engCount * engSalary)}) + ${fmtNum(workersCount)} عمال (${fmtNum(workersCount * workerSalary)})`;
-            document.getElementById('tblValSalaries').textContent = fmtNum(totalSalaries);
-
-            document.getElementById('tblDescFixed').textContent = `كهرباء ومياه (${fmtNum(utilitiesCost)}) + إيجار المزرعة (${fmtNum(rentCost)})`;
-            document.getElementById('tblValFixed').textContent = fmtNum(utilitiesCost + rentCost);
-
-            document.getElementById('tblDescBreederFeed').textContent = `قطيع ${fmtNum(mothersCount)} أم + ${fmtNum(malesCount)} ذكر (${fmtNum(totalBreederBirds)} طائر طوال الشهر)`;
-            document.getElementById('tblValBreederFeed').textContent = fmtNum(breederFeedCost);
+            // Update Module D: CAPEX, ROI & Break-Even Shield
+            updateCapexAndShield(flockCapital, netProfit, breakEvenPairs, netSlaughterPairs, safetyMarginPct, fixedAndOtherExpenses);
 
             document.getElementById('tblDescFatteningFeed').textContent = `تسمين ${fmtNum(chicksFattening)} كتكوت حتى وزن الذبح السوبر جامبو`;
             document.getElementById('tblValFatteningFeed').textContent = fmtNum(fatteningFeedCost);
@@ -1250,6 +1889,190 @@
             // 6. Update Goal Solver & Charts
             updateGoalSolverData(netProfit, netSlaughterPairs, pairPrice, chicksSold, chickPrice, fatteningFeedCost, flockCapital);
             updateCharts(revSlaughter, revChicks, revSurplusEggs + manureRev, totalSalaries, utilitiesCost + rentCost, breederFeedCost + fatteningFeedCost, miscCost, totalRevenue, totalExpenses);
+        }
+
+        // Module A Updater: Live Bio-Efficiency Radar
+        function updateBioEfficiencyRadar(collectionDays, netSlaughterBirds, netSlaughterPairs, fatteningFeedCost, breederFeedCost, totalBreederBirds, chicksFattening) {
+            const badgeStorage = document.getElementById('bioBadgeStorage');
+            const impactVal = document.getElementById('bioHatchImpactVal');
+            const healthStatus = document.getElementById('bioOverallHealthStatus');
+
+            if (collectionDays <= 4) {
+                badgeStorage.textContent = `تجميع ${collectionDays} أيام (مثالي عالمياً)`;
+                badgeStorage.className = "text-xs font-black text-emeraldExec-700";
+                impactVal.textContent = "0% فاقد تخزين (أعلى حيوية للأجنة)";
+                impactVal.className = "font-black text-emeraldExec-700";
+                healthStatus.textContent = "مثالية (طراز عالمي A+)";
+                healthStatus.className = "text-emeraldExec-400";
+            } else if (collectionDays === 5) {
+                badgeStorage.textContent = "تجميع 5 أيام (الحد الأقصى)";
+                badgeStorage.className = "text-xs font-black text-amber-700";
+                impactVal.textContent = "-1.5% تراجع طفيف محتمل بالفقس";
+                impactVal.className = "font-black text-amber-700";
+                healthStatus.textContent = "جيدة جداً (تحت السيطرة B+)";
+                healthStatus.className = "text-amber-300";
+            } else {
+                const lossPct = ((collectionDays - 4) * 2).toFixed(1);
+                badgeStorage.textContent = `تجميع ${collectionDays} أيام (مخاطرة تخزين)`;
+                badgeStorage.className = "text-xs font-black text-red-700";
+                impactVal.textContent = `-${lossPct}% هبوط متوقع بنسبة الفقس!`;
+                impactVal.className = "font-black text-red-600";
+                healthStatus.textContent = "تنبيه: مدة حفظ البيض طويلة!";
+                healthStatus.className = "text-red-400";
+            }
+
+            // Live weight & FCR calculation (assuming 240g average live jumbo weight per slaughtered bird, and 25 EGP/kg feed)
+            const totalLiveWeightKg = netSlaughterBirds * 0.24;
+            const totalFeedKg = fatteningFeedCost / 25;
+            const fcr = totalLiveWeightKg > 0 ? (totalFeedKg / totalLiveWeightKg) : 2.52;
+            const feedPerPair = netSlaughterPairs > 0 ? (fatteningFeedCost / netSlaughterPairs) : 30.26;
+            const potentialSaving7Pct = Math.round((fatteningFeedCost + breederFeedCost) * 0.07);
+
+            document.getElementById('bioBadgeFCR').textContent = `FCR: ${fmtNum(fcr, 2)} : 1`;
+            document.getElementById('bioLiveWeightTotal').textContent = `${fmtNum(totalLiveWeightKg, 1)} كجم لحم حي (240 جم/طائر)`;
+            document.getElementById('bioFeedPerPair').textContent = `${fmtNum(feedPerPair, 2)} ج.م / للجوز`;
+            document.getElementById('bioFeedSavingPotential').textContent = `+${fmtNum(potentialSaving7Pct)} ج.م/شهر`;
+
+            // Cages & space
+            const breederCages = Math.ceil(totalBreederBirds / 25);
+            const fatteningSpaceSqm = Math.ceil(chicksFattening / 50);
+            document.getElementById('bioBreederCagesNeeded').textContent = `${fmtNum(breederCages)} عين بطارية (25 طائر/عين)`;
+            document.getElementById('bioFatteningSpaceNeeded').textContent = `${fmtNum(fatteningSpaceSqm)} م² أقفاص (50 طائر/م²)`;
+        }
+
+        // Toggle 7% Scientific Feed Saving Preview
+        function toggleScientificFeedSaving() {
+            feedScienceActive = !feedScienceActive;
+            const btn = document.getElementById('btnApplyFeedScience');
+            document.getElementById('chkAutoFeed').checked = true;
+            if (feedScienceActive) {
+                btn.textContent = "إلغاء معاينة الوفر (العودة للأصل)";
+                btn.className = "px-3 py-1.5 rounded-lg bg-goldExec-600 hover:bg-goldExec-500 text-white text-[11px] font-bold shrink-0 transition cursor-pointer";
+            } else {
+                btn.textContent = "معاينة أثر الوفر (7%)";
+                btn.className = "px-3 py-1.5 rounded-lg bg-emeraldExec-800 hover:bg-emeraldExec-700 text-white text-[11px] font-bold shrink-0 transition cursor-pointer";
+            }
+            recalculateAll();
+        }
+
+        // Module C: Batch Timeline Inspector Selector
+        function selectBatchInspector(batchNum) {
+            for (let i = 1; i <= 5; i++) {
+                const btn = document.getElementById('btnBatchTab' + i);
+                if (i === batchNum) {
+                    btn.className = "px-3 py-1.5 rounded-lg text-xs font-black bg-goldExec-500 text-emeraldExec-950 transition cursor-pointer";
+                } else {
+                    btn.className = "px-3 py-1.5 rounded-lg text-xs font-bold bg-emeraldExec-800 text-slate-200 hover:bg-emeraldExec-700 transition cursor-pointer";
+                }
+            }
+
+            const startDay = ((batchNum - 1) * 6) + 1;
+            const setterEnd = startDay + 13;
+            const candlingDay = startDay + 6;
+            const hatcherStart = startDay + 14;
+            const hatcherEnd = startDay + 16;
+            const pullDay = startDay + 17;
+            const slaughterDay = pullDay + 35;
+
+            const shelfNames = ["الرف العلوي (أ)", "الرف الأوسط (ب)", "الرف السفلي (ج)", "الرف العلوي (أ - دورة 2)", "الرف الأوسط (ب - دورة 2)"];
+
+            document.getElementById('batchInspBadge').textContent = `الدفعة رقم (${batchNum}) — ${shelfNames[batchNum - 1]}`;
+            document.getElementById('batchInspTitle').textContent = `تفاصيل الرحلة الكاملة للـ 816 بيضة في الدفعة رقم ${batchNum}`;
+            document.getElementById('batchInspSummary').textContent = `تُخرج الكتاكيت في اليوم ${pullDay} من الشهر (بيع فوري + تسمين حتى اليوم ${slaughterDay})`;
+
+            document.getElementById('bStage1Days').textContent = startDay === 1 ? "الأربعة أيام قبل بداية الشهر" : `من يوم ${startDay - 4} إلى يوم ${startDay - 1}`;
+            document.getElementById('bStage2Days').textContent = `من يوم ${startDay} إلى يوم ${setterEnd}`;
+            document.getElementById('bStage3Days').textContent = `اليوم ${candlingDay} من الشهر`;
+            document.getElementById('bStage4Days').textContent = `من يوم ${hatcherStart} إلى يوم ${hatcherEnd}`;
+            document.getElementById('bStage5Days').textContent = `الفقس: يوم ${pullDay} | الذبح: يوم ${slaughterDay}`;
+        }
+
+        // Module D Updater: CAPEX, Payback & Break-Even Shield
+        function updateCapexAndShield(flockCapital, netProfit, breakEvenPairs, netSlaughterPairs, safetyMarginPct, fixedAndOtherExpenses) {
+            document.getElementById('inpCapexFlock').value = flockCapital;
+            const machineOwned = document.getElementById('chkMachineOwned').checked;
+            const machineCost = machineOwned ? 0 : (parseFloat(document.getElementById('inpCapexMachine').value) || 0);
+            const equipCost = machineOwned ? 0 : (parseFloat(document.getElementById('inpCapexEquipment').value) || 0);
+            const workingCap = parseFloat(document.getElementById('inpCapexWorking').value) || 0;
+
+            const totalCapex = flockCapital + machineCost + equipCost + workingCap;
+            const paybackMonths = netProfit > 0 ? (totalCapex / netProfit) : 0;
+            const annualRoi = totalCapex > 0 && netProfit > 0 ? (((netProfit * 12) / totalCapex) * 100) : 0;
+
+            document.getElementById('lblTotalCapex').textContent = `${fmtNum(totalCapex)} ج.م`;
+            document.getElementById('lblCapexPaybackPeriod').textContent = netProfit > 0 ? `${fmtNum(paybackMonths, 1)} شهر` : 'غير متاح';
+            document.getElementById('lblAnnualROI').textContent = netProfit > 0 ? `${fmtNum(annualRoi, 0)}% سنوياً` : '0%';
+
+            // Break-even shield bars
+            const beWidth = Math.min(100, Math.max(0, 100 - safetyMarginPct));
+            const safeWidth = Math.max(0, 100 - beWidth);
+            document.getElementById('lblSafetyMarginPct').textContent = `هامش أمان تشغيلي: ${fmtNum(safetyMarginPct, 1)}%`;
+            document.getElementById('barBreakEven').style.width = `${beWidth}%`;
+            document.getElementById('barSafetyProfit').style.width = `${safeWidth}%`;
+            document.getElementById('lblBePairsDetail').textContent = `${fmtNum(breakEvenPairs)} جوز مذبوح`;
+            document.getElementById('lblActualPairsDetail').textContent = `${fmtNum(netSlaughterPairs)} جوز مذبوح`;
+
+            const breakEvenPairPrice = netSlaughterPairs > 0 ? Math.max(0, fixedAndOtherExpenses / netSlaughterPairs) : 0;
+            document.getElementById('lblBreakEvenPairPrice').textContent = `${fmtNum(breakEvenPairPrice, 2)} ج.م / للجوز`;
+        }
+
+        // Stress Test Scenario Runner
+        function runStressScenario(scenario) {
+            currentStressMode = scenario;
+            const btnNormal = document.getElementById('btnStressNormal');
+            const btnFeed = document.getElementById('btnStressFeed');
+            const btnHeat = document.getElementById('btnStressHeat');
+
+            btnNormal.className = "p-2.5 rounded-xl border border-slate-300 bg-white text-slate-800 font-bold text-xs transition cursor-pointer";
+            btnFeed.className = "p-2.5 rounded-xl border border-slate-300 bg-white text-slate-800 font-bold text-xs transition cursor-pointer";
+            btnHeat.className = "p-2.5 rounded-xl border border-slate-300 bg-white text-slate-800 font-bold text-xs transition cursor-pointer";
+
+            const card = document.getElementById('stressResultCard');
+            const title = document.getElementById('stressTitle');
+            const badge = document.getElementById('stressImpactBadge');
+            const desc = document.getElementById('stressDesc');
+            const proto = document.getElementById('stressCounterProtocol');
+
+            if (scenario === 'normal') {
+                btnNormal.className = "p-2.5 rounded-xl border-2 border-emeraldExec-600 bg-emeraldExec-50 text-emeraldExec-950 font-black text-xs transition cursor-pointer";
+                card.className = "p-4 rounded-xl bg-emeraldExec-50 border border-emeraldExec-300 space-y-2 text-xs";
+                title.innerHTML = '<i class="fa-solid fa-circle-check text-emeraldExec-700 ml-1"></i>الوضع القياسي: صافي الربح 30,000 ج.م/شهرياً';
+                badge.className = "px-2 py-0.5 rounded bg-emeraldExec-700 text-white text-[11px]";
+                badge.textContent = "آمن 100%";
+                desc.textContent = "يعمل المشروع بكامل كفاءته مع فائض أمان قدره 261 جوزاً فوق نقطة التعادل. حتى لو انخفضت المبيعات بنسبة 30% لن يخسر المشروع جنيهاً واحداً!";
+                proto.innerHTML = "<strong>الدرع العلمي الاستباقي:</strong> تثبيت علف 24% بروتين في التسمين و20% للأمهات مع 2.8% كالسيوم وتحصين نيوكاسل الدوري.";
+            } else if (scenario === 'feed10') {
+                btnFeed.className = "p-2.5 rounded-xl border-2 border-amber-600 bg-amber-50 text-amber-950 font-black text-xs transition cursor-pointer";
+                card.className = "p-4 rounded-xl bg-amber-50 border border-amber-300 space-y-2 text-xs";
+                title.innerHTML = '<i class="fa-solid fa-wheat-awn-circle-exclamation text-amber-700 ml-1"></i>سيناريو قفزة العلف (+10% = +3,308 ج.م): يظل الربح +26,692 ج.م!';
+                badge.className = "px-2 py-0.5 rounded bg-amber-600 text-white text-[11px]";
+                badge.textContent = "صامد ورابح";
+                desc.textContent = "في حال ارتفعت أسعار الأعلاف بالسوق المصري بنسبة 10% فجأة، تزيد فاتورة العلف بـ 3,308 ج.م، ومع ذلك يظل المشروع يحقق 26,692 ج.م صافي ربح دون المساس برأس المال.";
+                proto.innerHTML = "<strong>الروشتة العلمية لاسترداد الـ 3,308 ج.م فوراً:</strong> تركيب شبك مانع النثر على العلافات وتطبيق الإضاءة المتقطعة يوفر 7% من العلف (2,316 ج.م) + رفع الجوز المذبوح 1.5 ج.م فقط يعيدك لـ 30,000 ج.م صافي!";
+            } else if (scenario === 'heatwave') {
+                btnHeat.className = "p-2.5 rounded-xl border-2 border-red-600 bg-red-50 text-red-950 font-black text-xs transition cursor-pointer";
+                card.className = "p-4 rounded-xl bg-red-50 border border-red-300 space-y-2 text-xs";
+                title.innerHTML = '<i class="fa-solid fa-temperature-arrow-up text-red-700 ml-1"></i>سيناريو موجة حر أغسطس (-4% فقس): يظل الربح +26,100 ج.م!';
+                badge.className = "px-2 py-0.5 rounded bg-red-600 text-white text-[11px]";
+                badge.textContent = "خطة إنقاذ جاهزة";
+                desc.textContent = "ارتفاع الحرارة فوق 38°م بدون احتياطات قد يقلل الإخصاب والفقس بنسبة 4% (حوالي 136 كتكوتاً أقل بالشهر)، ولكن المشروع يمتص الصدمة بسهولة.";
+                proto.innerHTML = "<strong>الروشتة البيطرية المضادة للإجهاد الحراري:</strong> إضافة فيتامين C (1 جم/لتر) + بيتائين + بيكربونات صوديوم (0.2%) في ماء الشرب نهاراً، ورفع العلف من 12 ظهراً لـ 4 عصراً مع تشغيل خلايا التبريد.";
+            }
+        }
+
+        // Module E: Switch Scientific SOP Tabs
+        function switchSopTab(tabIndex) {
+            for (let i = 1; i <= 4; i++) {
+                const btn = document.getElementById('btnSop' + i);
+                const panel = document.getElementById('sopPanel' + i);
+                if (i === tabIndex) {
+                    btn.className = "px-3 py-1.5 rounded-lg text-xs font-black bg-goldExec-500 text-emeraldExec-950 transition cursor-pointer";
+                    panel.classList.remove('hidden');
+                } else {
+                    btn.className = "px-3 py-1.5 rounded-lg text-xs font-bold bg-emeraldExec-800 text-slate-200 hover:bg-emeraldExec-700 transition cursor-pointer";
+                    panel.classList.add('hidden');
+                }
+            }
         }
 
         // Goal Solver Logic
@@ -1339,11 +2162,11 @@
             document.getElementById('inpMothersCount').value = 300;
             document.getElementById('inpMotherPrice').value = 60;
             document.getElementById('inpMalePrice').value = 50;
-            document.getElementById('inpHatchRate').value = 82.72;
+            document.getElementById('inpHatchRate').value = 83.33;
 
             document.getElementById('inpChicksSold').value = 1800;
-            document.getElementById('inpChicksFattening').value = 1575;
-            document.getElementById('inpMortalityRate').value = 3.49;
+            document.getElementById('inpChicksFattening').value = 1600;
+            document.getElementById('inpMortalityRate').value = 5;
 
             document.getElementById('inpChickPrice').value = 9;
             document.getElementById('inpPairPrice').value = 115;
@@ -1366,6 +2189,19 @@
             document.getElementById('inpMiscCost').value = 5920;
 
             document.getElementById('inpTargetProfit').value = 30000;
+
+            // Reset new scientific & value-added toggles so baseline stays 100% untouched at 30,000 EGP
+            document.getElementById('chkIncludeValueAdded').checked = false;
+            document.getElementById('rngVaMarinatedPct').value = 30;
+            document.getElementById('rngVaEggsPct').value = 50;
+            document.getElementById('chkMachineOwned').checked = false;
+            feedScienceActive = false;
+            const btnFeedSci = document.getElementById('btnApplyFeedScience');
+            if (btnFeedSci) {
+                btnFeedSci.textContent = "معاينة أثر الوفر (7%)";
+                btnFeedSci.className = "px-3 py-1.5 rounded-lg bg-emeraldExec-800 hover:bg-emeraldExec-700 text-white text-[11px] font-bold shrink-0 transition cursor-pointer";
+            }
+            runStressScenario('normal');
 
             updateWeightedPricePreview();
             setSimMode('smart');
@@ -1463,3 +2299,4 @@
     </script>
 </body>
 </html>
+```
