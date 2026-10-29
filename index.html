@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة المحاكاة المالية والتشغيلية | مشروع سمان ههيا العظيم</title>
+    <meta name="description" content="محاكي تقديري لدراسة الجدوى المالية والتشغيلية لمشروع سمان في ههيا؛ عدّل افتراضات الإنتاج والأسعار والتكاليف واختبر السيناريوهات.">
+    <meta name="theme-color" content="#0f3d2e">
+    <title>دراسة الجدوى التقديرية | مشروع سمان ههيا</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Font: Cairo -->
@@ -16,6 +18,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <script>
+        if (typeof tailwind !== 'undefined') {
         tailwind.config = {
             theme: {
                 extend: {
@@ -46,6 +49,7 @@
                     }
                 }
             }
+        }
         }
     </script>
 
@@ -82,10 +86,17 @@
         .card-shadow {
             box-shadow: 0 4px 20px -2px rgba(15, 61, 46, 0.07), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
         }
+        .input-invalid {
+            border-color: #dc2626 !important;
+            box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.12);
+        }
         @media print {
             .no-print {
                 display: none !important;
             }
+            .overflow-x-auto { overflow: visible !important; }
+            table { page-break-inside: auto; }
+            tr { page-break-inside: avoid; page-break-after: auto; }
             .sticky-kpi {
                 position: static !important;
             }
@@ -104,10 +115,10 @@
                 <div>
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emeraldExec-800 border border-goldExec-500/40 text-goldExec-400 text-xs font-bold mb-2">
                         <i class="fa-solid fa-crown"></i>
-                        <span>مكتب رئيس مجلس الإدارة وقطاع التخطيط الاستراتيجي — محافظة الشرقية</span>
+                        <span>دراسة استثمارية داخلية — مشروع سمان ههيا</span>
                     </div>
                     <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-white">
-                        المحاكي المالي والتشغيلي لمشروع «سمان ههيا العظيم»
+                        دراسة الجدوى المالية والتشغيلية التقديرية لمشروع «سمان ههيا»
                     </h1>
                     <p class="text-slate-300 text-sm mt-1">
                         عدّل أي رقم في المكنة أو القطيع أو الأسعار أو المصروفات وشاهد أثره الفوري على صافي الربح وعدد الأمهات والبيض الباقي
@@ -118,7 +129,11 @@
                 <div class="flex flex-wrap items-center gap-2.5 no-print">
                     <button onclick="resetToApprovedPlan()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-goldExec-600 hover:bg-goldExec-500 text-white font-bold text-sm shadow transition cursor-pointer">
                         <i class="fa-solid fa-rotate-right"></i>
-                        <span>إعادة الضبط للخطة المعتمدة (30,000 ج.م)</span>
+                        <span>إعادة الضبط للخطة الأساسية (30,000 ج.م)</span>
+                    </button>
+                    <button onclick="exportFinancialCsv()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-emeraldExec-600 font-bold text-sm shadow transition cursor-pointer">
+                        <i class="fa-solid fa-file-csv"></i>
+                        <span>تصدير CSV</span>
                     </button>
                     <button onclick="window.print()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emeraldExec-800 hover:bg-emeraldExec-700 text-slate-100 border border-emeraldExec-600 font-bold text-sm shadow transition cursor-pointer">
                         <i class="fa-solid fa-print"></i>
@@ -153,7 +168,7 @@
                 <a href="#secValueAdded" class="px-3 py-1.5 rounded-lg bg-emeraldExec-800 hover:bg-goldExec-500 hover:text-emeraldExec-950 text-emeraldExec-100 transition"><i class="fa-solid fa-rocket ml-1"></i>3. مضاعف الأرباح والقيمة المضافة</a>
                 <a href="#secHatcheryMatrix" class="px-3 py-1.5 rounded-lg bg-emeraldExec-800 hover:bg-goldExec-500 hover:text-emeraldExec-950 text-white transition"><i class="fa-solid fa-calendar-days ml-1"></i>4. مصفوفة المفرخ (30 يوماً)</a>
                 <a href="#secRiskCapex" class="px-3 py-1.5 rounded-lg bg-emeraldExec-800 hover:bg-goldExec-500 hover:text-emeraldExec-950 text-white transition"><i class="fa-solid fa-shield-halved ml-1"></i>5. استرداد رأس المال ودرع المخاطر</a>
-                <a href="#secScientificSOP" class="px-3 py-1.5 rounded-lg bg-emeraldExec-800 hover:bg-goldExec-500 hover:text-emeraldExec-950 text-goldExec-400 border border-goldExec-500/30 transition"><i class="fa-solid fa-book-medical ml-1"></i>6. الدليل العلمي الذهبي والتسويق</a>
+                <a href="#secScientificSOP" class="px-3 py-1.5 rounded-lg bg-emeraldExec-800 hover:bg-goldExec-500 hover:text-emeraldExec-950 text-goldExec-400 border border-goldExec-500/30 transition"><i class="fa-solid fa-book-medical ml-1"></i>6. دليل التشغيل والتسويق</a>
             </nav>
         </div>
     </header>
@@ -165,7 +180,7 @@
                 <!-- KPI 1: Net Profit -->
                 <div id="kpiNetProfitCard" class="p-2.5 rounded-xl bg-emeraldExec-50 border-2 border-emeraldExec-600 flex flex-col justify-between">
                     <div class="flex items-center justify-between">
-                        <span class="text-xs font-bold text-emeraldExec-900">صافي الربح الشهري</span>
+                        <span class="text-xs font-bold text-emeraldExec-900">صافي التشغيل الشهري (تقديري)</span>
                         <span id="kpiProfitStatusBadge" class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emeraldExec-600 text-white">محقق للهدف</span>
                     </div>
                     <div class="text-xl sm:text-2xl font-black text-emeraldExec-800 mt-1" id="kpiNetProfit">30,000 ج.م</div>
@@ -199,7 +214,10 @@
                         <i class="fa-solid fa-dove text-goldExec-600"></i>
                     </div>
                     <div class="text-base sm:text-lg font-black text-goldExec-800 mt-1" id="kpiFlockSize">300 أم + 100 ذكر</div>
-                    <!-- KPI 5: Remaining Surplus Eggs -->
+                    <div class="text-[11px] text-goldExec-800 font-semibold" id="kpiFlockCost">تكلفة شراء: 23,000 ج.م</div>
+                </div>
+
+                <!-- KPI 5: Remaining Surplus Eggs -->
                 <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
                     <div class="flex items-center justify-between text-xs font-bold text-slate-600">
                         <span>البيض الباقي (الفائض للبيع)</span>
@@ -216,7 +234,7 @@
                         <i class="fa-solid fa-chart-pie text-emeraldExec-700"></i>
                     </div>
                     <div class="text-lg sm:text-xl font-black text-emeraldExec-800 mt-1" id="kpiProfitMargin">27.3%</div>
-                    <div class="text-[11px] text-slate-500" id="kpiBreakEvenPairs">التعادل: 499 جوز (أمان 34%)</div>
+                    <div class="text-[11px] text-slate-500" id="kpiBreakEvenPairs">حساب التعادل يتحدّث من المدخلات</div>
                 </div>
             </div>
         </div>
@@ -233,10 +251,10 @@
                 </div>
                 <div>
                     <h2 class="font-bold text-sm sm:text-base text-goldExec-400" id="modeBannerTitle">
-                        أنت الآن في «الوضع الترابطي الذكي» — كل الأرقام مربوطة هندسياً وعلمياً ببعضها
+                        أنت الآن في «الوضع الترابطي الذكي» — المعادلات مرتبطة بمدخلات التشغيل والتكلفة
                     </h2>
                     <p class="text-xs sm:text-sm text-slate-200 mt-0.5" id="modeBannerDesc">
-                        الأرقام الأساسية مضبوطة بالملليم على خطتك المعتمدة (30,000 ج.م صافي ربح). جرّب تحريك أي شريط تمرير أو رقم وشاهد التحليل المالي والعلمي اللحظي!
+                        هذه قيم أساس افتراضية وليست عروض أسعار مؤكدة. عدّلها حسب عروض الموردين ونتائج التشغيل الفعلية.
                     </p>
                 </div>
             </div>
@@ -245,10 +263,15 @@
                     + القيمة المضافة مفعلة
                 </span>
                 <span class="text-xs bg-emeraldExec-800 px-3 py-1.5 rounded-lg border border-emeraldExec-700 text-emeraldExec-100 font-semibold">
-                    المعيار العالمي للفقس: تجميع 4 أيام
+                    مدة التجميع: افتراض قابل للمراجعة
                 </span>
             </div>
         </div>
+
+        <aside class="rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-xs sm:text-sm text-amber-950" role="note" aria-label="تنبيه افتراضات دراسة الجدوى">
+            <strong><i class="fa-solid fa-circle-info ml-1"></i>تنبيه مهم لدراسة الجدوى:</strong>
+            النتائج محاكاة حسابية مبنية على القيم التي تدخلها، وليست ضماناً للربح أو بديلاً عن عروض أسعار مكتوبة أو معاينة الموقع. لا تشمل البنود التي تتركها صفراً مثل الضرائب والتمويل والإهلاك والتراخيص ما لم تضفها إلى المصروفات، كما أن مؤشرات التشغيل والإرشادات البيطرية تحتاج مراجعة مختص.
+        </aside>
 
         <!-- Grid for Section 1 & Section 2 -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -262,11 +285,11 @@
                             <span class="w-7 h-7 rounded-lg bg-goldExec-500 text-emeraldExec-950 font-black flex items-center justify-center text-sm">1</span>
                             <div>
                                 <h2 class="font-extrabold text-base sm:text-lg">هندسة التفريخ وقطيع الأمهات والبيض الباقي</h2>
-                                <p class="text-xs text-slate-300">حساب عدد الأمهات لملء 816 بيضة في المدة العالمية وحساب الفائض</p>
+                                <p class="text-xs text-slate-300">حساب عدد الأمهات وفق سعة الدفعة ومدة التجميع المدخلة</p>
                             </div>
                         </div>
                         <span class="text-xs font-bold bg-emeraldExec-800 text-goldExec-400 px-2.5 py-1 rounded-md border border-goldExec-500/30">
-                            3 دفعات بالمكنة
+                            افتراضات تشغيل قابلة للتعديل
                         </span>
                     </div>
 
@@ -278,7 +301,7 @@
                                 <span>حساب عدد الأمهات تلقائياً لملء دفعة المكنة في مدة التجميع المحددة</span>
                             </label>
                             <span class="text-[11px] font-bold text-emeraldExec-700 bg-emeraldExec-50 px-2 py-0.5 rounded border border-emeraldExec-200">
-                                المعادلة العالمية مفعلة
+                                حساب تقديري مفعّل
                             </span>
                         </div>
 
@@ -293,7 +316,7 @@
                                     <input type="number" id="inpBatchEggs" value="816" min="50" step="1" oninput="recalculateAll()" class="w-full rounded-xl border border-slate-300 px-3.5 py-2 text-sm font-bold text-slate-900 bg-white">
                                     <span class="absolute left-3 top-2 text-xs text-slate-400 font-semibold">بيضة/دفعة</span>
                                 </div>
-                                <span class="text-[11px] text-slate-500 mt-0.5 block">قدرة المكنة 3 دفعات = <strong id="lblTotalMachineCap">2,448</strong> بيضة</span>
+                                <span class="text-[11px] text-slate-500 mt-0.5 block">إجمالي البيض في 3 دفعات = <strong id="lblTotalMachineCap">2,448</strong> بيضة</span>
                             </div>
 
                             <!-- Batches per Month -->
@@ -311,14 +334,14 @@
                             <!-- Collection Days (Global Standard) -->
                             <div>
                                 <label class="block text-xs font-bold text-slate-700 mb-1">
-                                    أقصى مدة تجميع للبيض (المعيار العالمي)
+                                    أقصى مدة تجميع للبيض (افتراض تشغيلي)
                                 </label>
                                 <div class="relative">
                                     <input type="number" id="inpCollectionDays" value="4" min="1" max="10" step="1" oninput="recalculateAll()" class="w-full rounded-xl border border-slate-300 px-3.5 py-2 text-sm font-bold text-slate-900 bg-white">
                                     <span class="absolute left-3 top-2 text-xs text-slate-400 font-semibold">أيام تجميع</span>
                                 </div>
                                 <span id="lblCollectionStandardAlert" class="text-[11px] text-emeraldExec-700 font-bold mt-0.5 block">
-                                    <i class="fa-solid fa-circle-check"></i> مثالي عالمياً (4-5 أيام يحقق أعلى فقس)
+                                    <i class="fa-solid fa-circle-check"></i> مدة تجميع ضمن افتراض الخطة الأساسية؛ تحقق من سجلات الفقس
                                 </span>
                             </div>
 
@@ -331,7 +354,7 @@
                                     <input type="number" id="inpLayingRate" value="80" min="40" max="100" step="1" oninput="recalculateAll()" class="w-full rounded-xl border border-slate-300 px-3.5 py-2 text-sm font-bold text-slate-900 bg-white">
                                     <span class="absolute left-3 top-2 text-xs text-slate-400 font-semibold">% يومياً</span>
                                 </div>
-                                <span class="text-[11px] text-slate-500 mt-0.5 block">المتوسط القياسي للسمان البياض: 75% - 85%</span>
+                                <span class="text-[11px] text-slate-500 mt-0.5 block">افتراض إنتاج ابتدائي؛ عدّله وفق سجل القطيع وموسم الإنتاج</span>
                             </div>
 
                             <!-- Egg Sorting/Culling Rate (%) -->
@@ -343,7 +366,11 @@
                                     <input type="number" id="inpEggCullRate" value="15" min="0" max="50" step="1" oninput="recalculateAll()" class="w-full rounded-xl border border-slate-300 px-3.5 py-2 text-sm font-bold text-slate-900 bg-white">
                                     <span class="absolute left-3 top-2 text-xs text-slate-400 font-semibold">% فرز وأمان</span>
                                 </div>
-                                <span class="text-[11px] text-slate-500 mt-0.5 block">يُباع بيض الفرز السليم كبيض مائدة</span>
+                                <span class="text-[11px] text-slate-500 mt-0.5 block">يُباع البيض السليم الصالح للمائدة فقط؛ لا يُفترض بيع المشروخ أو غير الصالح</span>
+                                <div class="mt-2">
+                                    <label for="inpCullSaleablePct" class="block text-[11px] font-bold text-slate-700 mb-1">نسبة البيض المستبعد الصالح للبيع (%)</label>
+                                    <input type="number" id="inpCullSaleablePct" value="100" min="0" max="100" step="5" oninput="recalculateAll()" class="w-full rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm font-bold text-slate-900 bg-white">
+                                </div>
                             </div>
 
                             <!-- Actual Mothers Count -->
@@ -355,15 +382,18 @@
                                     <input type="number" id="inpMothersCount" value="300" min="50" step="1" oninput="onManualMothersInput()" class="w-full rounded-xl border-2 border-emeraldExec-600 px-3.5 py-2 text-sm font-black text-emeraldExec-900 bg-emeraldExec-50/60">
                                     <span class="absolute left-3 top-2 text-xs text-emeraldExec-700 font-bold">أم بياض</span>
                                 </div>
-                                <span class="text-[11px] text-emeraldExec-800 font-semibold mt-0.5 block">
-                                    + <strong id="lblMalesCount">100</strong> ذكر تلقيح (بنسبة 1 ذكر لكل 3 إناث)
-                                </span>
+                                <div class="mt-1 flex flex-wrap items-center justify-between gap-2">
+                                    <span class="text-[11px] text-emeraldExec-800 font-semibold">+ <strong id="lblMalesCount">100</strong> ذكر تلقيح</span>
+                                    <label for="inpFemalesPerMale" class="text-[10px] text-emeraldExec-900 font-bold flex items-center gap-1.5">إناث لكل ذكر
+                                        <input type="number" id="inpFemalesPerMale" value="3" min="1" max="20" step="1" oninput="recalculateAll()" class="w-16 rounded-lg border border-emeraldExec-300 px-2 py-1 text-sm font-black text-emeraldExec-900 bg-white" aria-label="عدد الإناث لكل ذكر">
+                                    </label>
+                                </div>
                             </div>
 
                             <!-- Mother Price & Male Price -->
                             <div>
                                 <label class="block text-xs font-bold text-slate-700 mb-1">
-                                    سعر شراء الأم الواحدة (سوق مصر 2026)
+                                    سعر شراء الأم الواحدة (افتراض قابل للتعديل)
                                 </label>
                                 <div class="grid grid-cols-2 gap-2">
                                     <div class="relative">
@@ -383,7 +413,7 @@
                             <!-- Hatchability Rate (%) -->
                             <div>
                                 <label class="block text-xs font-bold text-slate-700 mb-1">
-                                    نسبة الفقس الفعلية بالماكينة (%)
+                                    نسبة الفقس المفترضة في السيناريو (%)
                                 </label>
                                 <div class="relative">
                                     <input type="number" id="inpHatchRate" value="83.33" min="40" max="98" step="0.1" oninput="recalculateAll()" class="w-full rounded-xl border border-slate-300 px-3.5 py-2 text-sm font-bold text-slate-900 bg-white">
@@ -402,7 +432,7 @@
                     <div class="flex items-center justify-between mb-2">
                         <h3 class="text-xs sm:text-sm font-extrabold text-goldExec-900 flex items-center gap-1.5">
                             <i class="fa-solid fa-calculator text-goldExec-600"></i>
-                            <span>ميزان البيض الشهري ومعادلة «البيض الباقي» الفائض للبيع:</span>
+                            <span>ميزان البيض الشهري — تقدير الفائض القابل للبيع:</span>
                         </h3>
                         <span class="text-xs font-bold text-emeraldExec-900 bg-white px-2.5 py-0.5 rounded border border-goldExec-300" id="lblDailyEggProd">
                             240 بيضة/يوم
@@ -491,6 +521,7 @@
                                 </div>
                             </div>
                         </div>
+                        <div id="productionBalanceWarning" class="hidden rounded-xl border px-3 py-2.5 text-xs font-bold" role="status" aria-live="polite"></div>
 
                         <!-- Pricing Inputs Grid -->
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -501,7 +532,7 @@
                                     <span class="text-xs font-extrabold text-emeraldExec-700" id="lblRevChicks">16,200 ج.م</span>
                                 </div>
                                 <input type="number" id="inpChickPrice" value="9" min="1" step="0.25" oninput="recalculateAll()" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm font-black text-slate-900 bg-white">
-                                <span class="text-[11px] text-slate-500 mt-1 block">السعر المعتمد بالخطة: 9 ج.م للكتكوت (18 ج.م للجوز)</span>
+                                <span class="text-[11px] text-slate-500 mt-1 block">سعر افتراضي أساسي: 9 ج.م للكتكوت؛ حدّثه حسب عروض البيع</span>
                             </div>
 
                             <!-- Price 2: Slaughtered Pair Price -->
@@ -591,7 +622,7 @@
                             <span class="w-7 h-7 rounded-lg bg-goldExec-500 text-slate-950 font-black flex items-center justify-center text-sm">3</span>
                             <div>
                                 <h2 class="font-extrabold text-base sm:text-lg">المصروفات والخصومات التشغيلية الشهرية</h2>
-                                <p class="text-xs text-slate-300">الأجور بالحد الأدنى + الكهرباء والمياه + الإيجار + الأعلاف والأدوية</p>
+                                <p class="text-xs text-slate-300">المرتبات المقدّرة + الكهرباء والمياه + الإيجار + الأعلاف والمستلزمات</p>
                             </div>
                         </div>
                         <span class="text-xs font-bold bg-amber-500/20 text-amber-300 px-2.5 py-1 rounded-md border border-amber-400/30" id="badgeTotalExpensesSec3">
@@ -605,7 +636,7 @@
                             <div class="flex items-center justify-between mb-2.5">
                                 <h3 class="text-xs sm:text-sm font-extrabold text-slate-800 flex items-center gap-1.5">
                                     <i class="fa-solid fa-users-gear text-emeraldExec-700"></i>
-                                    <span>أولاً: الأجور والعمالة (المهندس والعمال بالحد الأدنى للأجور)</span>
+                                    <span>أولاً: الأجور والعمالة (تقديرات قابلة للتعديل ويجب مطابقتها مع الالتزامات القانونية)</span>
                                 </h3>
                                 <span class="text-xs font-black text-slate-900 bg-white px-2.5 py-1 rounded-lg border border-slate-300" id="lblTotalSalaries">
                                     21,000 ج.م
@@ -652,7 +683,17 @@
                                     </label>
                                 </div>
                                 <input type="number" id="inpRentCost" value="10000" min="0" step="500" oninput="recalculateAll()" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm font-black text-slate-900 bg-white">
-                                <span class="text-[11px] text-slate-500 mt-1 block">القيمة الإيجارية للمقر كامل التجهيز بمركز ههيا</span>
+                                <span class="text-[11px] text-slate-500 mt-1 block">القيمة الإيجارية التقديرية؛ استبدلها بعرض فعلي</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+                                <label for="inpMaintenanceCost" class="block text-xs font-bold text-slate-800 mb-1">صيانة ورسوم ومصروفات ثابتة إضافية شهرياً (ج.م)</label>
+                                <input type="number" id="inpMaintenanceCost" value="0" min="0" step="100" oninput="recalculateAll()" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm font-black text-slate-900 bg-white">
+                                <span class="text-[11px] text-slate-500 mt-1 block">أدخل الصيانة والتراخيص والخدمات غير المسجلة أعلاه</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-amber-50 border border-amber-200">
+                                <label for="inpContingencyRate" class="block text-xs font-bold text-amber-950 mb-1">احتياطي طوارئ من المصروفات (%)</label>
+                                <input type="number" id="inpContingencyRate" value="0" min="0" max="50" step="1" oninput="recalculateAll()" class="w-full rounded-xl border border-amber-300 px-3 py-2 text-sm font-black text-slate-900 bg-white">
+                                <span class="text-[11px] text-amber-900 mt-1 block">صفر يحافظ على أرقام الخطة الأساسية؛ جرّب احتياطياً مناسباً للموقع</span>
                             </div>
                         </div>
 
@@ -679,6 +720,8 @@
                                     <span class="text-[10px] text-slate-500 mt-1 block" id="lblBreederFeedDetail">
                                         400 طائر × 25.2 ج.م/طائر بالشهر
                                     </span>
+                                    <label for="inpBreederFeedUnitCost" class="block text-[10px] text-slate-600 font-bold mt-2">تكلفة العلف/طائر/شهر (ج.م)</label>
+                                    <input type="number" id="inpBreederFeedUnitCost" value="25.2" min="0" step="0.1" oninput="recalculateAll()" class="w-full mt-1 rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm font-bold text-slate-900 bg-white">
                                 </div>
 
                                 <!-- Fattening Feed -->
@@ -690,6 +733,16 @@
                                     <span class="text-[10px] text-slate-500 mt-1 block" id="lblFatteningFeedDetail">
                                         920 كجم علف × 25 ج.م/كجم (1,600 طائر)
                                     </span>
+                                    <div class="grid grid-cols-2 gap-2 mt-2">
+                                        <div>
+                                            <label for="inpFatteningFeedKgPerBird" class="block text-[10px] text-slate-600 font-bold">علف/طائر (كجم)</label>
+                                            <input type="number" id="inpFatteningFeedKgPerBird" value="0.575" min="0" step="0.005" oninput="recalculateAll()" class="w-full mt-1 rounded-lg border border-slate-300 px-2 py-1.5 text-sm font-bold text-slate-900 bg-white">
+                                        </div>
+                                        <div>
+                                            <label for="inpFatteningFeedPricePerKg" class="block text-[10px] text-slate-600 font-bold">سعر الكيلو (ج.م)</label>
+                                            <input type="number" id="inpFatteningFeedPricePerKg" value="25" min="0" step="0.5" oninput="recalculateAll()" class="w-full mt-1 rounded-lg border border-slate-300 px-2 py-1.5 text-sm font-bold text-slate-900 bg-white">
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <!-- Meds, Packaging & Transport -->
@@ -729,7 +782,7 @@
                             </span>
                             <div>
                                 <h2 class="font-extrabold text-base sm:text-lg text-goldExec-400">مستشار الهدف العكسي الذكي</h2>
-                                <p class="text-xs text-slate-300">«اكتب صافي الربح اللي بتحلم بيه، وأنا أقولك توصله إزاي فوراً»</p>
+                                <p class="text-xs text-slate-300">«اكتب هدفك، وستظهر لك مسارات حسابية ممكنة ضمن حدود المدخلات الحالية»</p>
                             </div>
                         </div>
                     </div>
@@ -809,7 +862,7 @@
 
                 <!-- Goal Solver Footer -->
                 <div class="bg-emeraldExec-950/90 px-5 py-3 border-t border-emeraldExec-800 text-[11px] text-slate-300 flex items-center justify-between">
-                    <span>ربح الجوز الصافي بعد علفه: <strong class="text-goldExec-400" id="lblNetPerPairAfterFeed">84.74 ج.م</strong></span>
+                    <span>مساهمة الجوز بعد العلف فقط (قبل المصروفات الثابتة): <strong class="text-goldExec-400" id="lblNetPerPairAfterFeed">84.74 ج.م</strong></span>
                     <span>استرداد ثمن القطيع خلال: <strong class="text-emeraldExec-400" id="lblPaybackMonths">0.8 شهر</strong></span>
                 </div>
             </section>
@@ -847,7 +900,7 @@
                 <div>
                     <div class="bg-emeraldExec-900 text-white px-5 py-4 flex items-center justify-between border-b-2 border-goldExec-500">
                         <div>
-                            <h3 class="font-extrabold text-base sm:text-lg">التقرير المالي والتشغيلي المعتمد — مشروع سمان ههيا العظيم</h3>
+                            <h3 class="font-extrabold text-base sm:text-lg">التقرير المالي والتشغيلي التقديري — مشروع سمان ههيا</h3>
                             <p class="text-xs text-slate-300">يتحدث تلقائياً مع كل تغيير تجريه في الأعلى وجاهز للطباعة الفورية</p>
                         </div>
                         <i class="fa-solid fa-file-contract text-goldExec-400 text-xl"></i>
@@ -908,9 +961,21 @@
                                 </tr>
                                 <tr class="hover:bg-slate-50 bg-slate-50/60">
                                     <td class="p-2.5 font-bold text-slate-800">8. الأدوية والتغليف والتسويق</td>
-                                    <td class="p-2.5 text-slate-600">تحصينات وأطباق فوم واسترتش ونقل وإعلانات ممولة</td>
+                                    <td class="p-2.5 text-slate-600">تحصينات وخامات تغليف وتسويق ونقل؛ يلزم تفصيلها بفواتير</td>
                                     <td class="p-2.5 text-center text-slate-400">—</td>
                                     <td class="p-2.5 text-center font-bold text-red-700" id="tblValMisc">5,920</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 bg-slate-50/60">
+                                    <td class="p-2.5 font-bold text-slate-800">9. صيانة ورسوم إضافية</td>
+                                    <td class="p-2.5 text-slate-600" id="tblDescMaintenance">صيانة وتراخيص وخدمات إضافية غير مدرجة</td>
+                                    <td class="p-2.5 text-center text-slate-400">—</td>
+                                    <td class="p-2.5 text-center font-bold text-red-700" id="tblValMaintenance">0</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 bg-slate-50/60">
+                                    <td class="p-2.5 font-bold text-slate-800">10. احتياطي الطوارئ</td>
+                                    <td class="p-2.5 text-slate-600" id="tblDescContingency">احتياطي 0% من المصروفات الأساسية</td>
+                                    <td class="p-2.5 text-center text-slate-400">—</td>
+                                    <td class="p-2.5 text-center font-bold text-red-700" id="tblValContingency">0</td>
                                 </tr>
                             </tbody>
                             <tfoot>
@@ -921,7 +986,7 @@
                                 </tr>
                                 <tr class="bg-emeraldExec-100 border-t-2 border-emeraldExec-600">
                                     <td class="p-3.5 font-black text-emeraldExec-950 text-sm sm:text-base" colspan="2">
-                                        صافي الربح الشهري القابل للسحب (بعد خصم كافة الالتزامات)
+                                        صافي التشغيل الشهري التقديري بعد المصروفات المسجلة
                                     </td>
                                     <td class="p-3.5 text-center font-black text-emeraldExec-900 text-lg sm:text-xl" colspan="2" id="tblNetProfitFinal">
                                         30,000 جنيه مصري / شهرياً
@@ -939,7 +1004,7 @@
                         <span>خلاصة الهندسة التشغيلية: 300 أم تملأ 816 بيضة في 4 أيام + تفيض 3,120 بيضة بالشهر.</span>
                     </div>
                     <div class="font-black text-emeraldExec-900">
-                        مشروع سمان ههيا العظيم — 2026
+                        مشروع سمان ههيا — نموذج تقديري 2026
                     </div>
                 </div>
             </div>
@@ -956,15 +1021,15 @@
                     </div>
                     <div>
                         <div class="flex items-center gap-2">
-                            <h2 class="font-black text-lg sm:text-xl text-white">رادار الكفاءة الحيوية والمستشار العلمي اللحظي</h2>
-                            <span class="text-[11px] bg-goldExec-500 text-emeraldExec-950 font-extrabold px-2.5 py-0.5 rounded-full">ذكاء علمي تفاعلي</span>
+                            <h2 class="font-black text-lg sm:text-xl text-white">مؤشرات الكفاءة التشغيلية</h2>
+                            <span class="text-[11px] bg-goldExec-500 text-emeraldExec-950 font-extrabold px-2.5 py-0.5 rounded-full">مؤشرات تقديرية</span>
                         </div>
-                        <p class="text-xs text-slate-200 mt-0.5">يقرأ أرقامك الحالية في الأعلى ويحلل كفاءة الفقس، ومعامل التحويل الغذائي (FCR)، وتوازن القطيع علمياً</p>
+                        <p class="text-xs text-slate-200 mt-0.5">يحسب مؤشرات من المدخلات الحالية؛ اعتمد السجلات الفعلية لتقييم الأداء ولا تعتبرها تشخيصاً بيطرياً</p>
                     </div>
                 </div>
                 <div class="text-xs font-bold bg-emeraldExec-950/80 px-3.5 py-2 rounded-xl border border-goldExec-500/40 text-goldExec-400">
                     <i class="fa-solid fa-dna ml-1"></i>
-                    <span>الحالة الحيوية للمزرعة: <strong id="bioOverallHealthStatus" class="text-emeraldExec-400">مثالية (طراز عالمي A+)</strong></span>
+                    <span>الحالة الحيوية للمزرعة: <strong id="bioOverallHealthStatus" class="text-emeraldExec-400">مؤشر مبدئي؛ يلزم سجل تشغيل</strong></span>
                 </div>
             </div>
 
@@ -980,26 +1045,26 @@
                         </div>
                         <h3 class="font-extrabold text-base text-slate-900 mb-2">مؤشر حيوية «البلاستوديرم» ودرجة الـ pH</h3>
                         <p class="text-xs text-slate-600 leading-relaxed mb-3" id="bioStorageScientificText">
-                            عند تجميع الـ 816 بيضة خلال <strong>4 أيام فقط</strong>، يستقر الأس الهيدروجيني لزلال البيضة (Albumen pH) عند <strong>8.2 – 8.4</strong>، وهو الوسط الكيميائي الأمثل لانقسام خلايا الجنين فور دخول المكنة.
+                            مدة التجميع والحفظ مؤشرات تشغيلية فقط؛ جودة البيض والخصوبة ونسبة الفقس تتأثر كذلك بدرجة الحرارة والرطوبة ومدة التخزين وطريقة المناولة وعمر القطيع. راجع شروط الشركة المصنعة ونتائج سجلات الفقس الفعلية.
                         </p>
                         <div class="bg-white p-3 rounded-xl border border-slate-200 space-y-2 text-xs">
                             <div class="flex justify-between">
                                 <span class="text-slate-500 font-semibold">درجة حرارة غرفة حفظ البيض:</span>
-                                <span class="font-black text-emeraldExec-800">15°م إلى 18°م (رطوبة 75%)</span>
+                                <span class="font-black text-emeraldExec-800">تُحدد وفق دليل المفرخ ونتائج القياس</span>
                             </div>
                             <div class="flex justify-between">
                                 <span class="text-slate-500 font-semibold">تأثير مدة التجميع الحالية على الفقس:</span>
-                                <span class="font-black text-emeraldExec-700" id="bioHatchImpactVal">0% فاقد تخزين (أعلى حيوية)</span>
+                                <span class="font-black text-emeraldExec-700" id="bioHatchImpactVal">لا تُحسب نسبة فقد من المدة وحدها</span>
                             </div>
                             <div class="flex justify-between">
                                 <span class="text-slate-500 font-semibold">التسخين التمهيدي قبل المكنة:</span>
-                                <span class="font-bold text-slate-800">6 ساعات في حرارة 25°م لمنع التعرّق</span>
+                                <span class="font-bold text-slate-800">تهيئة البيض وفق دليل الجهاز والمختص</span>
                             </div>
                         </div>
                     </div>
                     <div class="mt-4 pt-3 border-t border-slate-200 text-[11px] text-goldExec-900 font-bold bg-goldExec-50 p-2.5 rounded-lg border border-goldExec-200">
                         <i class="fa-solid fa-flask text-goldExec-600 ml-1"></i>
-                        <span>القاعدة العلمية: كل يوم تخزين إضافي بعد اليوم الرابع يرفع pH البياض فوق 9.0 ويخفض الفقس بنسبة 1.8% إلى 2.2% يومياً!</span>
+                        <span>لا يحوّل المؤشر الحسابي مدة التخزين إلى نسبة فقد مؤكدة؛ سجّل نتائج كل دفعة، واضبط الحرارة والرطوبة وفق تعليمات المفرخ ومختص الدواجن.</span>
                     </div>
                 </div>
 
@@ -1014,29 +1079,33 @@
                         </div>
                         <h3 class="font-extrabold text-base text-slate-900 mb-2">معامل التحويل الغذائي ومانع الهدر العلفى</h3>
                         <p class="text-xs text-slate-600 leading-relaxed mb-3">
-                            طائر السمان يشتهر بـ «نثر العلف بالمنقار» مما يسبب هدر <strong>8% إلى 12%</strong> من العلف في الفرشة إذا لم تُضبط العلافات والإضاءة علمياً.
+                            قد تختلف خسائر العلف حسب تصميم العلافات وكثافة التربية والسلوك؛ قِس الاستهلاك الفعلي وسجّل الهدر بدلاً من اعتماد نسبة ثابتة.
                         </p>
                         <div class="bg-white p-3 rounded-xl border border-slate-200 space-y-2 text-xs">
-                            <div class="flex justify-between">
+                            <div class="flex justify-between gap-2">
                                 <span class="text-slate-500 font-semibold">إجمالي الوزن الحي المنتج شهرياً:</span>
-                                <span class="font-black text-slate-800" id="bioLiveWeightTotal">364.8 كجم لحم حي (240 جم/طائر)</span>
+                                <span class="font-black text-slate-800" id="bioLiveWeightTotal">364.8 كجم وزن حي افتراضي</span>
+                            </div>
+                            <div class="flex items-center justify-between gap-2">
+                                <label for="inpLiveWeightPerBirdGrams" class="text-slate-500 font-semibold">متوسط الوزن الحي للطائر (جم):</label>
+                                <input type="number" id="inpLiveWeightPerBirdGrams" value="240" min="1" max="1000" step="5" oninput="recalculateAll()" class="w-24 rounded-lg border border-slate-300 px-2 py-1 text-sm font-black text-slate-800 bg-white">
                             </div>
                             <div class="flex justify-between">
                                 <span class="text-slate-500 font-semibold">تكلفة العلف لإنتاج 1 جوز مذبوح:</span>
                                 <span class="font-black text-amber-800" id="bioFeedPerPair">30.26 ج.م / للجوز</span>
                             </div>
                             <div class="flex justify-between items-center pt-1 border-t border-slate-100">
-                                <span class="text-emeraldExec-900 font-bold">وفر تطبيق «شبك العلافات + الإضاءة المتقطعة»:</span>
+                                <span class="text-emeraldExec-900 font-bold">سيناريو خفض افتراضي للعلف 7% (غير مضمون):</span>
                                 <span class="font-black text-emeraldExec-700 text-sm" id="bioFeedSavingPotential">+2,316 ج.م/شهر</span>
                             </div>
                         </div>
                     </div>
                     <div class="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between gap-2">
                         <span class="text-[11px] text-slate-600 font-semibold">
-                            إظلام ساعتين كل 6 ساعات بعد عمر 14 يوماً يرفع هرمون النمو ويمنع نثر العلف.
+                            هذا زر سيناريو حسابي فقط يفترض خفض تكلفة العلف 7%؛ لا تعتبره تحسناً مضموناً ولا تطبقه دون قياس الاستهلاك والوزن والنمو الفعلي.
                         </span>
                         <button onclick="toggleScientificFeedSaving()" id="btnApplyFeedScience" class="px-3 py-1.5 rounded-lg bg-emeraldExec-800 hover:bg-emeraldExec-700 text-white text-[11px] font-bold shrink-0 transition cursor-pointer">
-                            معاينة أثر الوفر (7%)
+                            محاكاة خفض افتراضي للعلف 7%
                         </button>
                     </div>
                 </div>
@@ -1048,30 +1117,39 @@
                             <span class="text-xs font-extrabold px-2.5 py-1 rounded-lg bg-emeraldExec-100 text-emeraldExec-900 border border-emeraldExec-300">
                                 <i class="fa-solid fa-venus-mars ml-1 text-emeraldExec-700"></i>توازن القطيع والخصوبة
                             </span>
-                            <span id="bioBadgeSexRatio" class="text-xs font-black text-emeraldExec-700">نسبة 1 ذكر : 3 إناث</span>
+                            <span id="bioBadgeSexRatio" class="text-xs font-black text-emeraldExec-700">نسبة ذكور/إناث حسب المدخلات</span>
                         </div>
                         <h3 class="font-extrabold text-base text-slate-900 mb-2">كفاءة التلقيح وكثافة البطاريات</h3>
                         <p class="text-xs text-slate-600 leading-relaxed mb-3">
-                            يتميز ذكر السمان البالغ بوجود <strong>«غدة المجمع الرغوية (Cloacal Gland)»</strong> التي تفرز رغوة بروتينية تحفظ الحيوانات المنوية وتنشطها داخل قناة البيض لمدة 6 أيام.
+                            قد تُلاحظ غدة المجمع لدى الذكور، لكن مظهرها وحده لا يثبت الخصوبة. قيّم نتائج التفريخ والإخصاب من سجلات القطيع، وراجع توزيع الذكور إلى الإناث مع مختص حسب السلالة والعمر ونظام التربية.
                         </p>
                         <div class="bg-white p-3 rounded-xl border border-slate-200 space-y-2 text-xs">
-                            <div class="flex justify-between">
+                            <div class="flex justify-between gap-2">
                                 <span class="text-slate-500 font-semibold">عدد الأقفاص المطلوبة للأمهات:</span>
-                                <span class="font-black text-slate-800" id="bioBreederCagesNeeded">16 عين بطارية (25 طائر/عين)</span>
+                                <span class="font-black text-slate-800" id="bioBreederCagesNeeded">16 عين بطارية (حساب تخطيطي)</span>
                             </div>
-                            <div class="flex justify-between">
+                            <div class="flex items-center justify-between gap-2">
+                                <label for="inpBreederBirdsPerCage" class="text-slate-500 font-semibold">السعة التخطيطية للعين (طائر):</label>
+                                <input type="number" id="inpBreederBirdsPerCage" value="25" min="1" max="1000" step="1" oninput="recalculateAll()" class="w-24 rounded-lg border border-slate-300 px-2 py-1 text-sm font-black text-slate-800 bg-white">
+                            </div>
+                            <div class="flex justify-between gap-2">
                                 <span class="text-slate-500 font-semibold">مساحة عنبر التسمين المطلوبة:</span>
-                                <span class="font-black text-slate-800" id="bioFatteningSpaceNeeded">32 م² أقفاص (50 طائر/م²)</span>
+                                <span class="font-black text-slate-800" id="bioFatteningSpaceNeeded">32 م² (حساب تخطيطي)</span>
                             </div>
+                            <div class="flex items-center justify-between gap-2">
+                                <label for="inpFatteningBirdsPerSqm" class="text-slate-500 font-semibold">الكثافة التخطيطية (طائر/م²):</label>
+                                <input type="number" id="inpFatteningBirdsPerSqm" value="50" min="1" max="500" step="1" oninput="recalculateAll()" class="w-24 rounded-lg border border-slate-300 px-2 py-1 text-sm font-black text-slate-800 bg-white">
+                            </div>
+                            <div class="text-[10px] text-slate-500">قيم حساب مساحة فقط، وليست اعتماداً للاشتراطات البيطرية أو معايير الرفق والتهوية.</div>
                             <div class="flex justify-between">
-                                <span class="text-slate-500 font-semibold">نسبة الإخصاب المتوقعة علمياً:</span>
-                                <span class="font-black text-emeraldExec-700">91% إلى 94% (إضاءة 16 ساعة)</span>
+                                <span class="text-slate-500 font-semibold">نسبة الإخصاب الفعلية:</span>
+                                <span class="font-black text-emeraldExec-700">تُحسب من سجلات كل دفعة، وليست قيمة مضمونة</span>
                             </div>
                         </div>
                     </div>
                     <div class="mt-4 pt-3 border-t border-slate-200 text-[11px] text-emeraldExec-900 font-bold bg-emeraldExec-50 p-2.5 rounded-lg border border-emeraldExec-200">
                         <i class="fa-solid fa-user-doctor text-emeraldExec-700 ml-1"></i>
-                        <span>نصيحة للمهندس: لا تزد الذكور عن 1:3 أبداً لأن الزيادة تسبب نقر الرأس والعمى وإجهاد الإناث وانخفاض البيض بـ 15%!</span>
+                        <span>نسبة الذكور إلى الإناث مدخل تخطيطي قابل للتغيير؛ لا تعتمد نسبة ثابتة أو أثر إنتاجي محدد دون متابعة الخصوبة والسلوك وسجلات القطيع ومراجعة المختص.</span>
                     </div>
                 </div>
             </div>
@@ -1088,7 +1166,7 @@
                     </div>
                     <div>
                         <div class="flex items-center gap-2">
-                            <h2 class="font-black text-lg sm:text-xl text-goldExec-400">محاكي القيمة المضافة والمنتجات المبتكرة (أرباح فوق الـ 30,000 ج.م)</h2>
+                            <h2 class="font-black text-lg sm:text-xl text-goldExec-400">محاكي القيمة المضافة والمنتجات المبتكرة (هامش إضافي تقديري)</h2>
                             <span class="text-[11px] bg-emeraldExec-700 text-emeraldExec-100 font-bold px-2.5 py-0.5 rounded-full border border-emeraldExec-500">بدون زيادة عدد الأمهات</span>
                         </div>
                         <p class="text-xs text-slate-300 mt-0.5">
@@ -1115,7 +1193,7 @@
                     </div>
                     <h3 class="font-extrabold text-base text-white">سمان «فراشة متبل» جاهز للشوي (Vacuum)</h3>
                     <p class="text-xs text-slate-300 leading-relaxed">
-                        فتح السمان فراشة وتتبيله (تندوري / أعشاب روزماري / باربكيو) في أكياس تفريغ هواء يرفع سعر الجوز للمستهلك من 115 إلى 140 ج.م (بتكلفة تتبيل وتغليف 7 ج.م فقط للجوز = <strong>+18 ج.م ربح صافي إضافي للجوز</strong>).
+                        مثال حسابي قابل للتعديل: إذا زاد سعر الجوز المتبل عن البيع المعتاد بمبلغ يكفي لتغطية تكلفة التتبيل والتعبئة، أدخل هامش الصافي المتوقع في الحقل أدناه. لا تمثل هذه الأرقام عرض سعر أو طلباً سوقياً مؤكداً.
                     </p>
                     <div class="pt-2">
                         <div class="flex justify-between text-xs font-bold mb-1">
@@ -1123,6 +1201,10 @@
                             <span class="text-emeraldExec-300">هامش صافي +<span id="lblVaMarginPerPair">18</span> ج/جوز</span>
                         </div>
                         <input type="range" id="rngVaMarinatedPct" min="0" max="100" step="5" value="30" oninput="recalculateAll()" class="w-full h-2 rounded-lg cursor-pointer accent-amber-400">
+                        <div class="flex items-center justify-between gap-2 mt-2">
+                            <label for="inpVaMarinatedNetPerPair" class="text-[11px] text-slate-200 font-bold">صافي الإضافة المفترضة لكل جوز (ج.م)</label>
+                            <input type="number" id="inpVaMarinatedNetPerPair" value="18" min="0" max="10000" step="0.5" oninput="recalculateAll()" class="w-24 rounded-lg border border-slate-300 px-2 py-1 text-sm font-black text-slate-900 bg-white">
+                        </div>
                     </div>
                 </div>
 
@@ -1134,14 +1216,18 @@
                     </div>
                     <h3 class="font-extrabold text-base text-white">عبوات «بيض ذكاء الأطفال» ومخلل بيض السمان</h3>
                     <p class="text-xs text-slate-300 leading-relaxed">
-                        تعبئة «البيض الباقي» في عبوات شفافة فاخرة (24 بيضة) موجهة للأمهات والأطفال (غني بفيتامين B12 والحديد 5 أضعاف بيض الدجاج) أو برطمانات بيض سمان مسلوق متبل للمطاعم يحقق <strong>+0.90 ج.م ربح صافي إضافي للبيضة</strong>.
+                        يمكن اختبار بيع البيض في عبوات مناسبة أو كمنتج محفوظ عبر قناة مرخصة؛ يلزم التحقق من سلامة الغذاء ومدة الصلاحية والتعبئة والتبريد. صافي الإضافة لكل بيضة افتراض قابل للتعديل وليس هامشاً سوقياً مؤكداً.
                     </p>
                     <div class="pt-2">
                         <div class="flex justify-between text-xs font-bold mb-1">
                             <span class="text-slate-200">نسبة تعبئة البيض الفاخر: <strong id="lblVaEggsPct" class="text-goldExec-400">50%</strong> (<strong id="lblVaEggsCount">1,560</strong> بيضة)</span>
-                            <span class="text-emeraldExec-300">هامش صافي +0.90 ج/بيضة</span>
+                            <span class="text-emeraldExec-300">هامش صافي افتراضي لكل بيضة</span>
                         </div>
                         <input type="range" id="rngVaEggsPct" min="0" max="100" step="5" value="50" oninput="recalculateAll()" class="w-full h-2 rounded-lg cursor-pointer accent-amber-400">
+                        <div class="flex items-center justify-between gap-2 mt-2">
+                            <label for="inpVaEggNetPerEgg" class="text-[11px] text-slate-200 font-bold">صافي الإضافة المفترضة لكل بيضة (ج.م)</label>
+                            <input type="number" id="inpVaEggNetPerEgg" value="0.9" min="0" max="1000" step="0.05" oninput="recalculateAll()" class="w-24 rounded-lg border border-slate-300 px-2 py-1 text-sm font-black text-slate-900 bg-white">
+                        </div>
                     </div>
                 </div>
 
@@ -1163,7 +1249,7 @@
                     </div>
                     <p class="text-[11px] font-bold text-emeraldExec-950 mt-3 leading-snug">
                         <i class="fa-solid fa-circle-info ml-1"></i>
-                        تبقى ميزانيتك الأساسية (30,000 ج.م) ثابتة تماماً، ويمكنك تفعيل مربع الاختيار بالأعلى لضم هذا الربح الإضافي فوراً!
+                        تبقى ميزانيتك الأساسية (30,000 ج.م) تظل افتراضية حتى التفعيل؛ الربح الإضافي تقدير يحتاج التأكد من تكاليف التعبئة والتجهيز والتسويق الفعلية.
                     </p>
                 </div>
             </div>
@@ -1179,8 +1265,8 @@
                         <i class="fa-solid fa-calendar-check"></i>
                     </span>
                     <div>
-                        <h2 class="font-extrabold text-base sm:text-lg">مصفوفة التشغيل الزمني للمفرخ والتحضين (كيف تدور الـ 3 دفعات × 816 بيضة بلا تعارض؟)</h2>
-                        <p class="text-xs text-slate-300">اضغط على أي دفعة لمعاينة جدولها الزمني الدقيق وحرارتها ورطوبتها من يوم جمع البيض حتى البيع والذبح</p>
+                        <h2 class="font-extrabold text-base sm:text-lg">مصفوفة زمنية تخطيطية للمفرخ والتحضين (تتحدث حسب المدخلات)</h2>
+                        <p class="text-xs text-slate-300">عدّل مدد المراحل الافتراضية ثم اختر دفعة؛ الجدول تخطيطي وليس بديلاً عن دليل الجهاز أو مراجعة المختص</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-1.5 flex-wrap">
@@ -1193,12 +1279,34 @@
             </div>
 
             <div class="p-6 space-y-6">
+                <!-- Editable planning assumptions for the timeline; not veterinary recommendations -->
+                <div class="rounded-xl border border-slate-200 bg-slate-50 p-4 space-y-3">
+                    <div>
+                        <h3 class="text-sm font-extrabold text-slate-900">مدد الجدول الزمني (افتراضات قابلة للتعديل)</h3>
+                        <p class="text-xs text-slate-600 mt-1">تؤثر هذه المدخلات على التواريخ المعروضة فقط. حدّد المدد الفعلية وفق نوع السمان ودليل الفقاسة وسجل التربية، ولا تعتمد القيم الافتراضية كتعليمات تشغيل.</p>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div>
+                            <label for="inpSetterDays" class="block text-xs font-bold text-slate-700 mb-1">مدة السِتر/التقليب (يوم)</label>
+                            <input type="number" id="inpSetterDays" value="14" min="1" max="30" step="1" oninput="recalculateAll()" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm font-bold bg-white">
+                        </div>
+                        <div>
+                            <label for="inpHatcherDays" class="block text-xs font-bold text-slate-700 mb-1">مدة الهاتشر/الفقس (يوم)</label>
+                            <input type="number" id="inpHatcherDays" value="3" min="1" max="10" step="1" oninput="recalculateAll()" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm font-bold bg-white">
+                        </div>
+                        <div>
+                            <label for="inpFatteningDays" class="block text-xs font-bold text-slate-700 mb-1">مدة التسمين الافتراضية (يوم)</label>
+                            <input type="number" id="inpFatteningDays" value="35" min="1" max="120" step="1" oninput="recalculateAll()" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm font-bold bg-white">
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Interactive Selected Batch Timeline Inspector -->
                 <div class="bg-emeraldExec-50/80 border-2 border-emeraldExec-600 rounded-2xl p-4">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 mb-3 border-b border-emeraldExec-200">
                         <div class="flex items-center gap-2">
-                            <span class="px-3 py-1 rounded-lg bg-emeraldExec-800 text-goldExec-400 font-black text-xs" id="batchInspBadge">الدفعة رقم 1 — الرف الأول بالمكنة</span>
-                            <h3 class="font-extrabold text-sm sm:text-base text-emeraldExec-950" id="batchInspTitle">تفاصيل الرحلة الكاملة للـ 816 بيضة في الدفعة الأولى</h3>
+                            <span class="px-3 py-1 rounded-lg bg-emeraldExec-800 text-goldExec-400 font-black text-xs" id="batchInspBadge">الدفعة رقم 1 — رف افتراضي</span>
+                            <h3 class="font-extrabold text-sm sm:text-base text-emeraldExec-950" id="batchInspTitle">تفاصيل زمنية تقديرية للدفعة الأولى</h3>
                         </div>
                         <span class="text-xs font-bold text-emeraldExec-800" id="batchInspSummary">تُخرج 680 كتكوتاً في اليوم 18 (360 بيع فوري + 320 للتسمين)</span>
                     </div>
@@ -1207,12 +1315,12 @@
                         <div class="bg-white p-3 rounded-xl border border-slate-200">
                             <div class="font-black text-amber-700 mb-1"><i class="fa-solid fa-box-archive ml-1"></i>1. التجميع والتبخير</div>
                             <div class="font-bold text-slate-800" id="bStage1Days">الأيام: -3 إلى يوم 1</div>
-                            <p class="text-[11px] text-slate-500 mt-1">تجميع 816 بيضة منتقاة في 4 أيام (حرارة 16°م) + تبخير وتدفئة 25°م لـ 6 ساعات.</p>
+                            <p class="text-[11px] text-slate-500 mt-1">تظهر هنا مدة التجميع المدخلة؛ ظروف حفظ البيض والتطهير والتهيئة قبل التحميل تُحدّد حسب دليل الجهاز ومختص التفريخ، دون معالجة غير موثقة.</p>
                         </div>
                         <div class="bg-white p-3 rounded-xl border border-emeraldExec-200">
                             <div class="font-black text-emeraldExec-700 mb-1"><i class="fa-solid fa-temperature-half ml-1"></i>2. السِتر (التقليب)</div>
                             <div class="font-bold text-slate-800" id="bStage2Days">اليوم 1 إلى اليوم 14</div>
-                            <p class="text-[11px] text-slate-500 mt-1">حرارة <strong>37.7°م</strong> | رطوبة <strong>55–60%</strong> | تقليب أوتوماتيكي 45° كل ساعتين.</p>
+                            <p class="text-[11px] text-slate-500 mt-1">اضبط الحرارة والرطوبة وزاوية وتكرار التقليب وفق دليل الجهاز ونوع البيض، وتابع المعايرة وسجل القراءات.</p>
                         </div>
                         <div class="bg-white p-3 rounded-xl border border-amber-200">
                             <div class="font-black text-amber-600 mb-1"><i class="fa-solid fa-lightbulb ml-1"></i>3. الفحص الضوئي</div>
@@ -1222,12 +1330,12 @@
                         <div class="bg-white p-3 rounded-xl border border-emeraldExec-300 bg-emeraldExec-50/40">
                             <div class="font-black text-emeraldExec-800 mb-1"><i class="fa-solid fa-egg ml-1"></i>4. الهاتشر (الفقس)</div>
                             <div class="font-bold text-slate-800" id="bStage4Days">اليوم 15 إلى اليوم 17</div>
-                            <p class="text-[11px] text-slate-500 mt-1">نقل للسلال السفلية | إيقاف التقليب | حرارة <strong>37.2°م</strong> | رفع الرطوبة <strong>72–75%</strong>.</p>
+                            <p class="text-[11px] text-slate-500 mt-1">توقيت النقل وإيقاف التقليب وضبط بيئة الفقس يُراجع حسب دليل الفقاسة والسلالة وسجل الدفعات.</p>
                         </div>
                         <div class="bg-goldExec-50 p-3 rounded-xl border border-goldExec-400">
                             <div class="font-black text-goldExec-900 mb-1"><i class="fa-solid fa-hand-holding-dollar ml-1"></i>5. الاستلام والتسمين</div>
                             <div class="font-bold text-slate-900" id="bStage5Days">الفقس: يوم 18 | الذبح: يوم 53</div>
-                            <p class="text-[11px] text-goldExec-900 mt-1">استلام الكتاكيت الجافة، تسليم الحجوزات فوراً، ونزول دفعة التسمين على حرارة 36.5°م.</p>
+                            <p class="text-[11px] text-goldExec-900 mt-1">سجّل عدد الكتاكيت وحالتها ونفوقها، واضبط التحضين وفق العمر ودليل التربية وسلوك الطيور. موعد الذبح الفعلي يعتمد على الوزن ومتطلبات التسويق واللوائح.</p>
                         </div>
                     </div>
                 </div>
@@ -1238,9 +1346,9 @@
                         <thead>
                             <tr class="bg-slate-800 text-white">
                                 <th class="p-2.5 border border-slate-700">رقم الدفعة والرف بالمكنة</th>
-                                <th class="p-2.5 border border-slate-700 text-center">فترة جمع الـ 816 بيضة</th>
-                                <th class="p-2.5 border border-slate-700 text-center">دخول السِتر (14 يوم تقليب)</th>
-                                <th class="p-2.5 border border-slate-700 text-center">النقل للهاتشر (3 أيام فقس)</th>
+                                <th class="p-2.5 border border-slate-700 text-center">فترة جمع البيض</th>
+                                <th class="p-2.5 border border-slate-700 text-center">دخول السِتر (مدة افتراضية)</th>
+                                <th class="p-2.5 border border-slate-700 text-center">النقل للهاتشر (مدة افتراضية)</th>
                                 <th class="p-2.5 border border-slate-700 text-center">يوم الخروج والسيولة الفورية</th>
                                 <th class="p-2.5 border border-slate-700 text-center">البيض الباقي من نفس الدورة</th>
                             </tr>
@@ -1248,43 +1356,43 @@
                         <tbody class="divide-y divide-slate-200">
                             <tr class="hover:bg-emeraldExec-50/50">
                                 <td class="p-2.5 font-black text-emeraldExec-900">الدفعة (1) — الرف العلوي (أ)</td>
-                                <td class="p-2.5 text-center text-slate-600">الأربعة أيام قبل البدء</td>
-                                <td class="p-2.5 text-center font-bold text-emeraldExec-700 bg-emeraldExec-50">يوم 1 ← يوم 14</td>
-                                <td class="p-2.5 text-center font-bold text-amber-800 bg-amber-50">يوم 15 ← يوم 17</td>
-                                <td class="p-2.5 text-center font-black text-emeraldExec-900">يوم 18 (680 كتكوت)</td>
-                                <td class="p-2.5 text-center font-bold text-goldExec-800">624 بيضة باقية</td>
+                                <td id="timelineCollect1" class="p-2.5 text-center text-slate-600">الأربعة أيام قبل البدء</td>
+                                <td id="timelineSetter1" class="p-2.5 text-center font-bold text-emeraldExec-700 bg-emeraldExec-50">يوم 1 ← يوم 14</td>
+                                <td id="timelineHatcher1" class="p-2.5 text-center font-bold text-amber-800 bg-amber-50">يوم 15 ← يوم 17</td>
+                                <td id="timelineHatch1" class="p-2.5 text-center font-black text-emeraldExec-900">يوم 18 (680 كتكوت)</td>
+                                <td id="timelineSurplus1" class="p-2.5 text-center font-bold text-goldExec-800">624 بيضة باقية</td>
                             </tr>
                             <tr class="hover:bg-emeraldExec-50/50">
                                 <td class="p-2.5 font-black text-emeraldExec-900">الدفعة (2) — الرف الأوسط (ب)</td>
-                                <td class="p-2.5 text-center text-slate-600">يوم 3 ← يوم 6 (4 أيام)</td>
-                                <td class="p-2.5 text-center font-bold text-emeraldExec-700 bg-emeraldExec-50">يوم 7 ← يوم 20</td>
-                                <td class="p-2.5 text-center font-bold text-amber-800 bg-amber-50">يوم 21 ← يوم 23</td>
-                                <td class="p-2.5 text-center font-black text-emeraldExec-900">يوم 24 (680 كتكوت)</td>
-                                <td class="p-2.5 text-center font-bold text-goldExec-800">624 بيضة باقية</td>
+                                <td id="timelineCollect2" class="p-2.5 text-center text-slate-600">يوم 3 ← يوم 6 (4 أيام)</td>
+                                <td id="timelineSetter2" class="p-2.5 text-center font-bold text-emeraldExec-700 bg-emeraldExec-50">يوم 7 ← يوم 20</td>
+                                <td id="timelineHatcher2" class="p-2.5 text-center font-bold text-amber-800 bg-amber-50">يوم 21 ← يوم 23</td>
+                                <td id="timelineHatch2" class="p-2.5 text-center font-black text-emeraldExec-900">يوم 24 (680 كتكوت)</td>
+                                <td id="timelineSurplus2" class="p-2.5 text-center font-bold text-goldExec-800">624 بيضة باقية</td>
                             </tr>
                             <tr class="hover:bg-emeraldExec-50/50">
                                 <td class="p-2.5 font-black text-emeraldExec-900">الدفعة (3) — الرف السفلي (ج)</td>
-                                <td class="p-2.5 text-center text-slate-600">يوم 9 ← يوم 12 (4 أيام)</td>
-                                <td class="p-2.5 text-center font-bold text-emeraldExec-700 bg-emeraldExec-50">يوم 13 ← يوم 26</td>
-                                <td class="p-2.5 text-center font-bold text-amber-800 bg-amber-50">يوم 27 ← يوم 29</td>
-                                <td class="p-2.5 text-center font-black text-emeraldExec-900">يوم 30 (680 كتكوت)</td>
-                                <td class="p-2.5 text-center font-bold text-goldExec-800">624 بيضة باقية (إجمالي 3 دفعات = 1,872)</td>
+                                <td id="timelineCollect3" class="p-2.5 text-center text-slate-600">يوم 9 ← يوم 12 (4 أيام)</td>
+                                <td id="timelineSetter3" class="p-2.5 text-center font-bold text-emeraldExec-700 bg-emeraldExec-50">يوم 13 ← يوم 26</td>
+                                <td id="timelineHatcher3" class="p-2.5 text-center font-bold text-amber-800 bg-amber-50">يوم 27 ← يوم 29</td>
+                                <td id="timelineHatch3" class="p-2.5 text-center font-black text-emeraldExec-900">يوم 30 (680 كتكوت)</td>
+                                <td id="timelineSurplus3" class="p-2.5 text-center font-bold text-goldExec-800">624 بيضة باقية (إجمالي 3 دفعات = 1,872)</td>
                             </tr>
                             <tr class="hover:bg-emeraldExec-50/50 bg-slate-50/70">
                                 <td class="p-2.5 font-black text-emeraldExec-900">الدفعة (4) — تحل محل الدفعة 1 بالرف (أ)</td>
-                                <td class="p-2.5 text-center text-slate-600">يوم 15 ← يوم 18 (4 أيام)</td>
-                                <td class="p-2.5 text-center font-bold text-emeraldExec-700">يوم 19 ← يوم 2 (الشهر التالي)</td>
-                                <td class="p-2.5 text-center font-bold text-amber-800">يوم 3 ← يوم 5 (الشهر التالي)</td>
-                                <td class="p-2.5 text-center font-black text-emeraldExec-900">يوم 6 بالشهر التالي</td>
-                                <td class="p-2.5 text-center font-bold text-goldExec-800">624 بيضة باقية</td>
+                                <td id="timelineCollect4" class="p-2.5 text-center text-slate-600">يوم 15 ← يوم 18 (4 أيام)</td>
+                                <td id="timelineSetter4" class="p-2.5 text-center font-bold text-emeraldExec-700">يوم 19 ← يوم 2 (الشهر التالي)</td>
+                                <td id="timelineHatcher4" class="p-2.5 text-center font-bold text-amber-800">يوم 3 ← يوم 5 (الشهر التالي)</td>
+                                <td id="timelineHatch4" class="p-2.5 text-center font-black text-emeraldExec-900">يوم 6 بالشهر التالي</td>
+                                <td id="timelineSurplus4" class="p-2.5 text-center font-bold text-goldExec-800">624 بيضة باقية</td>
                             </tr>
                             <tr class="hover:bg-emeraldExec-50/50 bg-slate-50/70">
                                 <td class="p-2.5 font-black text-emeraldExec-900">الدفعة (5) — تحل محل الدفعة 2 بالرف (ب)</td>
-                                <td class="p-2.5 text-center text-slate-600">يوم 21 ← يوم 24 (4 أيام)</td>
-                                <td class="p-2.5 text-center font-bold text-emeraldExec-700">يوم 25 ← يوم 8 (الشهر التالي)</td>
-                                <td class="p-2.5 text-center font-bold text-amber-800">يوم 9 ← يوم 11 (الشهر التالي)</td>
-                                <td class="p-2.5 text-center font-black text-emeraldExec-900">يوم 12 بالشهر التالي</td>
-                                <td class="p-2.5 text-center font-bold text-goldExec-800">624 بيضة باقية (إجمالي الشهر = 3,120)</td>
+                                <td id="timelineCollect5" class="p-2.5 text-center text-slate-600">يوم 21 ← يوم 24 (4 أيام)</td>
+                                <td id="timelineSetter5" class="p-2.5 text-center font-bold text-emeraldExec-700">يوم 25 ← يوم 8 (الشهر التالي)</td>
+                                <td id="timelineHatcher5" class="p-2.5 text-center font-bold text-amber-800">يوم 9 ← يوم 11 (الشهر التالي)</td>
+                                <td id="timelineHatch5" class="p-2.5 text-center font-black text-emeraldExec-900">يوم 12 بالشهر التالي</td>
+                                <td id="timelineSurplus5" class="p-2.5 text-center font-bold text-goldExec-800">624 بيضة باقية (إجمالي الشهر = 3,120)</td>
                             </tr>
                         </tbody>
                     </table>
@@ -1315,7 +1423,7 @@
                         <div class="bg-emeraldExec-50 p-3 rounded-xl border border-emeraldExec-200 flex items-center justify-between">
                             <label class="flex items-center gap-2 text-xs font-bold text-emeraldExec-900 cursor-pointer">
                                 <input type="checkbox" id="chkMachineOwned" onchange="recalculateAll()" class="w-4 h-4 rounded text-emeraldExec-700">
-                                <span>ماكينة التفريخ والبطاريات متوفرة لديّ بالفعل (استبعاد ثمنها من التأسيس)</span>
+                                <span>ماكينة التفريخ والبطاريات ومعدات الذبح متوفرة لديّ بالفعل (استبعاد تكلفتها من التأسيس)</span>
                             </label>
                             <span class="text-[11px] font-bold text-emeraldExec-700">تخصيص حر</span>
                         </div>
@@ -1327,9 +1435,9 @@
                                 <span class="text-[10px] text-slate-500 mt-1 block">مربوط بعدد وسعر الأمهات والذكور بالأعلى</span>
                             </div>
                             <div class="p-3 rounded-xl border border-slate-200 bg-slate-50">
-                                <label class="font-bold text-slate-700 block mb-1">سعر ماكينة التفريخ (3 دفعات × 816)</label>
+                                <label class="font-bold text-slate-700 block mb-1">سعر ماكينة التفريخ والهاتشر</label>
                                 <input type="number" id="inpCapexMachine" value="22000" min="0" step="1000" oninput="recalculateAll()" class="w-full rounded-lg border border-slate-300 px-3 py-1.5 font-black text-slate-900 bg-white">
-                                <span class="text-[10px] text-slate-500 mt-1 block">ديجيتال أوتوماتيك بالكامل (سِتر + هاتشر)</span>
+                                <span class="text-[10px] text-slate-500 mt-1 block">أدخل عرض سعر الجهاز بالمواصفات والسعة المطلوبتين</span>
                             </div>
                             <div class="p-3 rounded-xl border border-slate-200 bg-slate-50">
                                 <label class="font-bold text-slate-700 block mb-1">بطاريات البياض والتسمين ومعدات الذبح</label>
@@ -1339,7 +1447,7 @@
                             <div class="p-3 rounded-xl border border-slate-200 bg-slate-50">
                                 <label class="font-bold text-slate-700 block mb-1">احتياطي سيولة تشغيل أول دورة</label>
                                 <input type="number" id="inpCapexWorking" value="15000" min="0" step="1000" oninput="recalculateAll()" class="w-full rounded-lg border border-slate-300 px-3 py-1.5 font-black text-slate-900 bg-white">
-                                <span class="text-[10px] text-slate-500 mt-1 block">علف أول 18 يوماً حتى بدء بيع أول فقسة</span>
+                                <span class="text-[10px] text-slate-500 mt-1 block">مخصص سيولة تقديري؛ اضبطه وفق توقيت أول بيع وتكاليفك الفعلية</span>
                             </div>
                         </div>
 
@@ -1354,7 +1462,7 @@
                                 <span class="text-base sm:text-lg font-black text-emeraldExec-800 mt-0.5 block" id="lblCapexPaybackPeriod">3.1 شهور</span>
                             </div>
                             <div class="p-3 rounded-xl bg-goldExec-50 border border-goldExec-400">
-                                <span class="text-[11px] text-goldExec-900 font-bold block">العائد السنوي على الاستثمار</span>
+                                <span class="text-[11px] text-goldExec-900 font-bold block">العائد السنوي التشغيلي التقديري قبل التمويل والضرائب والإهلاك</span>
                                 <span class="text-base sm:text-lg font-black text-goldExec-800 mt-0.5 block" id="lblAnnualROI">391% سنوياً</span>
                             </div>
                         </div>
@@ -1362,7 +1470,7 @@
                 </div>
                 <div class="bg-slate-50 border-t border-slate-200 px-5 py-3 text-xs text-slate-600 font-semibold">
                     <i class="fa-solid fa-chart-line text-emeraldExec-700 ml-1"></i>
-                    <span>دورة رأس المال في السمان هي الأسرع داجنياً في مصر (الفقس في 17 يوماً والنضج في 35 يوماً).</span>
+                    <span>مدة دورة رأس المال تعتمد على السلالة ونظام التربية والتسويق؛ استخدم قيم النمو المسجلة لديك بدلاً من اعتبار المدد ثابتة.</span>
                 </div>
             </section>
 
@@ -1376,7 +1484,7 @@
                             </span>
                             <div>
                                 <h2 class="font-extrabold text-base sm:text-lg">درع الأمان ونقطة التعادل ومحاكاة الطوارئ</h2>
-                                <p class="text-xs text-slate-300">اختبر صمود مشروعك أمام غلاء الأعلاف أو موجات الحر وتعرّف على الروشتة العلمية المضادة</p>
+                                <p class="text-xs text-slate-300">اختبر أثر تغير أسعار العلف أو انخفاض الفقس الافتراضي؛ النتائج تقديرات وليست توقعات مؤكدة</p>
                             </div>
                         </div>
                     </div>
@@ -1412,7 +1520,7 @@
                                     2. قفزة أسعار العلف (+10%)
                                 </button>
                                 <button onclick="runStressScenario('heatwave')" id="btnStressHeat" class="p-2.5 rounded-xl border border-slate-300 bg-white hover:bg-red-50 text-slate-800 font-bold text-xs transition cursor-pointer">
-                                    3. موجة حر شديدة (أغسطس)
+                                    3. انخفاض فقس افتراضي (-4%)
                                 </button>
                             </div>
                         </div>
@@ -1420,14 +1528,12 @@
                         <!-- Stress Test Dynamic Result & Scientific Counter-Measure -->
                         <div id="stressResultCard" class="p-4 rounded-xl bg-emeraldExec-50 border border-emeraldExec-300 space-y-2 text-xs">
                             <div class="flex items-center justify-between font-black text-emeraldExec-950">
-                                <span id="stressTitle"><i class="fa-solid fa-circle-check text-emeraldExec-700 ml-1"></i>الوضع القياسي: صافي الربح 30,000 ج.م/شهرياً</span>
-                                <span id="stressImpactBadge" class="px-2 py-0.5 rounded bg-emeraldExec-700 text-white text-[11px]">آمن 100%</span>
+                                <span id="stressTitle"><i class="fa-solid fa-circle-check text-emeraldExec-700 ml-1"></i>الوضع الأساسي: صافي التشغيل التقديري 30,000 ج.م/شهر</span>
+                                <span id="stressImpactBadge" class="px-2 py-0.5 rounded bg-emeraldExec-700 text-white text-[11px]">تقدير أساسي</span>
                             </div>
-                            <p id="stressDesc" class="text-slate-700 leading-relaxed">
-                                يعمل المشروع بكامل كفاءته مع فائض أمان قدره 261 جوزاً فوق نقطة التعادل. حتى لو انخفضت المبيعات بنسبة 30% لن يخسر المشروع جنيهاً واحداً!
-                            </p>
+                            <p id="stressDesc" class="text-slate-700 leading-relaxed">النتيجة تقديرية وتعتمد على المدخلات الحالية؛ لا تفترض استقرار المبيعات أو تحقيق هامش ربح مضمون.</p>
                             <div id="stressCounterProtocol" class="bg-white p-2.5 rounded-lg border border-emeraldExec-200 text-emeraldExec-900 font-bold">
-                                <strong>الدرع العلمي الاستباقي:</strong> تثبيت علف 24% بروتين في التسمين و20% للأمهات مع 2.8% كالسيوم وتحصين نيوكاسل الدوري.
+                                <strong>إجراءات عامة:</strong> راجع تركيبة العلف وبرنامج التحصين مع مختص تغذية وطبيب بيطري وفق نوع الطيور والظروف المحلية.
                             </div>
                         </div>
                     </div>
@@ -1449,14 +1555,14 @@
                         <i class="fa-solid fa-book-medical"></i>
                     </span>
                     <div>
-                        <h2 class="font-extrabold text-base sm:text-lg">الدليل العلمي الذهبي للتشغيل وخطة التسويق التنفيذية بمركز ههيا والشرقية</h2>
-                        <p class="text-xs text-slate-300">بروتوكولات علمية جاهزة للتنفيذ بواسطة المهندس والعمال لضمان أعلى فقس وأعلى وزن ذبح</p>
+                        <h2 class="font-extrabold text-base sm:text-lg">دليل تشغيل أولي وخطة تسويق قابلة للتحقق لمشروع سمان ههيا</h2>
+                        <p class="text-xs text-slate-300">قائمة تشغيل أولية للمراجعة مع مهندس دواجن وطبيب بيطري قبل التنفيذ</p>
                     </div>
                 </div>
 
                 <!-- SOP Tabs -->
                 <div class="flex flex-wrap gap-1.5">
-                    <button onclick="switchSopTab(1)" id="btnSop1" class="px-3 py-1.5 rounded-lg text-xs font-black bg-goldExec-500 text-emeraldExec-950 transition cursor-pointer">1. أسرار الفقس (85%+)</button>
+                    <button onclick="switchSopTab(1)" id="btnSop1" class="px-3 py-1.5 rounded-lg text-xs font-black bg-goldExec-500 text-emeraldExec-950 transition cursor-pointer">1. إدارة الفقس والسجلات</button>
                     <button onclick="switchSopTab(2)" id="btnSop2" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emeraldExec-800 text-slate-200 hover:bg-emeraldExec-700 transition cursor-pointer">2. التغذية والإضاءة</button>
                     <button onclick="switchSopTab(3)" id="btnSop3" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emeraldExec-800 text-slate-200 hover:bg-emeraldExec-700 transition cursor-pointer">3. التحصينات والأمن الحيوي</button>
                     <button onclick="switchSopTab(4)" id="btnSop4" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emeraldExec-800 text-slate-200 hover:bg-emeraldExec-700 transition cursor-pointer">4. الذبح والتسويق بالشرقية</button>
@@ -1472,7 +1578,7 @@
                             <span>انتقاء وتطهير الـ 816 بيضة</span>
                         </h3>
                         <p class="text-slate-600 leading-relaxed">
-                            يُجمع البيض 3 مرات يومياً (10 ص، 2 م، 6 م). تُختار البيضة ذات الوزن <strong>11.5 إلى 13.5 جرام</strong> المبرقشة بانتظام، وتُستبعد البيضة الكروية أو المدببة جداً أو القشرة الطباشيرية. يُمسح البيض جافاً أو يُبخّر ولا يُغسل بالماء أبداً لحماية طبقة الـ (Cuticle) الحامية للجنين.
+                            اجمع البيض بانتظام مع تقليل الصدمات والتلوث، وفرز المتسخ أو المشروخ أو غير المناسب وفق دليل المفرخ. حدّد نطاق الوزن المقبول بحسب السلالة وسجل القطيع. لا تغسل أو تطهّر البيض إلا وفق الإجراء المعتمد من مختص التفريخ ودليل الجهاز.
                         </p>
                     </div>
                     <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
@@ -1481,16 +1587,16 @@
                             <span>ضبط المكنة والتهوية (الأكسجين)</span>
                         </h3>
                         <p class="text-slate-600 leading-relaxed">
-                            بما أن المكنة تحوي 3 دفعات متداخلة (2,448 بيضة)، يجب فتح فتحات التهوية بنسبة 40% دائماً لأن أجنة الدفعة الأقدم (عمر 10–14 يوماً) تستهلك أكسجين عالٍ وتطرد غاز CO2. إذا زاد CO2 عن 0.5% يموت الجنين في اليوم 15 (الكبس).
+                            اضبط الحرارة والرطوبة والتهوية والتقليب وفق دليل الجهاز ونوع السمان، وعاير المجسات وسجّل القراءات. لا تُحوّل هذا النموذج إلى بروتوكول تشغيل دون مراجعة فنية.
                         </p>
                     </div>
                     <div class="p-4 rounded-xl bg-emeraldExec-50 border border-emeraldExec-200 space-y-2">
                         <h3 class="font-black text-sm text-emeraldExec-900 flex items-center gap-1.5">
                             <i class="fa-solid fa-3 text-goldExec-600"></i>
-                            <span>سر «الرش بالماء الدافئ» في اليوم 15</span>
+                            <span>إدارة النقل إلى سلال الفقس بأمان</span>
                         </h3>
                         <p class="text-emeraldExec-950 leading-relaxed">
-                            عند نقل الدفعة إلى سلال الفقس (الهاتشر) في اليوم 15، قم برش البيض رذاذاً خفيفاً بماء دافئ (38°م) مضافاً إليه نقطة خل تفاح لكل لتر؛ هذا يرقق قشرة بيضة السمان الصلبة ويسهّل نقر الكتكوت ويرفع الفقس بـ <strong>4% إلى 5% فوراً</strong>!
+                            انقل البيض إلى سلال الفقس في الموعد المحدد لنوع السمان وتعليمات جهاز التفريخ. لا تضف الخل أو ترش البيض بالماء إلا إذا نص دليل الجهاز أو توصية مختص التفريخ على ذلك؛ لا توجد في هذا النموذج بيانات تثبت زيادة محددة في نسبة الفقس من هذه الممارسة.
                         </p>
                     </div>
                 </div>
@@ -1498,25 +1604,25 @@
                 <!-- SOP Content 2: Nutrition & Lighting Protocols -->
                 <div id="sopPanel2" class="hidden grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
                     <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
-                        <h3 class="font-black text-sm text-emeraldExec-900">برنامج تغذية قطيع التسمين (35 يوماً)</h3>
+                        <h3 class="font-black text-sm text-emeraldExec-900">إرشادات تغذية التسمين (مدة الدورة حسب السلالة والوزن)</h3>
                         <ul class="space-y-1.5 text-slate-600 list-disc pr-4">
-                            <li><strong>من يوم 1 إلى يوم 18:</strong> علف بادئ سمان مطحون ناعم (24% بروتين – طاقة 2900 ك.كالوري) + مضاد سموم وكوكسيديا.</li>
-                            <li><strong>من يوم 19 إلى يوم 35 (الذبح):</strong> علف نامي خشن (حبيبات 2 مم) 22% بروتين وطاقة 3050 ك.كالوري لترسيب اللحم في الصدر والفخذ والوصول لوزن 240–250 جم.</li>
+                            <li><strong>من يوم 1 إلى يوم 18:</strong> علف بادئ من مصدر موثوق؛ نسب البروتين والطاقة تُحدد حسب النوع والعمر وتوصية مختص التغذية، ولا تُضف أدوية وقائية دون طبيب بيطري.</li>
+                            <li><strong>من يوم 19 إلى التسويق:</strong> انتقل بين الأعلاف وفق الوزن والنوع وتعليمات المورد وسجل النمو؛ وزن 240–250 جم افتراض تخطيطي وليس ضماناً.</li>
                         </ul>
                     </div>
                     <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
                         <h3 class="font-black text-sm text-emeraldExec-900">برنامج تغذية وإضاءة الـ 300 أم</h3>
                         <ul class="space-y-1.5 text-slate-600 list-disc pr-4">
-                            <li><strong>العليقة البياضة:</strong> 20% بروتين + 2.8% إلى 3% كالسيوم + فيتامين AD3E وهـ سيلينيوم مرتين أسبوعياً في الماء لرفع الإخصاب.</li>
-                            <li><strong>برنامج الإضاءة:</strong> 16 ساعة إضاءة مستمرة + 8 ساعات إظلام يومياً (شدة إضاءة دافئة 15 لوكس)؛ لا تقلل الإضاءة أبداً عن 16 ساعة حتى لا يتوقف التبويض.</li>
+                            <li><strong>عليقة القطيع البياض:</strong> اختر العليقة ونسب البروتين والطاقة والكالسيوم بحسب عمر الطيور والغرض الإنتاجي، مع مختص تغذية ودليل المورد.</li>
+                            <li><strong>الإضاءة:</strong> يحدد البرنامج وفق السلالة والعمر وحالة القطيع. غيّر مدة الإضاءة وشدتها تدريجياً ووفق مرجع فني، ولا تعتبر ساعات ثابتة ضماناً للإنتاج أو الخصوبة.</li>
                         </ul>
                     </div>
                     <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 space-y-2">
-                        <h3 class="font-black text-sm text-amber-900">منحنى حرارة التحضين الذهبي</h3>
+                        <h3 class="font-black text-sm text-amber-900">إرشادات إدارة حرارة التحضين</h3>
                         <ul class="space-y-1.5 text-amber-950 list-disc pr-4">
-                            <li><strong>الأسبوع الأول (أخطر مرحلة):</strong> 36.5°م في الأيام الثلاثة الأولى ثم 35°م، مع فرشة نشارة خشب مغطاة بورق كرتون معرج لمنع انزلاق الأرجل (Splayed Legs).</li>
-                            <li><strong>الأسبوع الثاني:</strong> 32°م إلى 30°م مع توسيع المساحة.</li>
-                            <li><strong>الأسبوع الثالث وحتى الذبح:</strong> النقل لبطاريات التسمين في حرارة الغرفة (24–26°م).</li>
+                            <li><strong>الأسبوع الأول:</strong> اضبط الحرارة وفق عمر الكتاكيت ودليل التحضين، وراقب تجمعها أو ابتعادها عن مصدر الحرارة وحالة الأرجل والفرشة.</li>
+                            <li><strong>الأسبوع الثاني:</strong> خفّض الحرارة تدريجياً حسب سلوك القطيع والنمو والتهوية، مع توفير مساحة وماء وعلف مناسبين.</li>
+                            <li><strong>ما بعد ذلك:</strong> لا تعتمد درجة حرارة موحّدة لكل الظروف؛ التزم بدليل التربية والمراقبة اليومية مع فني مختص.</li>
                         </ul>
                     </div>
                 </div>
@@ -1526,19 +1632,19 @@
                     <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
                         <h3 class="font-black text-sm text-emeraldExec-900">استقبال الكتاكيت (أول 72 ساعة)</h3>
                         <p class="text-slate-600 leading-relaxed">
-                            يُستقبل الكتكوت عمر يوم على محلول معالجة جفاف + فيتامين C و B المركب لمدة 8 ساعات، يليها جرعة تحضين (تيلوزين + كوليستين أو دوكسي) لمدة 3 أيام لتطهير القناة الهضمية والتنفسية تماماً وخفض النفوق لأقل من 3%.
+                            وفّر ماءً نظيفاً وحرارة مناسبة وسهولة الوصول للعلف، وراقب النشاط واستهلاك الماء والنفوق يومياً. لا تستخدم المضادات الحيوية أو خلطات الأدوية وقائياً من دون تشخيص ووصفة طبيب بيطري؛ ولا يمكن ضمان معدل نفوق ثابت من خلال وصفة عامة.
                         </p>
                     </div>
                     <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
                         <h3 class="font-black text-sm text-emeraldExec-900">التحصين والوقاية من الكلوستريديا</h3>
                         <p class="text-slate-600 leading-relaxed">
-                            السمان مقاوم لمعظم الأمراض، ولكن يجب تحصين قطيع الأمهات ضد <strong>النيوكاسل (لاسوتا أو كلون 30)</strong> كل 45 يوماً في مياه الشرب، مع وضع مضاد كوكسيديا وكلوستريديا (أوكسي تتراسيكلين أو أمبروليوم) وقائياً لقطيع التسمين في اليوم 14 واليوم 24.
+                            يضع الطبيب البيطري برنامج التحصين والوقاية بعد تقييم مصدر الطيور وتاريخها والوضع الوبائي المحلي وتعليمات اللقاحات المرخصة. لا تعتمد جدولاً ثابتاً أو مضاداً حيوياً وقائياً من صفحة عامة؛ سجّل التحصينات والأدوية وفترات السحب قبل التسويق.
                         </p>
                     </div>
                     <div class="p-4 rounded-xl bg-emeraldExec-50 border border-emeraldExec-200 space-y-2">
                         <h3 class="font-black text-sm text-emeraldExec-900">مهمة المهندس والعاملين اليومية</h3>
                         <p class="text-emeraldExec-950 leading-relaxed">
-                            كشط السبلة من تحت البطاريات كل 48 ساعة لمنع تصاعد غاز الأمونيا (الأمونيا تسبب التهاب العيون وانخفاض إنتاج البيض)، وتطهير صواني الهاتشر بالرباعي أمونيوم أو الفيركون S فور خروج كل دفعة كتاكيت كل 6 أيام.
+                            ضع جدولاً موثقاً لإزالة المخلفات والتنظيف والتطهير، واستخدم فقط مطهراً مناسباً وفق ملصق المنتج ومدة التلامس واشتراطات السلامة. نظّف المعدات بين الدفعات وتأكد من جفافها وملاءمتها قبل إعادة التشغيل.
                         </p>
                     </div>
                 </div>
@@ -1547,13 +1653,13 @@
                 <div id="sopPanel4" class="hidden space-y-4 text-xs">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
-                            <h3 class="font-black text-sm text-emeraldExec-900">بروتوكول الذبح والتسميط والتبريد القياسي</h3>
+                            <h3 class="font-black text-sm text-emeraldExec-900">تصور أولي لمسار الذبح والتبريد — يلزم اعتماده بيطرياً ومحلياً</h3>
                             <p class="text-slate-600 leading-relaxed">
-                                تصويم طيور التسمين عن العلف لمدة <strong>6 ساعات قبل الذبح</strong> (مع استمرار الماء) لتفريغ الحوصلة والأمعاء. بعد الذبح والادماء لمدة دقيقتين، يتم التسميط في ماء حرارته <strong>54°م إلى 56°م لمدة 30 ثانية فقط</strong> (الماء المغلي يسلخ جلد السمان الرقيق!)، ثم الترييش في ماكينة أصابع المطاط الطرية، فالغمر في <strong>ماء مثلج مضاف إليه قليل من الملح والليمون لمدة 20 دقيقة</strong> لشد اللحم وإعطائه اللون الأبيض الوردي الفاخر.
+                                لا تستخدم وصفة ذبح وتجهيز عامة من هذه الصفحة. يجب أن تتم عمليات الذبح والتجهيز في منشأة مستوفية للاشتراطات المحلية وتحت الإشراف البيطري المناسب، مع الالتزام بإجراءات الرفق بالحيوان وسلامة الغذاء ومنع التلوث وسلسلة التبريد. حدّد فترات منع العلف والماء وخطوات المعالجة وفق اللوائح وتعليمات المختص والمنشأة المرخصة.
                             </p>
                         </div>
                         <div class="p-4 rounded-xl bg-goldExec-50 border border-goldExec-300 space-y-2">
-                            <h3 class="font-black text-sm text-goldExec-900">توزيع الحصص التسويقية المعتمدة (110,000 ج.م/شهرياً)</h3>
+                            <h3 class="font-black text-sm text-goldExec-900">توزيع حصص التسويق الافتراضي (يتغير مع الأسعار والكميات المدخلة)</h3>
                             <ul class="space-y-1.5 text-goldExec-950 list-disc pr-4 font-semibold">
                                 <li><strong>مطاعم المشويات والكبابجية (ههيا – الزقازيق – أبو كبير):</strong> 456 جوزاً شهرياً (60%) بسعر جملة 110 ج.م للجوز بتوريد أسبوعي ثابت.</li>
                                 <li><strong>الأسر والنوادي والتوصيل المنزلي والسوبرماركت:</strong> 304 جوزاً شهرياً (40%) بسعر قطاعي 122.5 ج.م للجوز (ليحقق متوسط 115 ج.م للجوز = 87,400 ج.م).</li>
@@ -1571,6 +1677,7 @@
         let currentMode = 'smart';
         let feedScienceActive = false;
         let currentStressMode = 'normal';
+        let currentBatchInspector = 1;
 
         // Chart.js instances
         let revChart = null;
@@ -1578,11 +1685,108 @@
 
         // Format numbers cleanly in Arabic/Egyptian style with commas
         function fmtNum(num, decimals = 0) {
-            if (isNaN(num) || !isFinite(num)) return '0';
-            return Number(num).toLocaleString('en-US', {
+            const value = Number(num);
+            if (!Number.isFinite(value)) return '0';
+            return value.toLocaleString('en-US', {
                 minimumFractionDigits: decimals,
                 maximumFractionDigits: decimals
             });
+        }
+
+        // Safe numeric reads: zero is a valid value and never falls through to a default.
+        function numVal(id, fallback = 0) {
+            const element = document.getElementById(id);
+            if (!element) return fallback;
+            const value = Number.parseFloat(element.value);
+            return Number.isFinite(value) ? value : fallback;
+        }
+
+        function clampNum(value, min, max) {
+            let result = Number.isFinite(value) ? value : min;
+            if (Number.isFinite(min)) result = Math.max(min, result);
+            if (Number.isFinite(max)) result = Math.min(max, result);
+            return result;
+        }
+
+        function setText(id, value) {
+            const element = document.getElementById(id);
+            if (element) element.textContent = value;
+        }
+
+        let lastSimulation = null;
+
+        function installNumericInputGuards() {
+            document.querySelectorAll('input[type="number"]').forEach((input) => {
+                input.addEventListener('change', () => {
+                    const min = input.min !== '' ? Number.parseFloat(input.min) : -Infinity;
+                    const max = input.max !== '' ? Number.parseFloat(input.max) : Infinity;
+                    let value = Number.parseFloat(input.value);
+                    if (!Number.isFinite(value)) value = Number.isFinite(min) ? min : 0;
+                    value = clampNum(value, min, max);
+                    input.value = String(value);
+                    input.classList.remove('input-invalid');
+                    recalculateAll();
+                });
+            });
+        }
+
+        // CSV export in UTF-8 with BOM so Arabic text opens correctly in spreadsheet apps.
+        function exportFinancialCsv() {
+            const state = lastSimulation;
+            if (!state) {
+                window.alert('لم تكتمل الحسابات بعد. أعد المحاولة بعد ظهور النتائج.');
+                return;
+            }
+            const rows = [
+                ['دراسة جدوى تقديرية - مشروع سمان ههيا', 'القيمة', 'الوحدة'],
+                ['نمط المحاكاة', state.currentMode === 'smart' ? 'ترابطي ذكي' : 'يدوي', ''],
+                ['سعة دفعة الفقاسة', numVal('inpBatchEggs', 816), 'بيضة/دفعة'],
+                ['عدد الدفعات الشهري المفترض', numVal('inpBatchesPerMonth', 5), 'دفعة/شهر'],
+                ['مدة تجميع البيض المفترضة', numVal('inpCollectionDays', 4), 'يوم'],
+                ['مدة السِتر/التقليب المفترضة', numVal('inpSetterDays', 14), 'يوم'],
+                ['مدة الهاتشر/الفقس المفترضة', numVal('inpHatcherDays', 3), 'يوم'],
+                ['مدة التسمين المفترضة', numVal('inpFatteningDays', 35), 'يوم'],
+                ['إجمالي الإيرادات الأساسية', state.totalRevenue, 'جنيه/شهر'],
+                ['إجمالي المصروفات المسجلة', state.totalExpenses, 'جنيه/شهر'],
+                ['هامش القيمة المضافة الصافي', state.valueAddedContribution, 'جنيه/شهر'],
+                ['صافي التشغيل التقديري', state.netProfit, 'جنيه/شهر'],
+                ['هامش التشغيل التقديري', state.profitMargin, '%'],
+                ['إجمالي الكتاكيت الناتجة حسب نسبة الفقس', state.totalChicksMonth, 'كتكوت/شهر'],
+                ['عدد الأمهات', state.mothersCount, 'أم'],
+                ['عدد الذكور', state.malesCount, 'ذكر'],
+                ['عدد الإناث لكل ذكر - افتراض', state.femalesPerMale, 'أنثى/ذكر'],
+                ['متوسط الوزن الحي المفترض للطائر', state.liveWeightPerBirdGrams, 'جرام'],
+                ['هامش القيمة المضافة المفترض لكل جوز', state.vaMarinatedNetPerPair, 'جنيه/جوز'],
+                ['هامش القيمة المضافة المفترض لكل بيضة', state.vaEggNetPerEgg, 'جنيه/بيضة'],
+                ['الكتاكيت المخصصة للبيع عمر يوم', state.chicksSold, 'كتكوت/شهر'],
+                ['الكتاكيت المخصصة للتسمين', state.chicksFattening, 'كتكوت/شهر'],
+                ['الطيور الناتجة بعد النفوق', state.netSlaughterBirds, 'طائر/شهر'],
+                ['الأزواج القابلة للبيع', state.netSlaughterPairs, 'جوز/شهر'],
+                ['بيض الإنتاج الشهري', state.totalEggsMonth, 'بيضة/شهر'],
+                ['بيض المفرخ المقبول حسب الخطة', state.incubatorEggsMonth, 'بيضة/شهر'],
+                ['البيض المفترض صالحاً للبيع', state.surplusEggsMonth, 'بيضة/شهر'],
+                ['تكلفة العلف للأمهات', state.breederFeedCost, 'جنيه/شهر'],
+                ['تكلفة علف التسمين', state.fatteningFeedCost, 'جنيه/شهر'],
+                ['تكلفة صيانة ورسوم إضافية', state.maintenanceCost, 'جنيه/شهر'],
+                ['مخصص احتياطي الطوارئ', state.contingencyCost, 'جنيه/شهر'],
+                ['تنبيه التوازن الإنتاجي', state.productionWarning || 'لا يوجد', 'ملاحظة'],
+                ['ملاحظة', 'النتائج تقديرية وتتوقف على صحة المدخلات والعروض والأسعار الفعلية', ''],
+            ];
+            const escapeCell = (value) => {
+                const text = String(value ?? '');
+                return '"' + text.replace(/"/g, '""') + '"';
+            };
+            const csv = '\uFEFF' + rows.map((row) => row.map(escapeCell).join(',')).join('\r\n');
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'saman_hehia_feasibility.csv';
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            window.setTimeout(() => URL.revokeObjectURL(url), 1500);
         }
 
         // Switch between Smart Linked Mode and Manual Direct Mode
@@ -1662,281 +1866,355 @@
         }
 
         // Core Calculation Engine
+        // Core Calculation Engine. Values are estimates, not market or veterinary guarantees.
         function recalculateAll() {
-            // 1. Read Hatchery & Breeder Inputs
-            const batchEggs = parseFloat(document.getElementById('inpBatchEggs').value) || 0;
-            const batchesPerMonth = parseFloat(document.getElementById('inpBatchesPerMonth').value) || 0;
-            const collectionDays = parseFloat(document.getElementById('inpCollectionDays').value) || 1;
-            const layingRatePct = parseFloat(document.getElementById('inpLayingRate').value) || 80;
-            const eggCullRatePct = parseFloat(document.getElementById('inpEggCullRate').value) || 0;
+            const batchEggs = Math.max(0, numVal('inpBatchEggs', 816));
+            const batchesPerMonth = Math.max(0, numVal('inpBatchesPerMonth', 5));
+            const collectionDays = clampNum(numVal('inpCollectionDays', 4), 1, 10);
+            const layingRatePct = clampNum(numVal('inpLayingRate', 80), 1, 100);
+            const eggCullRatePct = clampNum(numVal('inpEggCullRate', 15), 0, 50);
+            const cullSaleablePct = clampNum(numVal('inpCullSaleablePct', 100), 0, 100);
             const autoMothers = document.getElementById('chkAutoMothers').checked;
 
-            // Total Machine Capacity (3 batches overlap)
-            document.getElementById('lblTotalMachineCap').textContent = fmtNum(batchEggs * 3);
+            setText('lblTotalMachineCap', fmtNum(batchEggs * 3));
 
-            // Collection Days Standard Alert
             const alertEl = document.getElementById('lblCollectionStandardAlert');
             if (collectionDays <= 4) {
-                alertEl.className = "text-[11px] text-emeraldExec-700 font-bold mt-0.5 block";
-                alertEl.innerHTML = '<i class="fa-solid fa-circle-check"></i> معيار ذهبي ممتاز (4 أيام يحقق أعلى فقس عالمي)';
-            } else if (collectionDays === 5) {
-                alertEl.className = "text-[11px] text-amber-600 font-bold mt-0.5 block";
-                alertEl.innerHTML = '<i class="fa-solid fa-circle-info"></i> مقبول عالمياً (5 أيام الحد الأقصى قبل تراجع الفقس)';
+                alertEl.className = 'text-[11px] text-emeraldExec-700 font-bold mt-0.5 block';
+                alertEl.textContent = 'مدة تجميع قصيرة؛ تحقق من ظروف الحفظ ونتائج الفقس الفعلية.';
+            } else if (collectionDays <= 5) {
+                alertEl.className = 'text-[11px] text-amber-600 font-bold mt-0.5 block';
+                alertEl.textContent = 'راجع تعليمات حفظ البيض ومعدلات الفقس المسجلة لهذا القطيع.';
             } else {
-                alertEl.className = "text-[11px] text-red-600 font-bold mt-0.5 block";
-                alertEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> تحذير: تخزين البيض أكثر من 5 أيام يخفض نسبة الفقس!';
+                alertEl.className = 'text-[11px] text-red-600 font-bold mt-0.5 block';
+                alertEl.textContent = 'مدة التجميع مرتفعة نسبياً؛ راجعها مع مختص التفريخ وتعليمات الجهاز.';
             }
 
-            // Calculate or Read Mothers Count
-            let mothersCount = parseFloat(document.getElementById('inpMothersCount').value) || 0;
+            let mothersCount = Math.max(0, numVal('inpMothersCount', 300));
             if (autoMothers) {
-                const netSelectionFactor = Math.max(0.1, (100 - eggCullRatePct) / 100);
-                const totalEggsNeededInCollection = batchEggs / netSelectionFactor;
-                const dailyEggsNeeded = totalEggsNeededInCollection / Math.max(1, collectionDays);
-                mothersCount = Math.ceil(dailyEggsNeeded / (layingRatePct / 100));
+                const selectionFactor = Math.max(0.1, (100 - eggCullRatePct) / 100);
+                const eggsCollectedNeeded = batchEggs / selectionFactor;
+                const dailyEggsNeeded = eggsCollectedNeeded / collectionDays;
+                mothersCount = Math.ceil(dailyEggsNeeded / Math.max(0.01, layingRatePct / 100));
                 document.getElementById('inpMothersCount').value = mothersCount;
+            } else {
+                mothersCount = Math.ceil(mothersCount);
             }
 
-            const malesCount = Math.ceil(mothersCount / 3);
-            document.getElementById('lblMalesCount').textContent = fmtNum(malesCount);
+            const femalesPerMale = clampNum(numVal('inpFemalesPerMale', 3), 1, 20);
+            const malesCount = Math.ceil(mothersCount / femalesPerMale);
+            setText('lblMalesCount', fmtNum(malesCount));
+            const motherPrice = Math.max(0, numVal('inpMotherPrice', 60));
+            const malePrice = Math.max(0, numVal('inpMalePrice', 50));
+            const flockCapital = mothersCount * motherPrice + malesCount * malePrice;
+            setText('lblFlockCapital', fmtNum(flockCapital));
 
-            const motherPrice = parseFloat(document.getElementById('inpMotherPrice').value) || 0;
-            const malePrice = parseFloat(document.getElementById('inpMalePrice').value) || 0;
-            const flockCapital = (mothersCount * motherPrice) + (malesCount * malePrice);
-            document.getElementById('lblFlockCapital').textContent = fmtNum(flockCapital);
-
-            // Egg Production & Surplus Calculation
-            const dailyEggsProduced = Math.round(mothersCount * (layingRatePct / 100));
+            const dailyEggsProduced = Math.round(mothersCount * layingRatePct / 100);
             const totalEggsMonth = dailyEggsProduced * 30;
-            const cycleDays = batchesPerMonth > 0 ? (30 / batchesPerMonth) : 6;
-            const totalEggsPerCycle = Math.round(dailyEggsProduced * cycleDays);
-
+            const cycleDays = batchesPerMonth > 0 ? 30 / batchesPerMonth : 0;
+            const totalEggsPerCycle = cycleDays > 0 ? Math.round(dailyEggsProduced * cycleDays) : 0;
             const incubatorEggsMonth = Math.round(batchEggs * batchesPerMonth);
-            const surplusEggsMonth = Math.max(0, totalEggsMonth - incubatorEggsMonth);
+            const selectionFactor = Math.max(0.1, (100 - eggCullRatePct) / 100);
+            const grossEggsForIncubator = incubatorEggsMonth / selectionFactor;
+            const saleableCullEggs = Math.max(0, grossEggsForIncubator - incubatorEggsMonth) * cullSaleablePct / 100;
+            // The default 100% assumes all rejected eggs are intact and suitable for table use.
+            const surplusEggsMonth = Math.max(0, totalEggsMonth - grossEggsForIncubator + saleableCullEggs);
             const surplusEggsPerBatch = batchesPerMonth > 0 ? Math.round(surplusEggsMonth / batchesPerMonth) : 0;
             const surplusEggs3Batches = surplusEggsPerBatch * 3;
-            const surplusIfOnly3BatchesMonth = Math.max(0, totalEggsMonth - (batchEggs * 3));
+            const surplusIfOnly3BatchesMonth = Math.max(0, totalEggsMonth - (batchEggs * 3 / selectionFactor) + (batchEggs * 3 / selectionFactor - batchEggs * 3) * cullSaleablePct / 100);
 
-            document.getElementById('lblDailyEggProd').textContent = `${fmtNum(dailyEggsProduced)} بيضة/يوم`;
-            document.getElementById('boxTotalEggsMonth').textContent = fmtNum(totalEggsMonth);
-            document.getElementById('boxTotalEggsCycle').textContent = `${fmtNum(totalEggsPerCycle)} كل ${fmtNum(cycleDays, 0)} أيام`;
-            document.getElementById('boxIncubatorEggsMonth').textContent = fmtNum(incubatorEggsMonth);
-            document.getElementById('boxIncubatorBatchesNote').textContent = `${fmtNum(batchesPerMonth)} دفعات × ${fmtNum(batchEggs)}`;
-            document.getElementById('boxSurplusEggsMonth').textContent = fmtNum(surplusEggsMonth);
-            document.getElementById('boxSurplusEggsBatch').textContent = `${fmtNum(surplusEggsPerBatch)} باقية/دفعة`;
-            document.getElementById('boxSurplus3Batches').textContent = fmtNum(surplusEggs3Batches);
-            document.getElementById('boxSurplusIfOnly3').textContent = `${fmtNum(surplusIfOnly3BatchesMonth)} لو 3 دفعات/شهر`;
+            setText('lblDailyEggProd', `${fmtNum(dailyEggsProduced)} بيضة/يوم`);
+            setText('boxTotalEggsMonth', fmtNum(totalEggsMonth));
+            setText('boxTotalEggsCycle', `${fmtNum(totalEggsPerCycle)} كل ${fmtNum(cycleDays, 1)} أيام`);
+            setText('boxIncubatorEggsMonth', fmtNum(incubatorEggsMonth));
+            setText('boxIncubatorBatchesNote', `${fmtNum(batchesPerMonth, 1)} دفعات × ${fmtNum(batchEggs)}`);
+            setText('boxSurplusEggsMonth', fmtNum(surplusEggsMonth));
+            setText('boxSurplusEggsBatch', `${fmtNum(surplusEggsPerBatch)} باقية/دفعة`);
+            setText('boxSurplus3Batches', fmtNum(surplusEggs3Batches));
+            setText('boxSurplusIfOnly3', `${fmtNum(surplusIfOnly3BatchesMonth)} لو 3 دفعات/شهر`);
 
-            // Hatchability & Chicks Output
-            const hatchRatePct = parseFloat(document.getElementById('inpHatchRate').value) || 0;
-            const chicksPerBatch = Math.round(batchEggs * (hatchRatePct / 100));
-            const totalChicksMonth = Math.round(chicksPerBatch * batchesPerMonth);
+            const hatchRatePct = clampNum(numVal('inpHatchRate', 83.33), 0, 100);
+            const chicksPerBatch = Math.round(batchEggs * hatchRatePct / 100);
+            const totalChicksMonth = Math.max(0, Math.round(chicksPerBatch * batchesPerMonth));
+            setText('lblChicksPerBatch', fmtNum(chicksPerBatch));
+            setText('lblChicksPerMonth', fmtNum(totalChicksMonth));
+            setText('lblTotalChicksToSplit', fmtNum(totalChicksMonth));
 
-            document.getElementById('lblChicksPerBatch').textContent = fmtNum(chicksPerBatch);
-            document.getElementById('lblChicksPerMonth').textContent = fmtNum(totalChicksMonth);
-            document.getElementById('lblTotalChicksToSplit').textContent = fmtNum(totalChicksMonth);
-
-            // 2. Production Split (Day-old sold vs Fattening)
-            let chicksSold = parseFloat(document.getElementById('inpChicksSold').value) || 0;
-            let chicksFattening = parseFloat(document.getElementById('inpChicksFattening').value) || 0;
-
+            let chicksSold = Math.round(Math.max(0, numVal('inpChicksSold', 1800)));
+            let chicksFattening = Math.round(Math.max(0, numVal('inpChicksFattening', 1600)));
             if (currentMode === 'smart') {
-                if (chicksSold > totalChicksMonth) {
-                    chicksSold = totalChicksMonth;
-                    document.getElementById('inpChicksSold').value = chicksSold;
-                }
+                chicksSold = Math.min(totalChicksMonth, chicksSold);
+                document.getElementById('inpChicksSold').value = Math.round(chicksSold);
                 chicksFattening = Math.max(0, totalChicksMonth - chicksSold);
-                document.getElementById('inpChicksFattening').value = chicksFattening;
+                document.getElementById('inpChicksFattening').value = Math.round(chicksFattening);
             }
 
-            const soldSharePct = totalChicksMonth > 0 ? Math.round((chicksSold / totalChicksMonth) * 100) : 0;
-            const fattenSharePct = Math.max(0, 100 - soldSharePct);
-            document.getElementById('lblSplitPercentage').textContent = `${soldSharePct}% بيع عمر يوم | ${fattenSharePct}% تسمين`;
+            const allocationTotal = chicksSold + chicksFattening;
+            const overAllocatedChicks = Math.max(0, allocationTotal - totalChicksMonth);
+            const unallocatedChicks = Math.max(0, totalChicksMonth - allocationTotal);
+            const soldSharePct = allocationTotal > 0 ? Math.round(chicksSold / allocationTotal * 100) : 0;
+            const fattenSharePct = allocationTotal > 0 ? Math.round(chicksFattening / allocationTotal * 100) : 0;
+            setText('lblSplitPercentage', `${soldSharePct}% بيع عمر يوم | ${fattenSharePct}% تسمين`);
+            setText('lblChicksSoldPerBatch', fmtNum(batchesPerMonth > 0 ? chicksSold / batchesPerMonth : 0, 1));
+            setText('lblChicksFatteningPerBatch', fmtNum(batchesPerMonth > 0 ? chicksFattening / batchesPerMonth : 0, 1));
 
-            const chicksSoldPerBatch = batchesPerMonth > 0 ? Math.round(chicksSold / batchesPerMonth) : 0;
-            const chicksFatteningPerBatch = batchesPerMonth > 0 ? Math.round(chicksFattening / batchesPerMonth) : 0;
-            document.getElementById('lblChicksSoldPerBatch').textContent = fmtNum(chicksSoldPerBatch);
-            document.getElementById('lblChicksFatteningPerBatch').textContent = fmtNum(chicksFatteningPerBatch);
+            const mortalityRatePct = clampNum(numVal('inpMortalityRate', 5), 0, 100);
+            const netSlaughterBirds = Math.max(0, Math.round(chicksFattening * (1 - mortalityRatePct / 100)));
+            const netSlaughterPairs = Math.floor(netSlaughterBirds / 2);
+            const unpairedBirds = netSlaughterBirds % 2;
+            setText('lblNetSlaughterBirds', fmtNum(netSlaughterBirds));
+            setText('lblNetSlaughterPairs', fmtNum(netSlaughterPairs));
 
-            const mortalityRatePct = parseFloat(document.getElementById('inpMortalityRate').value) || 0;
-            const netSlaughterBirds = Math.round(chicksFattening * (1 - (mortalityRatePct / 100)));
-            const netSlaughterPairs = netSlaughterBirds / 2;
-
-            document.getElementById('lblNetSlaughterBirds').textContent = fmtNum(netSlaughterBirds);
-            document.getElementById('lblNetSlaughterPairs').textContent = fmtNum(netSlaughterPairs, netSlaughterPairs % 1 === 0 ? 0 : 1);
-
-            // Value-Added Booster Calculations (Module B)
-            const vaMarinatedPct = parseFloat(document.getElementById('rngVaMarinatedPct').value) || 0;
-            const vaEggsPct = parseFloat(document.getElementById('rngVaEggsPct').value) || 0;
-            const vaMarinatedPairs = Math.round(netSlaughterPairs * (vaMarinatedPct / 100));
-            const vaMarinatedNetExtra = vaMarinatedPairs * 18; // +18 EGP net margin per pair after seasoning/vacuum pack
-            const vaPackagedEggs = Math.round(surplusEggsMonth * (vaEggsPct / 100));
-            const vaEggsNetExtra = Math.round(vaPackagedEggs * 0.90); // +0.90 EGP net margin per branded/pickled egg
+            const vaMarinatedPct = clampNum(numVal('rngVaMarinatedPct', 30), 0, 100);
+            const vaEggsPct = clampNum(numVal('rngVaEggsPct', 50), 0, 100);
+            const vaMarinatedPairs = Math.round(netSlaughterPairs * vaMarinatedPct / 100);
+            const vaMarinatedNetPerPair = Math.max(0, numVal('inpVaMarinatedNetPerPair', 18));
+            const vaEggNetPerEgg = Math.max(0, numVal('inpVaEggNetPerEgg', 0.9));
+            const vaMarinatedNetExtra = Math.round(vaMarinatedPairs * vaMarinatedNetPerPair);
+            const vaPackagedEggs = Math.round(surplusEggsMonth * vaEggsPct / 100);
+            const vaEggsNetExtra = Math.round(vaPackagedEggs * vaEggNetPerEgg);
             const vaTotalExtraProfit = vaMarinatedNetExtra + vaEggsNetExtra;
-
-            document.getElementById('lblVaMarinatedPct').textContent = `${vaMarinatedPct}%`;
-            document.getElementById('lblVaMarinatedPairs').textContent = fmtNum(vaMarinatedPairs);
-            document.getElementById('lblVaMarinatedProfit').textContent = `+${fmtNum(vaMarinatedNetExtra)} ج.م صافي/شهر`;
-
-            document.getElementById('lblVaEggsPct').textContent = `${vaEggsPct}%`;
-            document.getElementById('lblVaEggsCount').textContent = fmtNum(vaPackagedEggs);
-            document.getElementById('lblVaEggsProfit').textContent = `+${fmtNum(vaEggsNetExtra)} ج.م صافي/شهر`;
-            document.getElementById('lblVaTotalExtraProfit').textContent = `+${fmtNum(vaTotalExtraProfit)} ج.م / شهر`;
+            setText('lblVaMarinatedPct', `${vaMarinatedPct}%`);
+            setText('lblVaMarginPerPair', fmtNum(vaMarinatedNetPerPair, 2));
+            setText('lblVaMarinatedPairs', fmtNum(vaMarinatedPairs));
+            setText('lblVaMarinatedProfit', `+${fmtNum(vaMarinatedNetExtra)} ج.م صافي/شهر`);
+            setText('lblVaEggsPct', `${vaEggsPct}%`);
+            setText('lblVaEggsCount', fmtNum(vaPackagedEggs));
+            setText('lblVaEggsProfit', `+${fmtNum(vaEggsNetExtra)} ج.م صافي/شهر`);
+            setText('lblVaTotalExtraProfit', `+${fmtNum(vaTotalExtraProfit)} ج.م / شهر`);
 
             const includeValueAdded = document.getElementById('chkIncludeValueAdded').checked;
+            const valueAddedContribution = includeValueAdded ? vaTotalExtraProfit : 0;
             const badgeVa = document.getElementById('badgeValueAddedActive');
-            if (includeValueAdded) {
-                badgeVa.classList.remove('hidden');
-            } else {
-                badgeVa.classList.add('hidden');
-            }
+            if (badgeVa) badgeVa.classList.toggle('hidden', !includeValueAdded);
 
-            // Revenues Calculation
-            const chickPrice = parseFloat(document.getElementById('inpChickPrice').value) || 0;
-            const pairPrice = parseFloat(document.getElementById('inpPairPrice').value) || 0;
-            const surplusEggPrice = parseFloat(document.getElementById('inpSurplusEggPrice').value) || 0;
-            const manureRev = parseFloat(document.getElementById('inpManureRev').value) || 0;
-
+            const chickPrice = Math.max(0, numVal('inpChickPrice', 9));
+            const pairPrice = Math.max(0, numVal('inpPairPrice', 115));
+            const surplusEggPrice = Math.max(0, numVal('inpSurplusEggPrice', 1.75));
+            const manureRev = Math.max(0, numVal('inpManureRev', 940));
             const revChicks = Math.round(chicksSold * chickPrice);
-            const revSlaughter = Math.round(netSlaughterPairs * pairPrice) + (includeValueAdded ? vaMarinatedNetExtra : 0);
-            const revSurplusEggs = Math.round(surplusEggsMonth * surplusEggPrice) + (includeValueAdded ? vaEggsNetExtra : 0);
+            const revSlaughter = Math.round(netSlaughterPairs * pairPrice);
+            const revSurplusEggs = Math.round(surplusEggsMonth * surplusEggPrice);
             const totalRevenue = revChicks + revSlaughter + revSurplusEggs + Math.round(manureRev);
 
-            document.getElementById('lblRevChicks').textContent = `${fmtNum(revChicks)} ج.م`;
-            document.getElementById('lblRevSlaughter').textContent = `${fmtNum(revSlaughter)} ج.م`;
-            document.getElementById('lblSingleBirdPrice').textContent = fmtNum(pairPrice / 2, 2);
-            document.getElementById('lblPairsSoldCount').textContent = fmtNum(netSlaughterPairs, netSlaughterPairs % 1 === 0 ? 0 : 1);
-            document.getElementById('lblRevSurplusEggs').textContent = `${fmtNum(revSurplusEggs)} ج.م`;
-            document.getElementById('lblRevManure').textContent = `${fmtNum(manureRev)} ج.م`;
+            setText('lblRevChicks', `${fmtNum(revChicks)} ج.م`);
+            setText('lblRevSlaughter', `${fmtNum(revSlaughter)} ج.م`);
+            setText('lblSingleBirdPrice', fmtNum(pairPrice / 2, 2));
+            setText('lblPairsSoldCount', fmtNum(netSlaughterPairs));
+            setText('lblRevSurplusEggs', `${fmtNum(revSurplusEggs)} ج.م`);
+            setText('lblRevManure', `${fmtNum(manureRev)} ج.م`);
+            setText('badgeTotalRevenueSec2', `${fmtNum(totalRevenue)} ج.م إيراد`);
+            setText('sec2FooterTotalRev', `${fmtNum(totalRevenue)} جنيه مصري`);
 
-            document.getElementById('badgeTotalRevenueSec2').textContent = `${fmtNum(totalRevenue)} ج.م إيراد`;
-            document.getElementById('sec2FooterTotalRev').textContent = `${fmtNum(totalRevenue)} جنيه مصري`;
+            const engCount = Math.max(0, numVal('inpEngCount', 1));
+            const engSalary = Math.max(0, numVal('inpEngSalary', 7000));
+            const workersCount = Math.max(0, numVal('inpWorkersCount', 2));
+            const workerSalary = Math.max(0, numVal('inpWorkerSalary', 7000));
+            const totalSalaries = Math.round(engCount * engSalary + workersCount * workerSalary);
+            setText('lblTotalSalaries', `${fmtNum(totalSalaries)} ج.م`);
 
-            // 3. Monthly Expenses Calculation
-            const engCount = parseFloat(document.getElementById('inpEngCount').value) || 0;
-            const engSalary = parseFloat(document.getElementById('inpEngSalary').value) || 0;
-            const workersCount = parseFloat(document.getElementById('inpWorkersCount').value) || 0;
-            const workerSalary = parseFloat(document.getElementById('inpWorkerSalary').value) || 0;
-            const totalSalaries = Math.round((engCount * engSalary) + (workersCount * workerSalary));
-            document.getElementById('lblTotalSalaries').textContent = `${fmtNum(totalSalaries)} ج.م`;
-
-            const utilitiesCost = Math.round(parseFloat(document.getElementById('inpUtilitiesCost').value) || 0);
-            const rentCost = Math.round(parseFloat(document.getElementById('inpRentCost').value) || 0);
-            const miscCost = Math.round(parseFloat(document.getElementById('inpMiscCost').value) || 0);
-
+            const utilitiesCost = Math.max(0, numVal('inpUtilitiesCost', 10000));
+            const rentCost = Math.max(0, numVal('inpRentCost', 10000));
+            const maintenanceCost = Math.max(0, numVal('inpMaintenanceCost', 0));
+            const miscCost = Math.max(0, numVal('inpMiscCost', 5920));
+            const contingencyRate = clampNum(numVal('inpContingencyRate', 0), 0, 50);
             const autoFeed = document.getElementById('chkAutoFeed').checked;
-            let breederFeedCost = parseFloat(document.getElementById('inpBreederFeedCost').value) || 0;
-            let fatteningFeedCost = parseFloat(document.getElementById('inpFatteningFeedCost').value) || 0;
-
+            let breederFeedCost = Math.max(0, numVal('inpBreederFeedCost', 10080));
+            let fatteningFeedCost = Math.max(0, numVal('inpFatteningFeedCost', 23000));
+            const breederFeedUnitCost = Math.max(0, numVal('inpBreederFeedUnitCost', 25.2));
+            const fatteningFeedKgPerBird = Math.max(0, numVal('inpFatteningFeedKgPerBird', 0.575));
+            const fatteningFeedPricePerKg = Math.max(0, numVal('inpFatteningFeedPricePerKg', 25));
             const totalBreederBirds = mothersCount + malesCount;
+            const feedMultiplier = feedScienceActive ? 0.93 : 1;
+            let fatteningFeedKgConsumed = chicksFattening * fatteningFeedKgPerBird;
             if (autoFeed) {
-                const feedMultiplier = feedScienceActive ? 0.93 : 1.0; // 7% feed saving when scientific feeder/lighting toggle is previewed
-                // Default benchmark: 400 breeder birds = 10,080 EGP (25.2 EGP/bird/month)
-                breederFeedCost = Math.round(totalBreederBirds * 25.2 * feedMultiplier);
-                // Default benchmark: 1,600 fattening chicks = 23,000 EGP (14.375 EGP/chick entered)
-                fatteningFeedCost = Math.round(chicksFattening * (23000 / 1600) * feedMultiplier);
+                breederFeedCost = Math.round(totalBreederBirds * breederFeedUnitCost * feedMultiplier);
+                fatteningFeedKgConsumed = chicksFattening * fatteningFeedKgPerBird * feedMultiplier;
+                fatteningFeedCost = Math.round(fatteningFeedKgConsumed * fatteningFeedPricePerKg);
                 document.getElementById('inpBreederFeedCost').value = breederFeedCost;
                 document.getElementById('inpFatteningFeedCost').value = fatteningFeedCost;
             }
+            setText('lblBreederFeedDetail', `${fmtNum(totalBreederBirds)} طائر × ${fmtNum(breederFeedUnitCost, 2)} ج.م/طائر/شهر`);
+            setText('lblFatteningFeedDetail', `${fmtNum(fatteningFeedKgConsumed, 1)} كجم علف × ${fmtNum(fatteningFeedPricePerKg, 2)} ج.م/كجم`);
 
-            document.getElementById('lblBreederFeedDetail').textContent = `${fmtNum(totalBreederBirds)} طائر أمهات وذكور بالقطيع`;
-            document.getElementById('lblFatteningFeedDetail').textContent = `تسمين ${fmtNum(chicksFattening)} طائر في الشهر`;
+            const coreExpenses = totalSalaries + utilitiesCost + rentCost + maintenanceCost + breederFeedCost + fatteningFeedCost + miscCost;
+            const contingencyCost = Math.round(coreExpenses * contingencyRate / 100);
+            const totalExpenses = coreExpenses + contingencyCost;
+            setText('badgeTotalExpensesSec3', `${fmtNum(totalExpenses)} ج.م مصروفات`);
+            setText('sec3FooterTotalExp', `${fmtNum(totalExpenses)} جنيه مصري`);
+            setText('tblDescMaintenance', `صيانة ورسوم ومصروفات إضافية: ${fmtNum(maintenanceCost)} ج.م`);
+            setText('tblValMaintenance', fmtNum(maintenanceCost));
+            setText('tblDescContingency', `احتياطي ${fmtNum(contingencyRate, 1)}% من المصروفات الأساسية`);
+            setText('tblValContingency', fmtNum(contingencyCost));
 
-            const totalExpenses = totalSalaries + utilitiesCost + rentCost + breederFeedCost + fatteningFeedCost + miscCost;
-            document.getElementById('badgeTotalExpensesSec3').textContent = `${fmtNum(totalExpenses)} ج.م مصروفات`;
-            document.getElementById('sec3FooterTotalExp').textContent = `${fmtNum(totalExpenses)} جنيه مصري`;
+            const netProfit = totalRevenue - totalExpenses + valueAddedContribution;
+            const profitMargin = totalRevenue > 0 ? netProfit / totalRevenue * 100 : 0;
+            setText('lblVaCombinedNetProfit', `${fmtNum(netProfit)} ج.م`);
+            setText('kpiNetProfit', `${fmtNum(netProfit)} ج.م`);
+            setText('kpiDailyProfit', `${fmtNum(Math.round(netProfit / 30))} ج.م صافي يومياً`);
+            setText('kpiTotalRevenue', `${fmtNum(totalRevenue)} ج.م`);
+            setText('kpiTotalExpenses', `${fmtNum(totalExpenses)} ج.م`);
+            setText('kpiFlockSize', `${fmtNum(mothersCount)} أم + ${fmtNum(malesCount)} ذكر`);
+            setText('kpiFlockCost', `تكلفة شراء: ${fmtNum(flockCapital)} ج.م`);
+            setText('kpiSurplusEggsMonth', `${fmtNum(surplusEggsMonth)} بيضة/شهر`);
+            setText('kpiSurplusEggsBatch', `${fmtNum(surplusEggsPerBatch)}/دفعة | ${fmtNum(surplusEggs3Batches)} لـ 3 دفعات`);
+            setText('kpiProfitMargin', `${fmtNum(profitMargin, 1)}%`);
 
-            // 4. Net Profit & KPI Bar Updates
-            const netProfit = totalRevenue - totalExpenses;
-            const profitMargin = totalRevenue > 0 ? ((netProfit / totalRevenue) * 100) : 0;
+            const eggShortfall = Math.max(0, Math.ceil(grossEggsForIncubator - totalEggsMonth));
+            const otherContributions = revChicks + revSurplusEggs + manureRev + valueAddedContribution;
+            const fixedAndOtherExpenses = totalExpenses - otherContributions;
+            // Break-even volume uses contribution margin after fattening feed, not gross pair price alone.
+            const contingencyMultiplier = 1 + contingencyRate / 100;
+            const feedCostPerPair = netSlaughterPairs > 0 ? (fatteningFeedCost / netSlaughterPairs) * contingencyMultiplier : 0;
+            const pairContributionMargin = pairPrice - feedCostPerPair;
+            const fixedCostsForBreakEven = totalExpenses - fatteningFeedCost * contingencyMultiplier;
+            const breakEvenNumerator = fixedCostsForBreakEven - otherContributions;
+            const breakEvenPairs = netSlaughterPairs > 0 && pairContributionMargin > 0
+                ? Math.max(0, Math.ceil(breakEvenNumerator / pairContributionMargin))
+                : -1;
+            const safetyMarginPct = netSlaughterPairs > 0 && breakEvenPairs >= 0
+                ? ((netSlaughterPairs - breakEvenPairs) / netSlaughterPairs) * 100
+                : 0;
+            const productionFeasible = overAllocatedChicks === 0 && eggShortfall === 0 && !(currentMode === 'manual' && unallocatedChicks > 0);
+            setText('kpiBreakEvenPairs', !productionFeasible
+                ? 'غير متاح: صحح توازن الإنتاج أولاً'
+                : breakEvenPairs >= 0
+                    ? `التعادل: ${fmtNum(breakEvenPairs)} جوز (أمان ${fmtNum(safetyMarginPct, 1)}%)`
+                    : 'التعادل غير متاح: هامش الجوز بعد العلف غير موجب أو لا يوجد إنتاج');
 
-            // Update Value-Added Combined Net Profit Preview
-            const baseNetWithoutVa = includeValueAdded ? (netProfit - vaTotalExtraProfit) : netProfit;
-            document.getElementById('lblVaCombinedNetProfit').textContent = `${fmtNum(baseNetWithoutVa + vaTotalExtraProfit)} ج.م`;
+            const targetProfit = numVal('inpTargetProfit', 30000);
+            const kpiStatus = document.getElementById('kpiProfitStatusBadge');
+            if (overAllocatedChicks > 0 || eggShortfall > 0 || (currentMode === 'manual' && unallocatedChicks > 0)) {
+                kpiStatus.textContent = 'توازن الإنتاج يحتاج مراجعة';
+                kpiStatus.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-red-600 text-white';
+            } else if (netProfit < 0) {
+                kpiStatus.textContent = 'خسارة تقديرية';
+                kpiStatus.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-red-600 text-white';
+            } else if (netProfit >= targetProfit) {
+                kpiStatus.textContent = 'حقق الهدف';
+                kpiStatus.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emeraldExec-600 text-white';
+            } else {
+                kpiStatus.textContent = 'أقل من الهدف';
+                kpiStatus.className = 'text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-500 text-white';
+            }
 
-            // Update Top KPI Bar
-            document.getElementById('kpiNetProfit').textContent = `${fmtNum(netProfit)} ج.م`;
-            document.getElementById('kpiDailyProfit').textContent = `${fmtNum(Math.round(netProfit / 30))} ج.م صافي يومياً`;
-            document.getElementById('kpiTotalRevenue').textContent = `${fmtNum(totalRevenue)} ج.م`;
-            document.getElementById('kpiTotalExpenses').textContent = `${fmtNum(totalExpenses)} ج.م`;
-            document.getElementById('kpiFlockSize').textContent = `${fmtNum(mothersCount)} أم + ${fmtNum(malesCount)} ذكر`;
-            document.getElementById('kpiFlockCost').textContent = `تكلفة شراء: ${fmtNum(flockCapital)} ج.م`;
-            document.getElementById('kpiSurplusEggsMonth').textContent = `${fmtNum(surplusEggsMonth)} بيضة/شهر`;
-            document.getElementById('kpiSurplusEggsBatch').textContent = `${fmtNum(surplusEggsPerBatch)}/دفعة | ${fmtNum(surplusEggs3Batches)} لـ 3 دفعات`;
-            document.getElementById('kpiProfitMargin').textContent = `${fmtNum(profitMargin, 1)}%`;
+            const productionWarning = document.getElementById('productionBalanceWarning');
+            const warnings = [];
+            let productionWarningType = 'none';
+            if (overAllocatedChicks > 0) {
+                warnings.push(`تخصيص الكتاكيت يتجاوز الإنتاج الشهري بمقدار ${fmtNum(overAllocatedChicks)} كتكوت. الإيرادات الحالية في الوضع اليدوي نظرية وغير قابلة للتحقق قبل توفير هذا العدد.`);
+                productionWarningType = 'error';
+            } else if (unallocatedChicks > 0 && currentMode === 'manual') {
+                warnings.push(`يوجد ${fmtNum(unallocatedChicks)} كتكوت غير مخصص للبيع أو التسمين ضمن مدخلاتك.`);
+                productionWarningType = 'warning';
+            }
+            if (eggShortfall > 0) {
+                warnings.push(`إنتاج البيض أقل من الكمية الإجمالية اللازمة للفقاسة بنحو ${fmtNum(eggShortfall)} بيضة شهرياً وفق نسبة الفرز الحالية.`);
+                if (productionWarningType === 'none') productionWarningType = 'error';
+            }
+            if (warnings.length) {
+                productionWarning.classList.remove('hidden');
+                productionWarning.className = productionWarningType === 'error'
+                    ? 'rounded-xl border border-red-300 bg-red-50 text-red-900 px-3 py-2.5 text-xs font-bold'
+                    : 'rounded-xl border border-amber-300 bg-amber-50 text-amber-950 px-3 py-2.5 text-xs font-bold';
+                productionWarning.textContent = warnings.join(' ');
+            } else {
+                productionWarning.classList.add('hidden');
+                productionWarning.textContent = '';
+            }
 
-            // Break-even slaughtered pairs calculation
-            const fixedAndOtherExpenses = totalExpenses - (revChicks + revSurplusEggs + manureRev);
-            const breakEvenPairs = pairPrice > 0 ? Math.max(0, Math.ceil(fixedAndOtherExpenses / pairPrice)) : 0;
-            const safetyMarginPct = netSlaughterPairs > 0 ? Math.max(0, ((netSlaughterPairs - breakEvenPairs) / netSlaughterPairs) * 100) : 0;
-            document.getElementById('kpiBreakEvenPairs').textContent = `التعادل: ${fmtNum(breakEvenPairs)} جوز (أمان ${fmtNum(safetyMarginPct, 0)}%)`;
+            setText('tblDescSlaughter', `${fmtNum(netSlaughterPairs)} جوز (${fmtNum(netSlaughterBirds)} طائر) × ${fmtNum(pairPrice, 2)} ج.م للجوز` + (unpairedBirds ? `؛ ${fmtNum(unpairedBirds)} طائر غير مكتمل الجوز` : ''));
+            setText('tblValSlaughter', fmtNum(revSlaughter));
+            setText('tblDescChicks', `${fmtNum(chicksSold)} كتكوت × ${fmtNum(chickPrice, 2)} ج.م للكتكوت`);
+            setText('tblValChicks', fmtNum(revChicks));
+            setText('tblDescEggs', `${fmtNum(surplusEggsMonth)} بيضة × ${fmtNum(surplusEggPrice, 2)} ج.م + ${fmtNum(manureRev)} ج.م سبلة`);
+            setText('tblValEggs', fmtNum(revSurplusEggs + manureRev));
+            setText('tblDescSalaries', `${fmtNum(engCount)} مهندس × ${fmtNum(engSalary)} + ${fmtNum(workersCount)} عامل × ${fmtNum(workerSalary)} ج.م`);
+            setText('tblValSalaries', fmtNum(totalSalaries));
+            setText('tblDescFixed', `كهرباء ومياه (${fmtNum(utilitiesCost)}) + إيجار (${fmtNum(rentCost)}) ج.م`);
+            setText('tblValFixed', fmtNum(utilitiesCost + rentCost));
+            setText('tblDescBreederFeed', `قطيع ${fmtNum(mothersCount)} أم + ${fmtNum(malesCount)} ذكر`);
+            setText('tblValBreederFeed', fmtNum(breederFeedCost));
+            setText('tblDescFatteningFeed', `تسمين ${fmtNum(chicksFattening)} كتكوت؛ استهلاك افتراضي ${fmtNum(fatteningFeedKgConsumed, 1)} كجم`);
+            setText('tblValFatteningFeed', fmtNum(fatteningFeedCost));
+            setText('tblValMisc', fmtNum(miscCost));
+            setText('tblTotalRev', `${fmtNum(totalRevenue)} ج.م`);
+            setText('tblTotalExp', `${fmtNum(totalExpenses)} ج.م`);
+            setText('tblNetProfitFinal', `${fmtNum(netProfit)} جنيه مصري / شهرياً` + (includeValueAdded ? ' — يشمل هامش ربح القيمة المضافة المقدر' : ''));
 
-            // Update Module A: Live Bio-Efficiency Radar
-            updateBioEfficiencyRadar(collectionDays, netSlaughterBirds, netSlaughterPairs, fatteningFeedCost, breederFeedCost, totalBreederBirds, chicksFattening);
+            lastSimulation = {
+                totalRevenue, totalExpenses, netProfit, profitMargin, valueAddedContribution,
+                totalChicksMonth, chicksSold, chicksFattening, overAllocatedChicks, unallocatedChicks,
+                netSlaughterBirds, netSlaughterPairs, unpairedBirds, totalEggsMonth,
+                incubatorEggsMonth, surplusEggsMonth, breederFeedCost, fatteningFeedCost,
+                fatteningFeedKgConsumed, maintenanceCost, contingencyCost, contingencyRate,
+                mortalityRatePct, pairPrice, chickPrice, surplusEggPrice, revChicks, revSlaughter,
+                revSurplusEggs, manureRev, totalSalaries, utilitiesCost, rentCost, miscCost,
+                flockCapital, fixedAndOtherExpenses, breakEvenPairs, safetyMarginPct,
+                includeValueAdded, vaMarinatedPct, vaEggsPct, vaMarinatedNetPerPair, vaEggNetPerEgg, feedScienceActive,
+                mothersCount, malesCount, femalesPerMale,
+                liveWeightPerBirdGrams: clampNum(numVal('inpLiveWeightPerBirdGrams', 240), 1, 1000),
+                breederBirdsPerCage: clampNum(numVal('inpBreederBirdsPerCage', 25), 1, 1000),
+                fatteningBirdsPerSqm: clampNum(numVal('inpFatteningBirdsPerSqm', 50), 1, 500),
+                eggShortfall, productionWarning: warnings.join(' '), currentMode
+            };
 
-            // Update Module D: CAPEX, ROI & Break-Even Shield
-            updateCapexAndShield(flockCapital, netProfit, breakEvenPairs, netSlaughterPairs, safetyMarginPct, fixedAndOtherExpenses);
-
-            document.getElementById('tblDescFatteningFeed').textContent = `تسمين ${fmtNum(chicksFattening)} كتكوت حتى وزن الذبح السوبر جامبو`;
-            document.getElementById('tblValFatteningFeed').textContent = fmtNum(fatteningFeedCost);
-
-            document.getElementById('tblValMisc').textContent = fmtNum(miscCost);
-            document.getElementById('tblTotalRev').textContent = `${fmtNum(totalRevenue)} ج.م`;
-            document.getElementById('tblTotalExp').textContent = `${fmtNum(totalExpenses)} ج.م`;
-            document.getElementById('tblNetProfitFinal').textContent = `${fmtNum(netProfit)} جنيه مصري / شهرياً`;
-
-            // 6. Update Goal Solver & Charts
+            updateBioEfficiencyRadar(collectionDays, netSlaughterBirds, netSlaughterPairs, fatteningFeedCost, breederFeedCost, totalBreederBirds, chicksFattening, fatteningFeedKgConsumed);
+            updateCapexAndShield(flockCapital, netProfit, productionFeasible ? breakEvenPairs : -1, netSlaughterPairs, safetyMarginPct, fixedAndOtherExpenses);
             updateGoalSolverData(netProfit, netSlaughterPairs, pairPrice, chicksSold, chickPrice, fatteningFeedCost, flockCapital);
-            updateCharts(revSlaughter, revChicks, revSurplusEggs + manureRev, totalSalaries, utilitiesCost + rentCost, breederFeedCost + fatteningFeedCost, miscCost, totalRevenue, totalExpenses);
+            updateCharts(revSlaughter, revChicks, revSurplusEggs + manureRev, totalSalaries, utilitiesCost + rentCost, breederFeedCost + fatteningFeedCost, miscCost, maintenanceCost + contingencyCost, totalRevenue, totalExpenses);
+            updateTimelineTable();
+            selectBatchInspector(currentBatchInspector);
+            renderStressScenario(currentStressMode);
         }
 
         // Module A Updater: Live Bio-Efficiency Radar
-        function updateBioEfficiencyRadar(collectionDays, netSlaughterBirds, netSlaughterPairs, fatteningFeedCost, breederFeedCost, totalBreederBirds, chicksFattening) {
+        // Module A: heuristic indicators only; they do not replace hatchery records or veterinary advice.
+        function updateBioEfficiencyRadar(collectionDays, netSlaughterBirds, netSlaughterPairs, fatteningFeedCost, breederFeedCost, totalBreederBirds, chicksFattening, fatteningFeedKgConsumed) {
             const badgeStorage = document.getElementById('bioBadgeStorage');
             const impactVal = document.getElementById('bioHatchImpactVal');
             const healthStatus = document.getElementById('bioOverallHealthStatus');
-
             if (collectionDays <= 4) {
-                badgeStorage.textContent = `تجميع ${collectionDays} أيام (مثالي عالمياً)`;
-                badgeStorage.className = "text-xs font-black text-emeraldExec-700";
-                impactVal.textContent = "0% فاقد تخزين (أعلى حيوية للأجنة)";
-                impactVal.className = "font-black text-emeraldExec-700";
-                healthStatus.textContent = "مثالية (طراز عالمي A+)";
-                healthStatus.className = "text-emeraldExec-400";
-            } else if (collectionDays === 5) {
-                badgeStorage.textContent = "تجميع 5 أيام (الحد الأقصى)";
-                badgeStorage.className = "text-xs font-black text-amber-700";
-                impactVal.textContent = "-1.5% تراجع طفيف محتمل بالفقس";
-                impactVal.className = "font-black text-amber-700";
-                healthStatus.textContent = "جيدة جداً (تحت السيطرة B+)";
-                healthStatus.className = "text-amber-300";
+                badgeStorage.textContent = `تجميع ${collectionDays} أيام (مؤشر إرشادي)`;
+                badgeStorage.className = 'text-xs font-black text-emeraldExec-700';
+                impactVal.textContent = 'لا تُحسب نسبة فقد من المدة وحدها';
+                impactVal.className = 'font-black text-emeraldExec-700';
+                healthStatus.textContent = 'يلزم سجل فقس للتقييم';
+                healthStatus.className = 'text-emeraldExec-400';
+            } else if (collectionDays <= 5) {
+                badgeStorage.textContent = `تجميع ${collectionDays} أيام (راجع ظروف الحفظ)`;
+                badgeStorage.className = 'text-xs font-black text-amber-700';
+                impactVal.textContent = 'الأثر الفعلي يعتمد على ظروف التخزين';
+                impactVal.className = 'font-black text-amber-700';
+                healthStatus.textContent = 'تقييم غير مكتمل';
+                healthStatus.className = 'text-amber-300';
             } else {
-                const lossPct = ((collectionDays - 4) * 2).toFixed(1);
-                badgeStorage.textContent = `تجميع ${collectionDays} أيام (مخاطرة تخزين)`;
-                badgeStorage.className = "text-xs font-black text-red-700";
-                impactVal.textContent = `-${lossPct}% هبوط متوقع بنسبة الفقس!`;
-                impactVal.className = "font-black text-red-600";
-                healthStatus.textContent = "تنبيه: مدة حفظ البيض طويلة!";
-                healthStatus.className = "text-red-400";
+                badgeStorage.textContent = `تجميع ${collectionDays} أيام (راجع التعليمات)`;
+                badgeStorage.className = 'text-xs font-black text-red-700';
+                impactVal.textContent = 'راجع المدة مع مختص التفريخ';
+                impactVal.className = 'font-black text-red-600';
+                healthStatus.textContent = 'يلزم تقييم ظروف الحفظ';
+                healthStatus.className = 'text-red-400';
             }
 
-            // Live weight & FCR calculation (assuming 240g average live jumbo weight per slaughtered bird, and 25 EGP/kg feed)
-            const totalLiveWeightKg = netSlaughterBirds * 0.24;
-            const totalFeedKg = fatteningFeedCost / 25;
-            const fcr = totalLiveWeightKg > 0 ? (totalFeedKg / totalLiveWeightKg) : 2.52;
-            const feedPerPair = netSlaughterPairs > 0 ? (fatteningFeedCost / netSlaughterPairs) : 30.26;
+            const liveWeightPerBirdKg = clampNum(numVal('inpLiveWeightPerBirdGrams', 240), 1, 1000) / 1000;
+            const totalLiveWeightKg = netSlaughterBirds * liveWeightPerBirdKg;
+            const feedKg = Math.max(0, fatteningFeedKgConsumed);
+            const fcr = totalLiveWeightKg > 0 ? feedKg / totalLiveWeightKg : 0;
+            const feedPerPair = netSlaughterPairs > 0 ? fatteningFeedCost / netSlaughterPairs : 0;
             const potentialSaving7Pct = Math.round((fatteningFeedCost + breederFeedCost) * 0.07);
-
-            document.getElementById('bioBadgeFCR').textContent = `FCR: ${fmtNum(fcr, 2)} : 1`;
-            document.getElementById('bioLiveWeightTotal').textContent = `${fmtNum(totalLiveWeightKg, 1)} كجم لحم حي (240 جم/طائر)`;
-            document.getElementById('bioFeedPerPair').textContent = `${fmtNum(feedPerPair, 2)} ج.م / للجوز`;
-            document.getElementById('bioFeedSavingPotential').textContent = `+${fmtNum(potentialSaving7Pct)} ج.م/شهر`;
-
-            // Cages & space
-            const breederCages = Math.ceil(totalBreederBirds / 25);
-            const fatteningSpaceSqm = Math.ceil(chicksFattening / 50);
-            document.getElementById('bioBreederCagesNeeded').textContent = `${fmtNum(breederCages)} عين بطارية (25 طائر/عين)`;
-            document.getElementById('bioFatteningSpaceNeeded').textContent = `${fmtNum(fatteningSpaceSqm)} م² أقفاص (50 طائر/م²)`;
+            setText('bioBadgeFCR', `FCR تقديري: ${fmtNum(fcr, 2)} : 1`);
+            setText('bioLiveWeightTotal', `${fmtNum(totalLiveWeightKg, 1)} كجم وزن حي افتراضي (${fmtNum(liveWeightPerBirdKg * 1000, 0)} جم/طائر)`);
+            setText('bioFeedPerPair', `${fmtNum(feedPerPair, 2)} ج.م / للجوز`);
+            setText('bioFeedSavingPotential', `وفر افتراضي 7%: ${fmtNum(potentialSaving7Pct)} ج.م/شهر`);
+            const femalesPerMale = clampNum(numVal('inpFemalesPerMale', 3), 1, 20);
+            const breederBirdsPerCage = clampNum(numVal('inpBreederBirdsPerCage', 25), 1, 1000);
+            const fatteningBirdsPerSqm = clampNum(numVal('inpFatteningBirdsPerSqm', 50), 1, 500);
+            const breederCages = Math.ceil(totalBreederBirds / breederBirdsPerCage);
+            const fatteningSpaceSqm = Math.ceil(chicksFattening / fatteningBirdsPerSqm);
+            setText('bioBadgeSexRatio', `1 ذكر لكل ${fmtNum(femalesPerMale)} إناث (افتراض تخطيطي)`);
+            setText('bioBreederCagesNeeded', `${fmtNum(breederCages)} عين بطارية`);
+            setText('bioFatteningSpaceNeeded', `${fmtNum(fatteningSpaceSqm)} م² (حساب أولي)`);
         }
 
         // Toggle 7% Scientific Feed Saving Preview
@@ -1945,7 +2223,7 @@
             const btn = document.getElementById('btnApplyFeedScience');
             document.getElementById('chkAutoFeed').checked = true;
             if (feedScienceActive) {
-                btn.textContent = "إلغاء معاينة الوفر (العودة للأصل)";
+                btn.textContent = "إلغاء سيناريو خفض العلف";
                 btn.className = "px-3 py-1.5 rounded-lg bg-goldExec-600 hover:bg-goldExec-500 text-white text-[11px] font-bold shrink-0 transition cursor-pointer";
             } else {
                 btn.textContent = "معاينة أثر الوفر (7%)";
@@ -1954,8 +2232,51 @@
             recalculateAll();
         }
 
+        // Date labels for a rolling 30-day plan; this is scheduling arithmetic, not hatchery guidance.
+        function formatRollingDay(day) {
+            const dayNumber = Math.round(Number(day) || 0);
+            if (dayNumber < 1) return `قبل بداية الشهر بـ ${fmtNum(1 - dayNumber)} يوم`;
+            if (dayNumber <= 30) return `يوم ${dayNumber}`;
+            const monthOffset = Math.floor((dayNumber - 1) / 30);
+            const dayOfMonth = ((dayNumber - 1) % 30) + 1;
+            return monthOffset === 1 ? `يوم ${dayOfMonth} (الشهر التالي)` : `يوم ${dayOfMonth} (بعد ${fmtNum(monthOffset)} شهر)`;
+        }
+
+        function updateTimelineTable() {
+            const batchEggs = Math.max(0, numVal('inpBatchEggs', 816));
+            const batchesPerMonth = Math.max(0.5, numVal('inpBatchesPerMonth', 5));
+            const collectionDays = clampNum(numVal('inpCollectionDays', 4), 1, 10);
+            const setterDays = clampNum(numVal('inpSetterDays', 14), 1, 30);
+            const hatcherDays = clampNum(numVal('inpHatcherDays', 3), 1, 10);
+            const fatteningDays = clampNum(numVal('inpFatteningDays', 35), 1, 120);
+            const hatchRatePct = clampNum(numVal('inpHatchRate', 83.33), 0, 100);
+            const chicksPerBatch = Math.round(batchEggs * hatchRatePct / 100);
+            const surplusPerBatch = lastSimulation && batchesPerMonth > 0
+                ? Math.round((Number(lastSimulation.surplusEggsMonth) || 0) / batchesPerMonth) : 0;
+            for (let i = 1; i <= 5; i++) {
+                const startDay = Math.round((i - 1) * 30 / batchesPerMonth) + 1;
+                const setterEnd = startDay + setterDays - 1;
+                const candlingDay = startDay + Math.max(0, Math.ceil(setterDays / 2) - 1);
+                const hatcherStart = setterEnd + 1;
+                const hatcherEnd = hatcherStart + hatcherDays - 1;
+                const pullDay = hatcherEnd + 1;
+                const slaughterDay = pullDay + fatteningDays;
+                const collectText = startDay <= collectionDays
+                    ? `قبل بداية الشهر (${fmtNum(collectionDays)} أيام)`
+                    : `${formatRollingDay(startDay - collectionDays)} ← ${formatRollingDay(startDay - 1)} (${fmtNum(collectionDays)} أيام)`;
+                setText(`btnBatchTab${i}`, `الدفعة ${i} (${formatRollingDay(startDay)})`);
+                setText(`timelineCollect${i}`, collectText);
+                setText(`timelineSetter${i}`, `${formatRollingDay(startDay)} ← ${formatRollingDay(setterEnd)}`);
+                setText(`timelineHatcher${i}`, `${formatRollingDay(hatcherStart)} ← ${formatRollingDay(hatcherEnd)}`);
+                setText(`timelineHatch${i}`, `${formatRollingDay(pullDay)} (${fmtNum(chicksPerBatch)} كتكوت)`);
+                setText(`timelineSurplus${i}`, `${fmtNum(surplusPerBatch)} بيضة فائضة`);
+            }
+        }
+
         // Module C: Batch Timeline Inspector Selector
         function selectBatchInspector(batchNum) {
+            batchNum = clampNum(Math.round(Number(batchNum) || 1), 1, 5);
+            currentBatchInspector = batchNum;
             for (let i = 1; i <= 5; i++) {
                 const btn = document.getElementById('btnBatchTab' + i);
                 if (i === batchNum) {
@@ -1965,25 +2286,33 @@
                 }
             }
 
-            const startDay = ((batchNum - 1) * 6) + 1;
-            const setterEnd = startDay + 13;
-            const candlingDay = startDay + 6;
-            const hatcherStart = startDay + 14;
-            const hatcherEnd = startDay + 16;
-            const pullDay = startDay + 17;
-            const slaughterDay = pullDay + 35;
+            const batchesPerMonth = Math.max(0.5, numVal('inpBatchesPerMonth', 5));
+            const collectionDays = clampNum(numVal('inpCollectionDays', 4), 1, 10);
+            const batchEggs = Math.max(0, numVal('inpBatchEggs', 816));
+            const hatchRatePct = clampNum(numVal('inpHatchRate', 83.33), 0, 100);
+            const setterDays = clampNum(numVal('inpSetterDays', 14), 1, 30);
+            const hatcherDays = clampNum(numVal('inpHatcherDays', 3), 1, 10);
+            const fatteningDays = clampNum(numVal('inpFatteningDays', 35), 1, 120);
+            const chicksPerBatch = Math.round(batchEggs * hatchRatePct / 100);
+            const startDay = Math.round((batchNum - 1) * 30 / batchesPerMonth) + 1;
+            const setterEnd = startDay + setterDays - 1;
+            const candlingDay = startDay + Math.max(0, Math.ceil(setterDays / 2) - 1);
+            const hatcherStart = setterEnd + 1;
+            const hatcherEnd = hatcherStart + hatcherDays - 1;
+            const pullDay = hatcherEnd + 1;
+            const slaughterDay = pullDay + fatteningDays;
 
             const shelfNames = ["الرف العلوي (أ)", "الرف الأوسط (ب)", "الرف السفلي (ج)", "الرف العلوي (أ - دورة 2)", "الرف الأوسط (ب - دورة 2)"];
 
             document.getElementById('batchInspBadge').textContent = `الدفعة رقم (${batchNum}) — ${shelfNames[batchNum - 1]}`;
-            document.getElementById('batchInspTitle').textContent = `تفاصيل الرحلة الكاملة للـ 816 بيضة في الدفعة رقم ${batchNum}`;
-            document.getElementById('batchInspSummary').textContent = `تُخرج الكتاكيت في اليوم ${pullDay} من الشهر (بيع فوري + تسمين حتى اليوم ${slaughterDay})`;
+            document.getElementById('batchInspTitle').textContent = `خطة زمنية تقديرية لعدد ${fmtNum(batchEggs)} بيضة في الدفعة ${batchNum}`;
+            document.getElementById('batchInspSummary').textContent = `عدد الكتاكيت الافتراضي ${fmtNum(chicksPerBatch)}؛ خروج تقديري في ${formatRollingDay(pullDay)}، والتسمين حتى ${formatRollingDay(slaughterDay)} إذا انطبق زمن الدورة.`;
 
-            document.getElementById('bStage1Days').textContent = startDay === 1 ? "الأربعة أيام قبل بداية الشهر" : `من يوم ${startDay - 4} إلى يوم ${startDay - 1}`;
-            document.getElementById('bStage2Days').textContent = `من يوم ${startDay} إلى يوم ${setterEnd}`;
-            document.getElementById('bStage3Days').textContent = `اليوم ${candlingDay} من الشهر`;
-            document.getElementById('bStage4Days').textContent = `من يوم ${hatcherStart} إلى يوم ${hatcherEnd}`;
-            document.getElementById('bStage5Days').textContent = `الفقس: يوم ${pullDay} | الذبح: يوم ${slaughterDay}`;
+            document.getElementById('bStage1Days').textContent = startDay <= collectionDays ? `قبل بداية الشهر (تجميع ${fmtNum(collectionDays)} أيام)` : `من ${formatRollingDay(startDay - collectionDays)} إلى ${formatRollingDay(startDay - 1)}`;
+            document.getElementById('bStage2Days').textContent = `من ${formatRollingDay(startDay)} إلى ${formatRollingDay(setterEnd)}`;
+            document.getElementById('bStage3Days').textContent = formatRollingDay(candlingDay);
+            document.getElementById('bStage4Days').textContent = `من ${formatRollingDay(hatcherStart)} إلى ${formatRollingDay(hatcherEnd)}`;
+            document.getElementById('bStage5Days').textContent = `الفقس: ${formatRollingDay(pullDay)} | الذبح: ${formatRollingDay(slaughterDay)}`;
         }
 
         // Module D Updater: CAPEX, Payback & Break-Even Shield
@@ -1996,67 +2325,108 @@
 
             const totalCapex = flockCapital + machineCost + equipCost + workingCap;
             const paybackMonths = netProfit > 0 ? (totalCapex / netProfit) : 0;
-            const annualRoi = totalCapex > 0 && netProfit > 0 ? (((netProfit * 12) / totalCapex) * 100) : 0;
+            const annualRoi = totalCapex > 0 ? (((netProfit * 12) / totalCapex) * 100) : 0;
 
             document.getElementById('lblTotalCapex').textContent = `${fmtNum(totalCapex)} ج.م`;
-            document.getElementById('lblCapexPaybackPeriod').textContent = netProfit > 0 ? `${fmtNum(paybackMonths, 1)} شهر` : 'غير متاح';
-            document.getElementById('lblAnnualROI').textContent = netProfit > 0 ? `${fmtNum(annualRoi, 0)}% سنوياً` : '0%';
+            document.getElementById('lblCapexPaybackPeriod').textContent = netProfit > 0 ? `${fmtNum(paybackMonths, 1)} شهر` : 'غير متاح مع صافي غير موجب';
+            document.getElementById('lblAnnualROI').textContent = totalCapex > 0 ? `${fmtNum(annualRoi, 1)}% سنوياً` : 'غير متاح';
 
             // Break-even shield bars
-            const beWidth = Math.min(100, Math.max(0, 100 - safetyMarginPct));
+            const breakEvenPossible = breakEvenPairs >= 0;
+            const beWidth = breakEvenPossible ? Math.min(100, Math.max(0, 100 - safetyMarginPct)) : 100;
             const safeWidth = Math.max(0, 100 - beWidth);
-            document.getElementById('lblSafetyMarginPct').textContent = `هامش أمان تشغيلي: ${fmtNum(safetyMarginPct, 1)}%`;
+            document.getElementById('lblSafetyMarginPct').textContent = breakEvenPossible
+                ? `هامش أمان تشغيلي تقديري: ${fmtNum(safetyMarginPct, 1)}%`
+                : 'لا يمكن حساب هامش أمان موجب بالمدخلات الحالية';
             document.getElementById('barBreakEven').style.width = `${beWidth}%`;
             document.getElementById('barSafetyProfit').style.width = `${safeWidth}%`;
-            document.getElementById('lblBePairsDetail').textContent = `${fmtNum(breakEvenPairs)} جوز مذبوح`;
+            document.getElementById('lblBePairsDetail').textContent = breakEvenPossible ? `${fmtNum(breakEvenPairs)} جوز مذبوح` : 'غير متاح بهامش الجوز الحالي';
             document.getElementById('lblActualPairsDetail').textContent = `${fmtNum(netSlaughterPairs)} جوز مذبوح`;
 
-            const breakEvenPairPrice = netSlaughterPairs > 0 ? Math.max(0, fixedAndOtherExpenses / netSlaughterPairs) : 0;
-            document.getElementById('lblBreakEvenPairPrice').textContent = `${fmtNum(breakEvenPairPrice, 2)} ج.م / للجوز`;
+            const breakEvenPairPrice = netSlaughterPairs > 0 ? Math.max(0, fixedAndOtherExpenses / netSlaughterPairs) : null;
+            document.getElementById('lblBreakEvenPairPrice').textContent = breakEvenPairPrice === null ? 'غير متاح: لا توجد أزواج قابلة للبيع' : `${fmtNum(breakEvenPairPrice, 2)} ج.م / للجوز`;
         }
 
         // Stress Test Scenario Runner
+        // Stress-test results are recalculated from the current inputs whenever the model changes.
         function runStressScenario(scenario) {
-            currentStressMode = scenario;
+            currentStressMode = ['normal', 'feed10', 'heatwave'].includes(scenario) ? scenario : 'normal';
+            renderStressScenario(currentStressMode);
+        }
+
+        function renderStressScenario(scenario) {
+            const state = lastSimulation;
+            if (!state) return;
+            currentStressMode = ['normal', 'feed10', 'heatwave'].includes(scenario) ? scenario : 'normal';
             const btnNormal = document.getElementById('btnStressNormal');
             const btnFeed = document.getElementById('btnStressFeed');
             const btnHeat = document.getElementById('btnStressHeat');
+            const buttons = { normal: btnNormal, feed10: btnFeed, heatwave: btnHeat };
+            Object.entries(buttons).forEach(([key, button]) => {
+                if (!button) return;
+                button.className = key === currentStressMode
+                    ? 'p-2.5 rounded-xl border-2 border-emeraldExec-600 bg-emeraldExec-50 text-emeraldExec-950 font-black text-xs transition cursor-pointer'
+                    : 'p-2.5 rounded-xl border border-slate-300 bg-white text-slate-800 font-bold text-xs transition cursor-pointer';
+            });
 
-            btnNormal.className = "p-2.5 rounded-xl border border-slate-300 bg-white text-slate-800 font-bold text-xs transition cursor-pointer";
-            btnFeed.className = "p-2.5 rounded-xl border border-slate-300 bg-white text-slate-800 font-bold text-xs transition cursor-pointer";
-            btnHeat.className = "p-2.5 rounded-xl border border-slate-300 bg-white text-slate-800 font-bold text-xs transition cursor-pointer";
+            let scenarioProfit = state.netProfit;
+            let titleText = `الوضع الأساسي: صافي التشغيل التقديري ${fmtNum(scenarioProfit)} ج.م/شهر`;
+            let description = 'النتيجة مبنية على المدخلات الحالية، ولا تشمل أي بند غير مدخل في المصروفات. السيناريو الحسابي لا يضمن نتيجة تشغيل فعلية.';
+            let protocol = 'راجع عروض الموردين، وسجّل تكلفة كل دفعة ونفوقها ومبيعاتها، واحتفظ باحتياطي نقدي مناسب.';
+            let cardClass = 'p-4 rounded-xl bg-emeraldExec-50 border border-emeraldExec-300 space-y-2 text-xs';
+            let badgeClass = 'px-2 py-0.5 rounded bg-emeraldExec-700 text-white text-[11px]';
+            let badgeText = scenarioProfit >= 0 ? 'صافي موجب' : 'صافي سالب';
 
-            const card = document.getElementById('stressResultCard');
+            if (currentStressMode === 'feed10') {
+                const extraFeedCost = Math.round((state.breederFeedCost + state.fatteningFeedCost) * 0.10);
+                scenarioProfit = state.netProfit - extraFeedCost;
+                titleText = `اختبار زيادة العلف 10%: صافي التشغيل ${fmtNum(scenarioProfit)} ج.م/شهر`;
+                description = `هذا الاختبار يضيف ${fmtNum(extraFeedCost)} ج.م إلى فاتورة علف الأمهات والتسمين، مع ثبات بقية المدخلات. عدّل النسبة أو الأسعار لاختبار حالات أخرى.`;
+                protocol = 'حدّث سعر الكيلو من فواتير الموردين، وراجع الهدر ومعدل التحويل الفعلي قبل افتراض أي وفر تعويضي.';
+                cardClass = 'p-4 rounded-xl bg-amber-50 border border-amber-300 space-y-2 text-xs';
+                badgeClass = 'px-2 py-0.5 rounded bg-amber-600 text-white text-[11px]';
+                badgeText = extraFeedCost > 0 ? `زيادة ${fmtNum(extraFeedCost)} ج.م` : 'لا توجد تكلفة علف مسجلة';
+            } else if (currentStressMode === 'heatwave') {
+                const assumedHatchDropPct = 4; // Explicitly a hypothetical sensitivity setting.
+                const lostChicks = Math.min(state.totalChicksMonth, Math.round(state.totalChicksMonth * assumedHatchDropPct / 100));
+                const allocated = state.chicksSold + state.chicksFattening;
+                const lostSoldChicks = allocated > 0 ? Math.min(state.chicksSold, Math.round(lostChicks * state.chicksSold / allocated)) : 0;
+                const lostFatteningChicks = Math.min(state.chicksFattening, Math.max(0, lostChicks - lostSoldChicks));
+                const lostBirds = Math.round(lostFatteningChicks * (1 - state.mortalityRatePct / 100));
+                const lostPairs = Math.floor(lostBirds / 2);
+                const lostPairRevenue = lostPairs * state.pairPrice;
+                const lostChickRevenue = lostSoldChicks * state.chickPrice;
+                const extraValueAddedLoss = state.includeValueAdded
+                    ? Math.round(lostPairs * (state.vaMarinatedPct / 100) * Math.max(0, Number(state.vaMarinatedNetPerPair) || 0))
+                    : 0;
+                const feedCostSaved = state.chicksFattening > 0
+                    ? Math.round(state.fatteningFeedCost * Math.min(1, lostFatteningChicks / state.chicksFattening))
+                    : 0;
+                const contingencySaved = Math.round(feedCostSaved * Math.max(0, Number(state.contingencyRate) || 0) / 100);
+                scenarioProfit = state.netProfit - lostPairRevenue - lostChickRevenue - extraValueAddedLoss + feedCostSaved + contingencySaved;
+                titleText = `اختبار افتراضي لانخفاض الفقس 4%: صافي التشغيل ${fmtNum(scenarioProfit)} ج.م/شهر`;
+                description = `يفترض الاختبار انخفاض عدد الكتاكيت بنحو ${fmtNum(lostChicks)} كتكوت شهرياً، دون إثبات أن موجة حر ستسبب هذه النسبة. النتيجة تقريبية وتتغير بحسب توزيع الإنتاج والنفوق والأسعار.`;
+                protocol = 'راقب الحرارة والرطوبة وسلوك الطيور، وحسّن التهوية وتوافر الماء. راجع الطبيب البيطري بشأن أي إضافات أو تدخل علاجي؛ لا توجد جرعات دوائية عامة في هذا الاختبار.';
+                cardClass = 'p-4 rounded-xl bg-red-50 border border-red-300 space-y-2 text-xs';
+                badgeClass = 'px-2 py-0.5 rounded bg-red-600 text-white text-[11px]';
+                badgeText = `فرق فقس افتراضي ${assumedHatchDropPct}%`;
+            }
+
+            const resultCard = document.getElementById('stressResultCard');
             const title = document.getElementById('stressTitle');
             const badge = document.getElementById('stressImpactBadge');
             const desc = document.getElementById('stressDesc');
             const proto = document.getElementById('stressCounterProtocol');
-
-            if (scenario === 'normal') {
-                btnNormal.className = "p-2.5 rounded-xl border-2 border-emeraldExec-600 bg-emeraldExec-50 text-emeraldExec-950 font-black text-xs transition cursor-pointer";
-                card.className = "p-4 rounded-xl bg-emeraldExec-50 border border-emeraldExec-300 space-y-2 text-xs";
-                title.innerHTML = '<i class="fa-solid fa-circle-check text-emeraldExec-700 ml-1"></i>الوضع القياسي: صافي الربح 30,000 ج.م/شهرياً';
-                badge.className = "px-2 py-0.5 rounded bg-emeraldExec-700 text-white text-[11px]";
-                badge.textContent = "آمن 100%";
-                desc.textContent = "يعمل المشروع بكامل كفاءته مع فائض أمان قدره 261 جوزاً فوق نقطة التعادل. حتى لو انخفضت المبيعات بنسبة 30% لن يخسر المشروع جنيهاً واحداً!";
-                proto.innerHTML = "<strong>الدرع العلمي الاستباقي:</strong> تثبيت علف 24% بروتين في التسمين و20% للأمهات مع 2.8% كالسيوم وتحصين نيوكاسل الدوري.";
-            } else if (scenario === 'feed10') {
-                btnFeed.className = "p-2.5 rounded-xl border-2 border-amber-600 bg-amber-50 text-amber-950 font-black text-xs transition cursor-pointer";
-                card.className = "p-4 rounded-xl bg-amber-50 border border-amber-300 space-y-2 text-xs";
-                title.innerHTML = '<i class="fa-solid fa-wheat-awn-circle-exclamation text-amber-700 ml-1"></i>سيناريو قفزة العلف (+10% = +3,308 ج.م): يظل الربح +26,692 ج.م!';
-                badge.className = "px-2 py-0.5 rounded bg-amber-600 text-white text-[11px]";
-                badge.textContent = "صامد ورابح";
-                desc.textContent = "في حال ارتفعت أسعار الأعلاف بالسوق المصري بنسبة 10% فجأة، تزيد فاتورة العلف بـ 3,308 ج.م، ومع ذلك يظل المشروع يحقق 26,692 ج.م صافي ربح دون المساس برأس المال.";
-                proto.innerHTML = "<strong>الروشتة العلمية لاسترداد الـ 3,308 ج.م فوراً:</strong> تركيب شبك مانع النثر على العلافات وتطبيق الإضاءة المتقطعة يوفر 7% من العلف (2,316 ج.م) + رفع الجوز المذبوح 1.5 ج.م فقط يعيدك لـ 30,000 ج.م صافي!";
-            } else if (scenario === 'heatwave') {
-                btnHeat.className = "p-2.5 rounded-xl border-2 border-red-600 bg-red-50 text-red-950 font-black text-xs transition cursor-pointer";
-                card.className = "p-4 rounded-xl bg-red-50 border border-red-300 space-y-2 text-xs";
-                title.innerHTML = '<i class="fa-solid fa-temperature-arrow-up text-red-700 ml-1"></i>سيناريو موجة حر أغسطس (-4% فقس): يظل الربح +26,100 ج.م!';
-                badge.className = "px-2 py-0.5 rounded bg-red-600 text-white text-[11px]";
-                badge.textContent = "خطة إنقاذ جاهزة";
-                desc.textContent = "ارتفاع الحرارة فوق 38°م بدون احتياطات قد يقلل الإخصاب والفقس بنسبة 4% (حوالي 136 كتكوتاً أقل بالشهر)، ولكن المشروع يمتص الصدمة بسهولة.";
-                proto.innerHTML = "<strong>الروشتة البيطرية المضادة للإجهاد الحراري:</strong> إضافة فيتامين C (1 جم/لتر) + بيتائين + بيكربونات صوديوم (0.2%) في ماء الشرب نهاراً، ورفع العلف من 12 ظهراً لـ 4 عصراً مع تشغيل خلايا التبريد.";
+            if (resultCard) resultCard.className = cardClass;
+            if (title) title.textContent = titleText;
+            if (badge) {
+                badge.className = badgeClass;
+                badge.textContent = badgeText;
             }
+            if (desc) desc.textContent = description;
+            if (proto) proto.textContent = protocol;
+            const titleElement = document.getElementById('stressTitle');
+            if (titleElement) titleElement.setAttribute('aria-live', 'polite');
         }
 
         // Module E: Switch Scientific SOP Tabs
@@ -2078,7 +2448,10 @@
         let solverState = {
             reqPairPrice: 115,
             reqChickPrice: 9,
-            reqTotalPairs: 760
+            reqTotalPairs: 760,
+            pairPathPossible: true,
+            chickPathPossible: true,
+            volumePathPossible: true
         };
 
         function setQuickTarget(val) {
@@ -2091,61 +2464,127 @@
         }
 
         function updateGoalSolverData(currentNetProfit, netSlaughterPairs, pairPrice, chicksSold, chickPrice, fatteningFeedCost, flockCapital) {
-            const targetProfit = parseFloat(document.getElementById('inpTargetProfit').value) || 30000;
+            const targetProfit = Math.max(0, numVal('inpTargetProfit', 30000));
             const profitGap = targetProfit - currentNetProfit;
-
+            const state = lastSimulation || {};
+            const productionFeasible = Number(state.overAllocatedChicks || 0) === 0 && Number(state.eggShortfall || 0) === 0 && !(state.currentMode === 'manual' && Number(state.unallocatedChicks || 0) > 0);
             const diffBox = document.getElementById('goalDiffBox');
             const diffText = document.getElementById('goalDiffText');
-
             if (Math.abs(profitGap) < 5) {
-                diffBox.className = "px-3.5 py-2.5 rounded-xl bg-emeraldExec-800/90 border border-goldExec-400 text-xs font-bold flex items-center justify-between text-goldExec-400";
-                diffText.textContent = `ممتاز! خطتك الحالية تحقق الهدف المطلوب بالضبط (${fmtNum(targetProfit)} ج.م)!`;
+                diffBox.className = 'px-3.5 py-2.5 rounded-xl bg-emeraldExec-800/90 border border-goldExec-400 text-xs font-bold flex items-center justify-between text-goldExec-400';
+                diffText.textContent = `الخطة الحالية قريبة من الهدف المطلوب (${fmtNum(targetProfit)} ج.م).`;
             } else if (profitGap > 0) {
-                diffBox.className = "px-3.5 py-2.5 rounded-xl bg-amber-500/20 border border-amber-400 text-xs font-bold flex items-center justify-between text-amber-200";
-                diffText.textContent = `تحتاج إلى زيادة صافي الدخل بمقدار +${fmtNum(profitGap)} ج.م للوصول لهدفك`;
+                diffBox.className = 'px-3.5 py-2.5 rounded-xl bg-amber-500/20 border border-amber-400 text-xs font-bold flex items-center justify-between text-amber-200';
+                diffText.textContent = `تحتاج إلى زيادة صافي التشغيل بنحو ${fmtNum(profitGap)} ج.م للوصول للهدف.`;
             } else {
-                diffBox.className = "px-3.5 py-2.5 rounded-xl bg-emeraldExec-800/90 border border-emeraldExec-500 text-xs font-bold flex items-center justify-between text-emeraldExec-200";
-                diffText.textContent = `أنت تتجاوز هذا الهدف حالياً بفائض +${fmtNum(Math.abs(profitGap))} ج.م!`;
+                diffBox.className = 'px-3.5 py-2.5 rounded-xl bg-emeraldExec-800/90 border border-emeraldExec-500 text-xs font-bold flex items-center justify-between text-emeraldExec-200';
+                diffText.textContent = `صافي التشغيل أعلى من الهدف بنحو ${fmtNum(Math.abs(profitGap))} ج.م.`;
             }
 
-            // Pathway 1: Required Pair Price
-            const reqPairPrice = netSlaughterPairs > 0 ? (pairPrice + (profitGap / netSlaughterPairs)) : pairPrice;
-            solverState.reqPairPrice = Math.max(10, Number(reqPairPrice.toFixed(2)));
-            document.getElementById('solvePairPrice').textContent = fmtNum(solverState.reqPairPrice, 2);
+            const pairMin = Math.max(0, numVal('inpPairPrice', 115));
+            const pairFloor = Math.max(0, Number.parseFloat(document.getElementById('inpPairPrice').min) || 0);
+            const chickFloor = Math.max(0, Number.parseFloat(document.getElementById('inpChickPrice').min) || 0);
+            const pairPossible = netSlaughterPairs > 0;
+            const chickPossible = chicksSold > 0;
+            const reqPairPrice = pairPossible ? pairMin + profitGap / netSlaughterPairs : null;
+            const reqChickPrice = chickPossible ? chickPrice + profitGap / chicksSold : null;
+            solverState.reqPairPrice = reqPairPrice === null ? null : Math.max(pairFloor, Number(reqPairPrice.toFixed(2)));
+            solverState.reqChickPrice = reqChickPrice === null ? null : Math.max(chickFloor, Number(reqChickPrice.toFixed(2)));
+            solverState.pairPathPossible = productionFeasible && pairPossible && Number.isFinite(solverState.reqPairPrice);
+            solverState.chickPathPossible = productionFeasible && chickPossible && Number.isFinite(solverState.reqChickPrice);
+            setText('solvePairPrice', solverState.pairPathPossible ? fmtNum(solverState.reqPairPrice, 2) : (!productionFeasible ? 'غير متاح: صحح توازن الإنتاج أولاً' : 'غير متاح: لا توجد أزواج'));
+            setText('solveChickPrice', solverState.chickPathPossible ? fmtNum(solverState.reqChickPrice, 2) : (!productionFeasible ? 'غير متاح: صحح توازن الإنتاج أولاً' : 'غير متاح: لا توجد مبيعات كتاكيت'));
 
-            // Pathway 2: Required Chick Price
-            const reqChickPrice = chicksSold > 0 ? (chickPrice + (profitGap / chicksSold)) : chickPrice;
-            solverState.reqChickPrice = Math.max(1, Number(reqChickPrice.toFixed(2)));
-            document.getElementById('solveChickPrice').textContent = fmtNum(solverState.reqChickPrice, 2);
-
-            // Pathway 3: Required Total Slaughtered Pairs (accounting for feed cost per pair if autoFeed is checked)
-            const feedPerPair = netSlaughterPairs > 0 ? (fatteningFeedCost / netSlaughterPairs) : 30.26;
-            const autoFeed = document.getElementById('chkAutoFeed').checked;
-            const netMarginPerPair = autoFeed ? Math.max(10, pairPrice - feedPerPair) : Math.max(10, pairPrice);
-            const extraPairsNeeded = profitGap / netMarginPerPair;
-            const reqTotalPairs = Math.max(0, Math.ceil(netSlaughterPairs + extraPairsNeeded));
+            const mortalityRate = clampNum(Number(state.mortalityRatePct) || 0, 0, 100);
+            const totalHatchedChicks = Math.max(0, Math.round(Number(state.totalChicksMonth) || 0));
+            const currentFatteningChicks = Math.max(0, Math.round(Number(state.chicksFattening) || 0));
+            const feedPerBird = Math.max(0, numVal('inpFatteningFeedKgPerBird', 0.575))
+                * Math.max(0, numVal('inpFatteningFeedPricePerKg', 25))
+                * (feedScienceActive ? 0.93 : 1);
+            const feedPerPair = netSlaughterPairs > 0 ? fatteningFeedCost / netSlaughterPairs : 0;
+            const marginalPairMargin = pairMin - (document.getElementById('chkAutoFeed').checked ? feedPerPair : 0);
+            const maxNetBirds = Math.round(totalHatchedChicks * (1 - mortalityRate / 100));
+            const maxPairsFromHatch = Math.floor(maxNetBirds / 2);
+            const fixedExpensesBeforeFatteningFeed = Math.max(0, Number(state.totalExpenses || 0)
+                - Number(state.fatteningFeedCost || 0) - Number(state.contingencyCost || 0));
+            const targetForVolume = Math.max(0, numVal('inpTargetProfit', 30000));
+            const canModelVolume = productionFeasible && totalHatchedChicks > 0 && mortalityRate < 100;
+            let reqTotalPairs = null;
+            let volumeProfitAtTarget = null;
+            if (canModelVolume) {
+                // Search the feasible production mix rather than assuming chicks sold stay constant.
+                // For each pair count, the model moves enough chicks to fattening and sells the remainder.
+                for (let pairCount = 0; pairCount <= maxPairsFromHatch; pairCount++) {
+                    const fatteningChicksNeeded = pairCount === 0 ? 0 : Math.ceil((pairCount * 2) / (1 - mortalityRate / 100));
+                    if (fatteningChicksNeeded > totalHatchedChicks) continue;
+                    const soldChicksAtCandidate = totalHatchedChicks - fatteningChicksNeeded;
+                    const feedKgAtCandidate = fatteningChicksNeeded * Math.max(0, numVal('inpFatteningFeedKgPerBird', 0.575)) * (feedScienceActive ? 0.93 : 1);
+                    const feedCostAtCandidate = Math.round(feedKgAtCandidate * Math.max(0, numVal('inpFatteningFeedPricePerKg', 25)));
+                    const coreExpensesAtCandidate = fixedExpensesBeforeFatteningFeed + feedCostAtCandidate;
+                    const contingencyAtCandidate = Math.round(coreExpensesAtCandidate * (Math.max(0, Number(state.contingencyRate) || 0) / 100));
+                    const expensesAtCandidate = coreExpensesAtCandidate + contingencyAtCandidate;
+                    const baseRevenueAtCandidate = soldChicksAtCandidate * chickPrice + pairCount * pairMin
+                        + Math.max(0, Number(state.revSurplusEggs) || 0) + Math.max(0, Number(state.manureRev) || 0);
+                    const valueAddedAtCandidate = state.includeValueAdded
+                        ? Math.round(pairCount * (Math.max(0, Number(state.vaMarinatedPct) || 0) / 100)) * Math.max(0, Number(state.vaMarinatedNetPerPair) || 0)
+                            + Math.round((Math.max(0, Number(state.surplusEggsMonth) || 0) * Math.max(0, Number(state.vaEggsPct) || 0) / 100) * Math.max(0, Number(state.vaEggNetPerEgg) || 0))
+                        : 0;
+                    const profitAtCandidate = baseRevenueAtCandidate - expensesAtCandidate + valueAddedAtCandidate;
+                    if (profitAtCandidate >= targetForVolume) {
+                        reqTotalPairs = pairCount;
+                        volumeProfitAtTarget = profitAtCandidate;
+                        break;
+                    }
+                }
+            }
             solverState.reqTotalPairs = reqTotalPairs;
-            document.getElementById('solveTotalPairs').textContent = fmtNum(reqTotalPairs);
+            solverState.volumePathPossible = reqTotalPairs !== null;
+            if (reqTotalPairs === null) {
+                setText('solveTotalPairs', !productionFeasible ? 'غير متاح: صحح توازن الإنتاج أولاً' : `غير متاح ضمن الطاقة الحالية (الحد الأقصى ${fmtNum(maxPairsFromHatch)} جوز)`);
+            } else {
+                setText('solveTotalPairs', `${fmtNum(reqTotalPairs)} جوز (صافي متوقع ${fmtNum(volumeProfitAtTarget)} ج.م)`);
+            }
 
-            document.getElementById('lblNetPerPairAfterFeed').textContent = `${fmtNum(pairPrice - feedPerPair, 2)} ج.م`;
-            const paybackMonths = currentNetProfit > 0 ? (flockCapital / currentNetProfit) : 0;
-            document.getElementById('lblPaybackMonths').textContent = currentNetProfit > 0 ? `${fmtNum(paybackMonths, 1)} شهر` : 'غير متاح';
+            setText('lblNetPerPairAfterFeed', `${fmtNum(pairMin - feedPerBird * 2 / Math.max(0.01, 1 - mortalityRate / 100), 2)} ج.م مساهمة تقريبية بعد العلف فقط، قبل المصروفات الثابتة`);
+            const paybackMonths = currentNetProfit > 0 ? flockCapital / currentNetProfit : null;
+            setText('lblPaybackMonths', paybackMonths !== null ? `${fmtNum(paybackMonths, 1)} شهر (ثمن القطيع فقط)` : 'غير متاح');
         }
 
         function applySolverPath(pathIndex) {
             if (pathIndex === 1) {
+                if (!solverState.pairPathPossible) {
+                    window.alert(lastSimulation && (lastSimulation.overAllocatedChicks > 0 || lastSimulation.eggShortfall > 0) ? 'صحح توازن البيض والكتاكيت أولاً؛ لا يمكن تقديم حل سعري موثوق من توزيع إنتاج غير قابل للتحقق.' : 'لا يمكن حساب سعر جوز مطلوب لأن عدد الأزواج المتاحة صفر. راجع إنتاج التسمين أولاً.');
+                    return;
+                }
                 document.getElementById('inpPairPrice').value = solverState.reqPairPrice;
                 recalculateAll();
             } else if (pathIndex === 2) {
+                if (!solverState.chickPathPossible) {
+                    window.alert(lastSimulation && (lastSimulation.overAllocatedChicks > 0 || lastSimulation.eggShortfall > 0) ? 'صحح توازن البيض والكتاكيت أولاً؛ لا يمكن تقديم حل سعري موثوق من توزيع إنتاج غير قابل للتحقق.' : 'لا يمكن حساب سعر كتكوت مطلوب لأن عدد الكتاكيت المباعة صفر.');
+                    return;
+                }
                 document.getElementById('inpChickPrice').value = solverState.reqChickPrice;
                 recalculateAll();
             } else if (pathIndex === 3) {
-                // Switch to manual mode or adjust fattening chicks to produce reqTotalPairs
+                if (!solverState.volumePathPossible || !Number.isFinite(solverState.reqTotalPairs)) {
+                    window.alert('الهدف لا يمكن الوصول إليه بحجم التسمين الحالي من دون تجاوز الكتاكيت المتاحة. زِد طاقة التفريخ أو غيّر توزيع الإنتاج والأسعار.');
+                    return;
+                }
+                const targetPairs = solverState.reqTotalPairs;
+                const availableTotalChicks = lastSimulation ? Math.max(0, Math.round(lastSimulation.totalChicksMonth)) : 0;
+                const mortalityRatePct = clampNum(numVal('inpMortalityRate', 5), 0, 100);
+                if (mortalityRatePct >= 100 && targetPairs > 0) {
+                    window.alert('لا يمكن الوصول إلى أزواج قابلة للبيع مع نفوق 100%. خفّض نسبة النفوق بناءً على سجلات فعلية أولاً.');
+                    return;
+                }
+                const requiredFatteningChicks = targetPairs === 0 ? 0 : Math.ceil((targetPairs * 2) / (1 - mortalityRatePct / 100));
+                if (requiredFatteningChicks > availableTotalChicks) {
+                    window.alert('العدد المطلوب يتجاوز الكتاكيت الناتجة من الفقاسة؛ راجع نسبة الفقس والطاقة الإنتاجية.');
+                    return;
+                }
                 setSimMode('manual');
-                const mortalityRatePct = parseFloat(document.getElementById('inpMortalityRate').value) || 0;
-                const reqBirds = solverState.reqTotalPairs * 2;
-                const reqFatteningChicks = Math.round(reqBirds / (1 - (mortalityRatePct / 100)));
-                document.getElementById('inpChicksFattening').value = reqFatteningChicks;
+                document.getElementById('inpChicksFattening').value = requiredFatteningChicks;
+                document.getElementById('inpChicksSold').value = Math.max(0, availableTotalChicks - requiredFatteningChicks);
                 document.getElementById('chkAutoFeed').checked = true;
                 recalculateAll();
             }
@@ -2158,10 +2597,18 @@
             document.getElementById('inpCollectionDays').value = 4;
             document.getElementById('inpLayingRate').value = 80;
             document.getElementById('inpEggCullRate').value = 15;
+            document.getElementById('inpCullSaleablePct').value = 100;
             document.getElementById('inpMothersCount').value = 300;
+            document.getElementById('inpFemalesPerMale').value = 3;
             document.getElementById('inpMotherPrice').value = 60;
             document.getElementById('inpMalePrice').value = 50;
             document.getElementById('inpHatchRate').value = 83.33;
+            document.getElementById('inpLiveWeightPerBirdGrams').value = 240;
+            document.getElementById('inpBreederBirdsPerCage').value = 25;
+            document.getElementById('inpFatteningBirdsPerSqm').value = 50;
+            document.getElementById('inpSetterDays').value = 14;
+            document.getElementById('inpHatcherDays').value = 3;
+            document.getElementById('inpFatteningDays').value = 35;
 
             document.getElementById('inpChicksSold').value = 1800;
             document.getElementById('inpChicksFattening').value = 1600;
@@ -2183,16 +2630,26 @@
 
             document.getElementById('inpUtilitiesCost').value = 10000;
             document.getElementById('inpRentCost').value = 10000;
+            document.getElementById('inpMaintenanceCost').value = 0;
+            document.getElementById('inpContingencyRate').value = 0;
             document.getElementById('inpBreederFeedCost').value = 10080;
+            document.getElementById('inpBreederFeedUnitCost').value = 25.2;
             document.getElementById('inpFatteningFeedCost').value = 23000;
+            document.getElementById('inpFatteningFeedKgPerBird').value = 0.575;
+            document.getElementById('inpFatteningFeedPricePerKg').value = 25;
             document.getElementById('inpMiscCost').value = 5920;
 
+            document.getElementById('inpCapexMachine').value = 22000;
+            document.getElementById('inpCapexEquipment').value = 32000;
+            document.getElementById('inpCapexWorking').value = 15000;
             document.getElementById('inpTargetProfit').value = 30000;
 
             // Reset new scientific & value-added toggles so baseline stays 100% untouched at 30,000 EGP
             document.getElementById('chkIncludeValueAdded').checked = false;
             document.getElementById('rngVaMarinatedPct').value = 30;
+            document.getElementById('inpVaMarinatedNetPerPair').value = 18;
             document.getElementById('rngVaEggsPct').value = 50;
+            document.getElementById('inpVaEggNetPerEgg').value = 0.9;
             document.getElementById('chkMachineOwned').checked = false;
             feedScienceActive = false;
             const btnFeedSci = document.getElementById('btnApplyFeedScience');
@@ -2207,94 +2664,79 @@
         }
 
         // Initialize and Update Charts
+        // Initialize charts only when Chart.js is available; core calculations must keep running offline.
         function initCharts() {
-            Chart.defaults.font.family = "'Cairo', sans-serif";
-            const ctxRev = document.getElementById('revenueChart').getContext('2d');
-            revChart = new Chart(ctxRev, {
+            if (typeof window.Chart === 'undefined') {
+                setText('chartRevTitleTotal', 'الرسوم غير متاحة حالياً');
+                setText('chartExpTitleTotal', 'الرسوم غير متاحة حالياً');
+                return;
+            }
+            const revenueCanvas = document.getElementById('revenueChart');
+            const expensesCanvas = document.getElementById('expensesChart');
+            if (!revenueCanvas || !expensesCanvas) return;
+            window.Chart.defaults.font.family = "'Cairo', sans-serif";
+            const ctxRev = revenueCanvas.getContext('2d');
+            revChart = new window.Chart(ctxRev, {
                 type: 'doughnut',
                 data: {
-                    labels: ['السمان المذبوح (87,400)', 'كتاكيت عمر يوم (16,200)', 'البيض الباقي والسبلة (6,400)'],
-                    datasets: [{
-                        data: [87400, 16200, 6400],
-                        backgroundColor: ['#0f3d2e', '#059669', '#d97706'],
-                        borderWidth: 2,
-                        borderColor: '#ffffff'
-                    }]
+                    labels: ['السمان المذبوح', 'كتاكيت عمر يوم', 'البيض الباقي والسبلة'],
+                    datasets: [{ data: [87400, 16200, 6400], backgroundColor: ['#0f3d2e', '#059669', '#d97706'], borderWidth: 2, borderColor: '#ffffff' }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            rtl: true,
-                            labels: {
-                                font: { size: 11, weight: 'bold' },
-                                padding: 12
-                            }
-                        }
-                    },
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', rtl: true, labels: { font: { size: 11, weight: 'bold' }, padding: 12 } } },
                     cutout: '62%'
                 }
             });
-
-            const ctxExp = document.getElementById('expensesChart').getContext('2d');
-            expChart = new Chart(ctxExp, {
+            const ctxExp = expensesCanvas.getContext('2d');
+            expChart = new window.Chart(ctxExp, {
                 type: 'bar',
                 data: {
-                    labels: ['الأعلاف (أمهات وتسمين)', 'الأجور (مهندس وعمال)', 'الكهرباء والإيجار', 'أدوية وتغليف وتسويق'],
-                    datasets: [{
-                        label: 'المصروف الشهري (ج.م)',
-                        data: [33080, 21000, 20000, 5920],
-                        backgroundColor: ['#d97706', '#0f3d2e', '#475569', '#059669'],
-                        borderRadius: 6
-                    }]
+                    labels: ['الأعلاف', 'الأجور', 'الكهرباء والإيجار', 'الأدوية والتغليف والتسويق', 'الصيانة والاحتياطي'],
+                    datasets: [{ label: 'المصروف الشهري (ج.م)', data: [33080, 21000, 20000, 5920, 0], backgroundColor: ['#d97706', '#0f3d2e', '#475569', '#059669', '#b45309'], borderRadius: 6 }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    indexAxis: 'y',
-                    plugins: {
-                        legend: { display: false }
-                    },
-                    scales: {
-                        x: {
-                            beginAtZero: true,
-                            ticks: { font: { size: 10, weight: 'bold' } }
-                        },
-                        y: {
-                            ticks: { font: { size: 11, weight: 'bold' } }
-                        }
-                    }
+                    responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+                    plugins: { legend: { display: false } },
+                    scales: { x: { beginAtZero: true, ticks: { font: { size: 10, weight: 'bold' } } }, y: { ticks: { font: { size: 11, weight: 'bold' } } } }
                 }
             });
         }
 
-        function updateCharts(revSlaughter, revChicks, revEggsAndManure, expSalaries, expFixed, expFeed, expMisc, totalRev, totalExp) {
-            document.getElementById('chartRevTitleTotal').textContent = `${fmtNum(totalRev)} ج.م`;
-            document.getElementById('chartExpTitleTotal').textContent = `${fmtNum(totalExp)} ج.م`;
-
+        function updateCharts(revSlaughter, revChicks, revEggsAndManure, expSalaries, expFixed, expFeed, expMisc, expOther, totalRev, totalExp) {
+            setText('chartRevTitleTotal', `${fmtNum(totalRev)} ج.م`);
+            setText('chartExpTitleTotal', `${fmtNum(totalExp)} ج.م`);
             if (revChart) {
                 revChart.data.labels = [
                     `السمان المذبوح (${fmtNum(revSlaughter)})`,
                     `كتاكيت عمر يوم (${fmtNum(revChicks)})`,
                     `البيض الباقي والسبلة (${fmtNum(revEggsAndManure)})`
                 ];
-                revChart.data.datasets[0].data = [revSlaughter, revChicks, revEggsAndManure];
+                revChart.data.datasets[0].data = [Math.max(0, revSlaughter), Math.max(0, revChicks), Math.max(0, revEggsAndManure)];
                 revChart.update();
             }
-
             if (expChart) {
-                expChart.data.datasets[0].data = [expFeed, expSalaries, expFixed, expMisc];
+                expChart.data.datasets[0].data = [expFeed, expSalaries, expFixed, expMisc, expOther];
                 expChart.update();
             }
         }
 
-        window.onload = function () {
-            initCharts();
+        window.addEventListener('load', function () {
+            installNumericInputGuards();
+            try {
+                initCharts();
+            } catch (error) {
+                console.error('Chart initialization failed; continuing without charts.', error);
+                revChart = null;
+                expChart = null;
+                setText('chartRevTitleTotal', 'الرسوم غير متاحة حالياً');
+                setText('chartExpTitleTotal', 'الرسوم غير متاحة حالياً');
+            }
             updateWeightedPricePreview();
             recalculateAll();
-        };
+            selectBatchInspector(1);
+            switchSopTab(1);
+        });
     </script>
 </body>
 </html>
